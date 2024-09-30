@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Bakumatsu_The_Last_Blade.sln"
+    "dotnet.defaultSolution": "TI-4_Bakumatsu_The_Last_Blade.sln"
 }
