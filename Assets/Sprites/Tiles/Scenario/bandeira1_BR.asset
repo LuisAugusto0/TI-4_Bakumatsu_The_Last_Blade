@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: bandeira1_BR
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -1125504506, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: -298433198, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: -965140707, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: 291038101, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: -577203374, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: 688397350, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: -1439982342, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: 1428035900, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: 888712304, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  - {fileID: -1493135881, guid: 37f7f314218fc1e4f9dd37152bf355f2, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 5
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
