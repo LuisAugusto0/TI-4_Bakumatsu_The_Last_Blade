@@ -8,10 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    static readonly public int moveParameterHash = Animator.StringToHash("IsMoving"); 
-    static readonly public int deadParameterHash = Animator.StringToHash("IsDead"); 
-    static readonly public int slashTriggerHash = Animator.StringToHash("SlashTrigger"); 
-    static readonly public int rollTriggerHash = Animator.StringToHash("RollTrigger"); 
+    static readonly public int moveParameterHash = Animator.StringToHash("IsMoving");
+    static readonly public int deadParameterHash = Animator.StringToHash("IsDead");
+    static readonly public int slashTriggerHash = Animator.StringToHash("SlashTrigger");
+    static readonly public int rollTriggerHash = Animator.StringToHash("RollTrigger");
 
     // Player attributes
     public int hp = 3;
@@ -26,11 +26,11 @@ public class PlayerController : MonoBehaviour
     // Perfect dodge
     public float perfectDashWindow = 0.2f;
     public float lastDashTime = 0f;
-    
-    
+
+
     // States
     public bool onMove = false; // Used to manage when to switch to idle animation
-    public bool onDash = false; 
+    public bool onDash = false;
     public bool onSlash = false;
     public bool onAbility = false;
     public bool isImmune = false;
@@ -38,16 +38,19 @@ public class PlayerController : MonoBehaviour
 
 
     // Map Boundary
-    [SerializeField] private float minX = -10f;   
-    [SerializeField] private float maxX = 10f;    
-    [SerializeField] private float minY = -10f;   
-    [SerializeField] private float maxY = 10f;    
+    [SerializeField] private float minX = -10f;
+    [SerializeField] private float maxX = 10f;
+    [SerializeField] private float minY = -10f;
+    [SerializeField] private float maxY = 10f;
 
 
     // Components     
     public Animator animator;
     private Rigidbody2D rb;
     [NonSerialized] public SpriteRenderer spriteRenderer;
+    public GameObject gameOverScreen;
+    public CanvasGroup gameOverCanvasGroup;
+
 
     // Actions
     public PlayerDashBase dash;
@@ -67,6 +70,8 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        gameOverScreen.SetActive(false);
+
         // Assign actions from ActionMap
         var playerActionMap = actions.FindActionMap("Player");
         moveAction = playerActionMap.FindAction("Move");
@@ -107,7 +112,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Update() 
+    void Update()
     {
         UpdateMovementInput();
     }
@@ -115,7 +120,7 @@ public class PlayerController : MonoBehaviour
     void UpdateMovementInput()
     {
         moveVector = moveAction.ReadValue<Vector2>().normalized;
-        
+
         if (moveVector == Vector2.zero)
         {
             if (lastStopTime == 0)
@@ -141,7 +146,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void FixedUpdate() 
+    void FixedUpdate()
     {
         if (onSlash)
         {
@@ -149,19 +154,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (onDash) 
-        {  
+        if (onDash)
+        {
             dash.FixedExecute();
             return;
-        } 
-        
+        }
+
         BasicMovement();
     }
 
 
-    void BasicMovement() 
+    void BasicMovement()
     {
-        if (moveVector != Vector2.zero) 
+        if (moveVector != Vector2.zero)
         {
             spriteRenderer.flipX = moveVector.x < 0;
 
@@ -189,7 +194,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Scripts called by InputAction.performed function calls
-    void OnDashAction(InputAction.CallbackContext context) 
+    void OnDashAction(InputAction.CallbackContext context)
     {
         Debug.Log("HERE");
         if (!onDash && !onSlash && !onAbility)
@@ -199,7 +204,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnSlashAction(InputAction.CallbackContext context) 
+    void OnSlashAction(InputAction.CallbackContext context)
     {
         if (!onDash && !onSlash && !onAbility)
         {
@@ -242,10 +247,10 @@ public class PlayerController : MonoBehaviour
             if (attackData == null) return;
 
             HealthDecrease(attackData.damage);
-            if (attackData.isProjectile) 
+            if (attackData.isProjectile)
             {
                 Destroy(other.gameObject);
-            } 
+            }
         }
         if (other.CompareTag("Energy"))
         {
@@ -265,6 +270,29 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool(deadParameterHash, true);
             this.enabled = false;
+            StartCoroutine(ShowGameOverScreenWithFade(1f, 0.8f)); // Atraso de 2 segundos e fade de 1 segundo
         }
+    }
+
+    // Corrotina para fazer o fade in da tela de Game Over
+    IEnumerator ShowGameOverScreenWithFade(float delay, float fadeDuration)
+    {
+        yield return new WaitForSeconds(delay); // Espera pelo tempo de atraso
+
+        // Inicia com o alpha (transparência) do CanvasGroup em 0 (totalmente invisível)
+        gameOverCanvasGroup.alpha = 0f;
+        gameOverCanvasGroup.gameObject.SetActive(true); // Ativa o Game Over UI
+
+        float timer = 0f;
+
+        // Loop para fazer o fade in
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime; // Incrementa o tempo
+            gameOverCanvasGroup.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration); // Interpola o alpha
+            yield return null; // Espera até o próximo frame
+        }
+
+        gameOverCanvasGroup.alpha = 1f; // Garante que o alpha seja 1 (completamente visível) no final
     }
 }
