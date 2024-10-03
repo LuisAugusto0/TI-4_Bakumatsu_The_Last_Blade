@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NewBehaviourScript : EnemyData
 {
-
     GameObject player;
-    public float moveSpeed;
     GameObject enemy;
     SpriteRenderer enemySprite;
     float playerX;
@@ -14,9 +12,16 @@ public class NewBehaviourScript : MonoBehaviour
     float enemyX;
     float enemyY;
     float distance;
-    public float maxDist;
 
-    // Start is called before the first frame update
+    //Função que inicializa todos os status do inimigo
+    void Awake()
+    {
+        maxDist = 1;
+        maxHealt = 5;
+        damage = 1;
+    }
+
+    //Função que Inicializa as variáveis locais após a primeira mudança de frame
     void Start()
     {
         enemy = GameObject.FindGameObjectWithTag("Enemy");
@@ -24,7 +29,7 @@ public class NewBehaviourScript : MonoBehaviour
         enemySprite = enemy.GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
+    //Variável que redefine valores a cada mudança de frame
     void Update()
     {
         playerX = player.transform.position.x;
@@ -38,11 +43,12 @@ public class NewBehaviourScript : MonoBehaviour
         if (distance <= maxDist)
         {
             moveSpeed = 0;
+            
         }
         else
         {
-            moveSpeed = 3;
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+           moveSpeed = 3;
+           transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
         }
         if (playerX - enemyX < 0)
         {
@@ -54,4 +60,13 @@ public class NewBehaviourScript : MonoBehaviour
         }
         
     }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("PlayerAttack"))
+        {
+            takeDamage(1);
+        }
+    }
 }
+
