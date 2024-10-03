@@ -8,6 +8,8 @@ TagManager:
   - EnemyAttack
   - EnemyProjectile
   - Energy
+  - Enemy
+  - EnemyRange
   layers:
   - Default
   - TransparentFX
