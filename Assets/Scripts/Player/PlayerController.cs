@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("EnemyAttack") && !isImmune)
+        if (other.CompareTag("AtaqueInimigo") && !isImmune)
         {
             AttackData attackData = other.GetComponent<AttackData>();
             if (attackData == null) return;

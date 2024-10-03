@@ -10,6 +10,7 @@ TagManager:
   - Energy
   - Enemy
   - EnemyRange
+  - AtaqueInimigo
   layers:
   - Default
   - TransparentFX

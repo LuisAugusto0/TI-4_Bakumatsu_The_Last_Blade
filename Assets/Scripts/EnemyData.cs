@@ -18,6 +18,7 @@ public class EnemyData : MonoBehaviour
 
         if (currentHealt <= 0)
         {
+            
             Die();
         }
     }
