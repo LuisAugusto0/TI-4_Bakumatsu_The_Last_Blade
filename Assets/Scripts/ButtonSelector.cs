@@ -20,21 +20,31 @@ public class ButtonSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Obtém a posição do botão em coordenadas de tela
+        // Obtém os cantos do botão em coordenadas de mundo
         Vector3[] buttonCorners = new Vector3[4];
         buttonRect.GetWorldCorners(buttonCorners);
 
-        // Calcula a posição relativa das espadas baseado no tamanho do botão e na escala do Canvas
+        // Calcula o deslocamento para as espadas com base no tamanho do botão
         Vector3 leftOffset = new Vector3(-(buttonCorners[2].x - buttonCorners[0].x) * offsetFactor, 0, 0);
         Vector3 rightOffset = new Vector3((buttonCorners[2].x - buttonCorners[0].x) * offsetFactor, 0, 0);
 
-        // Converte as coordenadas do mundo para coordenadas de tela, levando em conta o Canvas
-        Vector2 leftScreenPosition = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, buttonRect.position + leftOffset);
-        Vector2 rightScreenPosition = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, buttonRect.position + rightOffset);
+        // Converte as coordenadas de tela para coordenadas locais do Canvas
+        Vector2 leftLocalPosition;
+        Vector2 rightLocalPosition;
 
-        // Atualiza a posição das espadas
-        leftSwordImage.transform.position = leftScreenPosition;
-        rightSwordImage.transform.position = rightScreenPosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, 
+            RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, buttonRect.position + leftOffset), 
+            canvas.worldCamera, 
+            out leftLocalPosition);
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, 
+            RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, buttonRect.position + rightOffset), 
+            canvas.worldCamera, 
+            out rightLocalPosition);
+
+        // Atualiza a posição das espadas dentro do Canvas
+        leftSwordImage.rectTransform.localPosition = leftLocalPosition;
+        rightSwordImage.rectTransform.localPosition = rightLocalPosition;
 
         // Ativa as espadas
         leftSwordImage.enabled = true;
