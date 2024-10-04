@@ -241,16 +241,19 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(other.CompareTag("AtaqueInimigo"));
+        Debug.Log(other.CompareTag("Enemy"));
         if (other.CompareTag("AtaqueInimigo") && !isImmune)
         {
             AttackData attackData = other.GetComponent<AttackData>();
+            
             if (attackData == null) return;
 
-            HealthDecrease(attackData.damage);
+            HealthDecrease(1);
             if (attackData.isProjectile)
-            {
-                Destroy(other.gameObject);
-            }
+             {
+                 Destroy(other.gameObject);
+             }
         }
         if (other.CompareTag("Energy"))
         {
@@ -263,14 +266,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+
     void HealthDecrease(int damage)
     {
         hp -= damage;
         if (hp <= 0)
         {
             animator.SetBool(deadParameterHash, true);
+            if(this.enabled == true){
+                StartCoroutine(ShowGameOverScreenWithFade(1f, 0.8f)); // Atraso de 2 segundos e fade de 1 segundo
+            }
             this.enabled = false;
-            StartCoroutine(ShowGameOverScreenWithFade(1f, 0.8f)); // Atraso de 2 segundos e fade de 1 segundo
         }
     }
 

@@ -6,9 +6,9 @@ public class EnemyGenerator : MonoBehaviour
 {
     public PlayerController player;
     public GameObject enemyPrefab;  // Prefab do inimigo
-    public float spawnDelay = 5f;   // Tempo entre cada geração de inimigos
+    public float spawnDelay = 5f;   // Tempo entre cada geraï¿½ï¿½o de inimigos
 
-    // Start é chamado uma vez no início
+    // Start ï¿½ chamado uma vez no inï¿½cio
     void Start()
     {
         StartCoroutine(GenerateEnemy());
@@ -23,8 +23,9 @@ public class EnemyGenerator : MonoBehaviour
 
             // Instancia um novo inimigo a partir do prefab original
             GameObject newEnemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+            newEnemy.SetActive(true);
 
-            // Você pode adicionar lógica adicional para o inimigo, se necessário
+            // Vocï¿½ pode adicionar lï¿½gica adicional para o inimigo, se necessï¿½rio
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
     public float currentMoveSpeed = 3;
     public float currentHealt = 20;
     GameObject player;
+    GameObject enemyAttack;
     public Animator animator;
     SpriteRenderer enemySprite;
     float playerX;
@@ -23,7 +25,7 @@ public class Enemy : MonoBehaviour
     static readonly public int stopedTriggerHash = Animator.StringToHash("Stoped");
     static readonly public int deadTriggerHash = Animator.StringToHash("Dead");
 
-    // Função que inicializa todos os status do inimigo
+    // Funï¿½ï¿½o que inicializa todos os status do inimigo
     void Awake()
     {
         animator.SetBool(deadTriggerHash, false);
@@ -35,14 +37,16 @@ public class Enemy : MonoBehaviour
         currentMoveSpeed = moveSpeed;
     }
 
-    // Função que Inicializa as variáveis locais após a primeira mudança de frame
+    // Funï¿½ï¿½o que Inicializa as variï¿½veis locais apï¿½s a primeira mudanï¿½a de frame
     void Start()
     {
+        enemyAttack = GameObject.FindGameObjectWithTag("AtaqueInimigo");
+        enemyAttack.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         enemySprite = GetComponent<SpriteRenderer>();
     }
 
-    // Variável que redefine valores a cada mudança de frame
+    // Variï¿½vel que redefine valores a cada mudanï¿½a de frame
     void Update()
     {
         playerX = player.transform.position.x;
@@ -54,17 +58,19 @@ public class Enemy : MonoBehaviour
 
         if (distance <= maxDist)
         {
+            enemyAttack.SetActive(true);
             animator.SetBool(stopedTriggerHash, true);
             moveSpeed = 0;
         }
         else
         {
+            enemyAttack.SetActive(false);
             animator.SetBool(stopedTriggerHash, false);
             moveSpeed = 3;
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
         }
 
-        // Atualizar o lado que o inimigo está olhando
+        // Atualizar o lado que o inimigo estï¿½ olhando
         if (playerX - enemyX < 0)
         {
             enemySprite.flipX = true;
@@ -97,7 +103,14 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(1.6f);  // Tempo para a animação de morte ocorrer
-        Destroy(gameObject);  // Destrói a instância deste inimigo
+        player = this; // Referenciando o player a si mesmo para quando morrer ele ficar parado
+        yield return new WaitForSeconds(1.6f);  // Tempo para a animaï¿½ï¿½o de morte ocorrer
+        Destroy(gameObject);  // Destrï¿½i a instï¿½ncia deste inimigo
+    }
+
+    //funÃ§Ã£o implitcita para retornar o gameObject do proprio inimigo com this
+    public static implicit operator GameObject(Enemy v)
+    {
+        return v.gameObject;
     }
 }
