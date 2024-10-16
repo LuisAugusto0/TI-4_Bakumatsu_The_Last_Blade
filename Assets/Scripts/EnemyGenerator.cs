@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    public PlayerController player;
-    public GameObject enemyPrefab;  // Prefab do inimigo
-    public float spawnDelay = 5f;   // Tempo entre cada gera��o de inimigos
+    private PlayerController player;
+    public GameObject enemyPrefab;  
+    public float spawnDelay = 5f;  
 
-    // Start � chamado uma vez no in�cio
     void Start()
     {
+        player = PlayerController.ActivePlayer;
         StartCoroutine(GenerateEnemy());
     }
 
     // Corrotina para gerar inimigos
     IEnumerator GenerateEnemy()
     {
-        while (player.hp > 0)  // Enquanto o jogador estiver vivo
+        while (player.character.damageable.currentHealth > 0)  // Enquanto o jogador estiver vivo
         {
             yield return new WaitForSeconds(spawnDelay);  // Aguarda o tempo definido
 
@@ -25,7 +25,6 @@ public class EnemyGenerator : MonoBehaviour
             GameObject newEnemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
             newEnemy.SetActive(true);
 
-            // Voc� pode adicionar l�gica adicional para o inimigo, se necess�rio
         }
     }
 }
