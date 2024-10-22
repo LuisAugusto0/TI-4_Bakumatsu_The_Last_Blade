@@ -15,18 +15,17 @@ public class Dash : CharacterAction
     protected override void Perform(int context = 0)
     {
         _lastStartTime = Time.time;
-        if (character.lastMoveVector == Vector2.zero)
+        if (character.LastMoveVector == Vector2.zero)
         {
             Vector2 dir = character.spriteRenderer.flipX ? Vector2.left : Vector2.left;
             moveVector = dir * speed;
         }
         else
         {
-            moveVector = character.lastMoveVector.normalized * speed;
+            moveVector = character.LastMoveVector.normalized * speed;
         }
 
-        character.isActionLocked = true;
-        character.StartCancellableActionLock(Cancel);
+        character.StartActionLock(Cancel, this);
         character.damageable.AddImmunity(this);
 
         StartCoroutine(DashRoutine());
@@ -51,7 +50,7 @@ public class Dash : CharacterAction
     protected override void End()
     {
         base.End();
-        character.EndCancellableActionLock();
+        character.EndActionLock(this);
         character.damageable.RemoveImmunity(this);
     }
 

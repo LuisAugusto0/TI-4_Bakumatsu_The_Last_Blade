@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 6003023299083690414}
   - component: {fileID: 3678695084338295167}
   - component: {fileID: 7007264390564678606}
+  - component: {fileID: 6405525843658399687}
   - component: {fileID: 1676213709742681762}
   - component: {fileID: 7466155722435722836}
   - component: {fileID: 8507461201228074429}
-  - component: {fileID: 6405525843658399687}
   m_Layer: 7
   m_Name: BasicSlashingEnemy
   m_TagString: Enemy
@@ -198,10 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8bb85d7550cbc428052c85800a3321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitImmunityTime: 0.2
   baseHealth: 5
   currentHealth: 2
-  immunityTime: 1
-  isDead: 0
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -210,7 +209,19 @@ MonoBehaviour:
       m_Calls: []
   onHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6405525843658399687}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: DamageFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -226,6 +237,52 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  addedImmunity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6405525843658399687}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: AttemptImmunityEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endedImmunity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6405525843658399687}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: EndImmunityEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6405525843658399687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757177240899665340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091af2b3b79f85347a23fdded7c348c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  immunityColor: {r: 1, g: 1, b: 1, a: 1}
+  damageFlashDuration: 0.3
+  delay: 0.1
 --- !u!114 &1676213709742681762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,10 +297,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 2
   moveSpeed: 2
-  isActionLocked: 0
+  _isActionLocked: 0
   damageable: {fileID: 7007264390564678606}
   statusEffectManager: {fileID: 0}
-  lastMoveVector: {x: 0, y: 0}
+  colliders:
+  - {fileID: 9149805214977451969}
+  - {fileID: 7982978148433594415}
 --- !u!114 &7466155722435722836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +319,6 @@ MonoBehaviour:
   keepAwayRadius: 1
   minimumInteractionRadius: 2
   currentState: 3
-  currentDistance: 1000000
   character: {fileID: 1676213709742681762}
   animator: {fileID: 3678695084338295167}
 --- !u!114 &8507461201228074429
@@ -276,24 +334,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damager: {fileID: 4242044036769483260}
-  movement: {fileID: 7466155722435722836}
+  aiMovement: {fileID: 7466155722435722836}
   character: {fileID: 1676213709742681762}
   slashDelayTime: 0.5
-  slashDistance: 1
+  slashCooldown: 0.75
+  attackDistance: 1.5
   corpseDestroyDelay: 4
---- !u!114 &6405525843658399687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757177240899665340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 091af2b3b79f85347a23fdded7c348c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageFlashDuration: 0.1
 --- !u!1 &7828049399744223928
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +380,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7828049399744223928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

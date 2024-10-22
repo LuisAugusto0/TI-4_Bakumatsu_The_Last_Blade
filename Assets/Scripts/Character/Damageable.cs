@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
@@ -16,135 +17,58 @@ public class Damageable : MonoBehaviour
     { }
 
     [Serializable]
-    public class DamagerEvent : UnityEvent<Damager, Damageable>
+    public class OnHitEvent : UnityEvent<GameObject, Damageable>
     { }
 
     [Serializable]
     public class DeathEvent : UnityEvent<Damageable>
     { }
-  
 
+
+    [Serializable]
+    public class AddedImmunityEvent : UnityEvent<Damageable>
+    { }
+
+    [Serializable]
+    public class EndedImmunityEvent : UnityEvent<Damageable>
+    { }
+
+    public float onHitImmunityTime = 2f;
+
+    
     public int baseHealth = 5;
     public int currentHealth = 5;
-    public float immunityTime = 2f;
+
+
+    [NonSerialized]
     public bool isDead = false;
+
     
-    // Ensures only unique object IDs are added
+    // Track different sources of immunity
     private HashSet<object> _immunitySources = new();
 
     
     public HealthSetEvent onHealthSet;
     public HealEvent onHeal;
-    public DamagerEvent onHit;
+    public OnHitEvent onHit;
     public DeathEvent onDeath;
+    public AddedImmunityEvent addedImmunity;
+    public EndedImmunityEvent endedImmunity; 
 
-    private CharacterHealthEffects characterHealthEffects;
-   
-    void Awake()
-    {
-        characterHealthEffects = GetComponent<CharacterHealthEffects>();
-    }
 
-    public bool IsImmune()
-    {
-        return _immunitySources.Count > 0;
-    } 
+    // Health setters
 
-    public void AddImmunity(object source)
+    public void SetBaseHealth(int newBaseHealth)
     {
-        if (source == null)
+        if (newBaseHealth <= 0) 
         {
-            Debug.LogError("Immunity source cannot be null!");
-            return;
+            Debug.LogWarningFormat(
+                "Illegal health value of {0} received for {1} with ID {2}",
+                newBaseHealth, GetType().Name, GetInstanceID()
+            );    
         }
-
-        _immunitySources.Add(source);
+        baseHealth = newBaseHealth;
     }
-
-    
-    public void RemoveImmunity(object source)
-    {
-        if (source == null)
-        {
-            Debug.LogError("Immunity source cannot be null!");
-            return;
-        }
-
-        if (_immunitySources.Contains(source))
-        {
-            _immunitySources.Remove(source); 
-        }
-    }
-
-    public void ClearAllImmunity()
-    {
-        _immunitySources.Clear();
-    }
-
-
-
-
-    public void TakeDamage(Damager damager) 
-    {
-        if (!IsImmune())
-        {
-            currentHealth -= damager.damage;
-            onHit.Invoke(damager, this);
-            if (currentHealth <= 0)
-            {
-                Death();
-            }
-            StartCoroutine(DamageImmunity(damager));
-        }
-        
-    }
-
-    IEnumerator DamageImmunity(Damager damager)
-    {
-        AddImmunity(damager);
-        
-        if (characterHealthEffects != null)
-        {
-            characterHealthEffects.ChangeToDamageShader();
-        }
-
-        yield return new WaitForSeconds(immunityTime);
-
-        if (characterHealthEffects != null)
-        {
-            characterHealthEffects.ResetShader();
-        }
-
-        RemoveImmunity(damager);
-    }
-
-    // Other sources of damage
-    public void TakeDamage(int damage)
-    {
-        if (!IsImmune())
-        {
-            currentHealth -= damage;
-            if (currentHealth <= 0)
-            {
-                Death();
-            }
-        }
-    }
-
-    public void Death()
-    {
-        isDead = true;
-        onDeath.Invoke(this);
-        AddImmunity(this);
-    }
-
-    public void Heal(int value)
-    {
-        currentHealth = Math.Min(baseHealth, currentHealth + value);
-        onHeal.Invoke(value, this);
-    }
-
-
 
     public void SetHealth(int health)
     {
@@ -158,15 +82,87 @@ public class Damageable : MonoBehaviour
         currentHealth = Math.Min(baseHealth, health);
     }
 
-    public void SetBaseHealth(int newBaseHealth)
+    
+    // Methods for handling immunity
+    public bool IsImmune()
     {
-        if (newBaseHealth <= 0) 
-        {
-            Debug.LogWarningFormat(
-                "Illegal health value of {0} received for {1} with ID {2}",
-                newBaseHealth, GetType().Name, GetInstanceID()
-            );    
-        }
-        baseHealth = newBaseHealth;
+        return _immunitySources.Count > 0;
+    } 
+
+    IEnumerator OnHitImmunity(GameObject damager)
+    {
+        AddImmunity(damager);
+        
+        yield return new WaitForSeconds(onHitImmunityTime);
+
+        RemoveImmunity(damager);
     }
+
+    public void AddImmunity(object source)
+    {
+        if (source == null)
+        {
+            Debug.LogError("Immunity source cannot be null!");
+            return;
+        }
+
+        _immunitySources.Add(source);
+        addedImmunity.Invoke(this);
+    }
+
+    public void RemoveImmunity(object source)
+    {
+        if (source == null)
+        {
+            Debug.LogError("Immunity source cannot be null!");
+            return;
+        }
+
+        if (_immunitySources.Contains(source))
+        {
+            _immunitySources.Remove(source);
+
+            // Removed last stack of immunity
+            if (!IsImmune()) endedImmunity.Invoke(this); 
+        }
+    }
+
+    public void ClearAllImmunity()
+    {
+        _immunitySources.Clear();
+    }
+
+
+    // Main TakeDamage (calle from Damager scripts)
+    public void TakeDamage(GameObject damagerObject, int damage) 
+    {
+        if (!IsImmune())
+        {
+            currentHealth -= damage;
+            onHit.Invoke(damagerObject, this);
+            if (currentHealth <= 0)
+            {
+                Death();
+            }
+
+            // Use object as unique hash identifier
+            StartCoroutine(OnHitImmunity(damagerObject));
+        }
+        
+    }
+
+    public void Heal(int value)
+    {
+        currentHealth = Math.Min(baseHealth, currentHealth + value);
+        onHeal.Invoke(value, this);
+    }
+
+    public void Death()
+    {
+        isDead = true;
+        onDeath.Invoke(this);
+        AddImmunity(this);
+    }
+
+
 }

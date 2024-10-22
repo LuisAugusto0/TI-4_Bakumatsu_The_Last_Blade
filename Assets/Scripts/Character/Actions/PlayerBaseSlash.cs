@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerBaseSlash : PlayerAction
 {
-    public Damager damager;
+    public TriggerDamager damager;
     protected override void Perform(int context = 0)
     {
         playerController.onSlashEvent = OnSlashAnimationEvent;
         playerController.animator.SetTrigger(PlayerController.slashTriggerHash);
-        character.StartCancellableActionLock(Cancel);
-        character.isActionLocked = true;
+        character.StartActionLock(Cancel, this);
     }
 
     void OnSlashAnimationEvent(int context)
@@ -34,25 +33,24 @@ public class PlayerBaseSlash : PlayerAction
     void CollisionFrameStart()
     {
         character.damageable.AddImmunity(this);
-        damager.enabled = true;
+        damager.EnableCollider();
     }
 
     void CollisionFrameEnd()
     {
         character.damageable.RemoveImmunity(this);
-        damager.enabled = false;
+        damager.DisableCollider();
     }
 
     protected override void End()
     {
         base.End();
-        character.EndCancellableActionLock();
+        character.EndActionLock(this);
     }
 
     void Cancel()
     {
         character.damageable.RemoveImmunity(this);
         damager.enabled = false;
-        End();
     }
 }

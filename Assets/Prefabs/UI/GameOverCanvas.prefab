@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 17566132684051389}
   - component: {fileID: 3251156439706411013}
   - component: {fileID: 784703261144760751}
-  - component: {fileID: 50566467221176692}
+  - component: {fileID: 1571509512252752086}
   m_Layer: 5
   m_Name: GameOverCanvas
   m_TagString: Untagged
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &50566467221176692
+--- !u!114 &1571509512252752086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -411,7 +411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7ba066346ab304d80ce689414fa8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreen: {fileID: 2548681994966151853}
   gameOverCanvasGroup: {fileID: 2736649215824160077}
   delayUntilTransition: 1
   fadeDuration: 0.8
@@ -991,6 +990,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameOverScreen, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

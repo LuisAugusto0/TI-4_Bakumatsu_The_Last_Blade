@@ -1,50 +1,37 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;  // Necessário para carregar outras cenas
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : SceneSingleton<PauseMenu>
 {
-    public GameObject pauseMenuUI;  // O Canvas do menu de pausa
+    public GameObject pauseMenuUI;  // O Canvas dentro do objeto
 
-    private bool isPaused = false;  // Controle do estado de pausa
-
-    void Start()
+    public override void Awake()
     {
-        pauseMenuUI.SetActive(false);  // Garantir que o Canvas esteja invisível no início
+        base.Awake();
         Time.timeScale = 1f;  // Certificar-se de que o tempo está correndo normalmente no início
     }
+    
 
-    void Update()
-    {
-        // Verifica se o jogador apertou a tecla ESC
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {
-                Resume();  // Se estiver pausado, retoma o jogo
-            }
-            else
-            {
-                Pause();  // Caso contrário, pausa o jogo
-            }
-        }
-    }
 
+
+    // --- Eventos chamados pelo Gameplay Input Handler no jogador --- 
     // Retoma o jogo
-    public void Resume()
+    public void Unpause()
     {
         pauseMenuUI.SetActive(false);  // Esconde o Canvas do menu de pausa
         Time.timeScale = 1f;  // Retorna o tempo à escala normal
-        isPaused = false;  // Atualiza o estado de pausa
     }
 
     // Pausa o jogo
-    void Pause()
+    public void BeginPause()
     {
         pauseMenuUI.SetActive(true);  // Exibe o Canvas do menu de pausa
         Time.timeScale = 0f;  // Congela o tempo do jogo
-        isPaused = true;  // Atualiza o estado de pausa
     }
 
+
+
+    // --- Eventos chamados pelo canvas ---
     // Método para reiniciar a cena atual
     public void RestartGame()
     {

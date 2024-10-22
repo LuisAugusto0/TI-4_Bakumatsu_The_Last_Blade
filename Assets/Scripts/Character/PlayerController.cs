@@ -54,53 +54,73 @@ public class PlayerController : MonoBehaviour
     
     // Event called exactly when death anim ends
     public OnDeathEnd onDeathEnd;
+    Vector2 _moveInputVector = Vector2.zero;
+    
 
-    // PlayerInput from Input.System
-    [SerializeField] private InputActionAsset actions;
-    private InputAction moveInput;
-    private Vector2 _moveInputVector;
-    private InputAction slashInput;
-    private InputAction dodgeInput;
-    private InputAction skillInput;
-
-
-    void OnEnable()
-    {
-        moveInput.Enable();
-        dodgeInput.Enable();
-        slashInput.Enable();
-        skillInput.Enable();
-    }
-
-    void OnDisable()
-    {
-        moveInput.Disable();
-        dodgeInput.Disable();
-        slashInput.Disable();
-        skillInput.Enable();
-    }
+    // Create singleton
+    public Camera mainCamera;
 
     void Awake()
     {
         s_ActivePlayer = this;
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
+    }
 
-        var playerActionMap = actions.FindActionMap("Player");
-        moveInput = playerActionMap.FindAction("Move");
-        dodgeInput = playerActionMap.FindAction("Dash");
-        slashInput = playerActionMap.FindAction("Slash");
-        skillInput = playerActionMap.FindAction("Ability");
 
-        dodgeInput.performed += OnDashInput;
-        slashInput.performed += OnSlashInput;
-        skillInput.performed += OnSkillInput;
+
+    // Input functions called by Player Input
+    public void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (!character.IsActionLocked)
+        {
+            dodgeAction.Attempt();
+
+        }
+    }
+
+    public void OnSlashInput(InputAction.CallbackContext context)
+    {
+        if (!character.IsActionLocked)
+        {
+            slashAction.Attempt();
+        }
+    }
+    
+    public void OnSkillInput(InputAction.CallbackContext context)
+    {
+        // Implement better system to allow multiple casts (need to review input system)
+        if (!character.IsActionLocked)
+        {
+            skillActions[_skillIndex].Attempt();
+        }
+    }
+
+    public void OnMoveInput(InputAction.CallbackContext context)
+    {
+        _moveInputVector = context.ReadValue<Vector2>().normalized;
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        // Uses screen position (for now only Mouse)
+        if (context.control.device is Mouse)
+        {
+            Vector2 mousePosition  = context.ReadValue<Vector2>();
+            Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane));
+            Vector2 dir = (worldMousePosition - transform.position);
+            character.lastLookDirection = dir.normalized;
+        }
+        // Uses normalized vector2
+        else 
+        {
+            character.lastLookDirection = context.ReadValue<Vector2>();
+        }
     }
 
     void Update()
     {
-        _moveInputVector = moveInput.ReadValue<Vector2>().normalized;
-        if (!character.isActionLocked)
+        if (!character.IsActionLocked)
         {
             UpdateMovementAnimation();
             character.Move(_moveInputVector * character.moveSpeed);
@@ -139,37 +159,12 @@ public class PlayerController : MonoBehaviour
     public void OnDeath()
     {
         animator.SetBool(deadParameterHash, true);
-        character.StartNonCancellableActionLock();
+        character.DisableCharacter();
     }
 
 
 
-    // Functions subscribed to input calls
-    void OnDashInput(InputAction.CallbackContext context)
-    {
-        if (!character.isActionLocked)
-        {
-            dodgeAction.Attempt();
 
-        }
-    }
-
-    void OnSlashInput(InputAction.CallbackContext context)
-    {
-        if (!character.isActionLocked)
-        {
-            slashAction.Attempt();
-        }
-    }
-    
-    void OnSkillInput(InputAction.CallbackContext context)
-    {
-        // Implement better system to allow multiple casts (need to review input system)
-        if (!character.isActionLocked)
-        {
-            skillActions[_skillIndex].Attempt();
-        }
-    }
 
     
     // Functions subscribed to animation-specific events

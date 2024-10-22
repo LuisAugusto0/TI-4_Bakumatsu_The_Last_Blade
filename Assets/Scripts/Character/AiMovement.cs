@@ -43,7 +43,8 @@ public class AiMovement : MonoBehaviour
     }
 
     public MovementState currentState = MovementState.Attack;
-    public float currentDistance = 0;
+    public float CurrentDistance { get {return currentDistance;} }
+    float currentDistance = 0;
 
     public Character character;
     public Animator animator;
@@ -64,9 +65,9 @@ public class AiMovement : MonoBehaviour
             new Vector2(_target.transform.position.x, _target.transform.position.y)
         );
 
-
-        if (!character.isActionLocked)
+        if (!character.IsActionLocked)
         {
+
             switch (currentState) {
                 case MovementState.Stop:
                     break;

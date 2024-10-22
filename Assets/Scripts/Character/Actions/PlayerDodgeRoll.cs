@@ -13,18 +13,18 @@ public class PlayerDodgeRoll : PlayerAction
         playerController.onRollEvent = OnRollAnimationEvent;
         playerController.animator.SetTrigger(PlayerController.rollTriggerHash);
         
-        if (character.lastMoveVector == Vector2.zero)
+        if (character.LastMoveVector == Vector2.zero)
         {
             Vector2 dir = character.spriteRenderer.flipX ? Vector2.left : Vector2.right;
             moveVector = dir * speed;
         }
         else
         {
-            moveVector = character.lastMoveVector.normalized * speed;
+            moveVector = character.LastMoveVector.normalized * speed;
         }
 
         character.damageable.AddImmunity(this);
-        character.StartCancellableActionLock(Cancel);
+        character.StartActionLock(Cancel, this);
         StartCoroutine(DashRoutine());
     }
 
@@ -63,14 +63,15 @@ public class PlayerDodgeRoll : PlayerAction
 
     void CollisionFrameEnd()
     {
-        character.damageable.RemoveImmunity(this);
+
     }
 
     // When animation truly finished
     protected override void End()
     {
         base.End();
-        character.EndCancellableActionLock();
+        character.damageable.RemoveImmunity(this);
+        character.EndActionLock(this);
     }
 
     void Cancel()

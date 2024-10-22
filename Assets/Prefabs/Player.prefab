@@ -165,9 +165,11 @@ GameObject:
   - component: {fileID: 5684273632415025133}
   - component: {fileID: 1404580565570615288}
   - component: {fileID: 6079871202453999501}
-  - component: {fileID: 5626099852036441564}
-  - component: {fileID: 280354587808051426}
   - component: {fileID: 8093429404721898650}
+  - component: {fileID: 5626099852036441564}
+  - component: {fileID: 5433429306801339709}
+  - component: {fileID: 7641352759322663548}
+  - component: {fileID: 280354587808051426}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -350,10 +352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8bb85d7550cbc428052c85800a3321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitImmunityTime: 2
   baseHealth: 5
   currentHealth: 5
-  immunityTime: 1
-  isDead: 0
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -362,7 +363,19 @@ MonoBehaviour:
       m_Calls: []
   onHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8093429404721898650}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: DamageFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -378,6 +391,52 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  addedImmunity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8093429404721898650}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: AttemptImmunityEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endedImmunity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8093429404721898650}
+        m_TargetAssemblyTypeName: CharacterHealthEffects, Assembly-CSharp
+        m_MethodName: EndImmunityEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8093429404721898650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469832160656540672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091af2b3b79f85347a23fdded7c348c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  immunityColor: {r: 1, g: 1, b: 1, a: 0.48235294}
+  damageFlashDuration: 0.1
+  delay: 0.1
 --- !u!114 &5626099852036441564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,10 +451,144 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 2
   moveSpeed: 2
-  isActionLocked: 0
+  _isActionLocked: 0
   damageable: {fileID: 6079871202453999501}
   statusEffectManager: {fileID: 0}
-  lastMoveVector: {x: 0, y: 0}
+  colliders:
+  - {fileID: 1404580565570615288}
+  - {fileID: 1162363646795716758}
+--- !u!114 &5433429306801339709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469832160656540672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 019e5aec1ea77f021b9d93aa3f2189c3, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b31a4e5f-aacd-46ef-bce0-855d75935916
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 280354587808051426}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3b854bd-0e96-47cd-848f-18b5dd8df406
+    m_ActionName: Player/Dash[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 280354587808051426}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSlashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2a1402f8-0d3d-4c5c-a7da-f8994363f1df
+    m_ActionName: Player/Slash[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 280354587808051426}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSkillInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0ad762d-1194-4d0e-b557-0d5be8c2d874
+    m_ActionName: Player/Ability[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e13a8c26-d3ba-4305-bc58-c6bf17785cfe
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dab15675-4b30-4799-a1db-92824c55bacf
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 35ac95aa-1145-415b-ad8e-856555a8c73b
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ef86c91-9182-4370-9cbd-36eaec590acb
+    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84dc7793-ccce-47fb-9fdc-0b21ea4343fe
+    m_ActionName: Player/Aim[/Mouse/position,/DualShock4GamepadHID/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cd5c6a74-b45d-4773-bf05-5f62262b1106
+    m_ActionName: Player/Pause[/Keyboard/escape,/DualShock4GamepadHID/start]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &7641352759322663548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469832160656540672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ae405616c28a64a8d79c4bbce87ee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 5433429306801339709}
+  player: {fileID: 280354587808051426}
 --- !u!114 &280354587808051426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,25 +606,12 @@ MonoBehaviour:
   slashAction: {fileID: 5598186447357771633}
   dodgeAction: {fileID: 597185312489567531}
   skillActions:
-  - {fileID: 6547185363829729027}
+  - {fileID: 2787400177171430028}
   toIdleCooldown: 0.5
   onDeathEnd:
     m_PersistentCalls:
       m_Calls: []
-  actions: {fileID: -944628639613478452, guid: 019e5aec1ea77f021b9d93aa3f2189c3, type: 3}
---- !u!114 &8093429404721898650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6469832160656540672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 091af2b3b79f85347a23fdded7c348c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageFlashDuration: 0.1
+  mainCamera: {fileID: 0}
 --- !u!1 &7468882915232001676
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,9 +671,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4552385338815891234}
-  - component: {fileID: 6547185363829729027}
+  - component: {fileID: 2787400177171430028}
   m_Layer: 0
-  m_Name: CreateSquare
+  m_Name: Throw Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +694,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2304210878835587542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6547185363829729027
+--- !u!114 &2787400177171430028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -523,11 +703,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8842166227070986621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b58180d0a2ea5a4bad7f2a3e17ce5fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f56ade51f32d3f044945b5a51a24e773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 5626099852036441564}
   isActive: 0
   cooldown: 1
-  prefab: {fileID: 7280052470646461972, guid: 262f6fc75bdf8e147bb78cf4d1dccc92, type: 3}
-  spawnPos: {fileID: 4552385338815891234}
+  prefab: {fileID: 4101329781540057418, guid: 4c7a228671db8904f8b741fbc63ebb2c, type: 3}
+  rotationOffset: 0
+  spawnPos: {fileID: 6249002144135879179}

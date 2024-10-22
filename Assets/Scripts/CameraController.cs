@@ -2,40 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : SceneSingleton<CameraController>
 {
     public static float s_CameraLayer = -10f; 
-    // Static management for unique CameraController
-    public static CameraController Instance
-    {
-        get
-        {
-            if (s_Instance != null)
-                return s_Instance;
-
-            Create ();
-
-            return s_Instance;
-        }
-    }
-    protected static CameraController s_Instance;
-
-
-    public static void Create ()
-    {
-        CameraController controllerPrefab = Resources.Load<CameraController> ("MainCamera");
-        s_Instance = Instantiate (controllerPrefab);
-    }
-
-
 
     PlayerController player;
     Transform playerTransform;
 
-    void Awake()
-    {
-        s_Instance = this;
-    }
 
     void Start()
     {

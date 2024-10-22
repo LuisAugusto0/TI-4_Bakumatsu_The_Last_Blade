@@ -13,14 +13,17 @@ public class BasicSlashEnemy : MonoBehaviour
     static readonly int idleBooleanHash = Animator.StringToHash("Idle");
     private Animator _animator;
 
-    public Damager damager; 
-    public AiMovement movement;
+    public TriggerDamager damager; 
+    public AiMovement aiMovement;
     public Character character; 
 
     public float slashDelayTime = 0.5f;
-    public float slashDistance = 2.4f;
+    public float slashCooldown = 0.75f;
+    public float attackDistance = 1f;
     public float corpseDestroyDelay = 4f;
     
+    private float lastSlashEndTime = 0f;
+
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -29,19 +32,25 @@ public class BasicSlashEnemy : MonoBehaviour
 
     void Start()
     {
-        movement.currentState = AiMovement.MovementState.Attack;
+        aiMovement.currentState = AiMovement.MovementState.Attack;
     }
 
 
     void Update()
     {
-        if (movement.currentDistance <= slashDistance && !character.isActionLocked)
+        if (CanAttack())
         {
             _animator.SetBool(idleBooleanHash, true);
-            character.StartCancellableActionLock(OnSlashCancel);
+            character.StartActionLock(OnSlashCancel, this);
             StartCoroutine(StartSlash());
         }
         
+    }
+
+    bool CanAttack()
+    {
+        return aiMovement.CurrentDistance <= attackDistance && !character.IsActionLocked 
+            && lastSlashEndTime + slashCooldown < Time.time;
     }
 
 
@@ -52,37 +61,45 @@ public class BasicSlashEnemy : MonoBehaviour
     }
 
 
+
+
     // Animation Events for the Slashing Attack
     public void OnSlashCollisionStart()
     {
-        damager.enabled = true;
+        damager.EnableCollider();
 
     }
 
     public void OnSlashCollisionEnd()
     {
-        damager.enabled = false;
+        damager.DisableCollider();
     }
 
     public void OnSlashAnimationEnd()
     {
-        character.EndCancellableActionLock();
+        character.EndActionLock(this);
         _animator.SetBool(idleBooleanHash, false);
+        lastSlashEndTime = Time.time;
     }
 
     public void OnSlashCancel()
     {
-        character.EndCancellableActionLock();
-        damager.enabled = false;
+        character.EndActionLock(this);
+        damager.DisableCollider();
         _animator.SetBool(idleBooleanHash, false);
+        lastSlashEndTime = Time.time;
     }
+
+
 
     // Subscribed to Damageable
     public void StartDeath()
     {
         _animator.SetTrigger(deathTriggerHash);
-        character.StartNonCancellableActionLock();
+        character.DisableCharacter();
     }
+
+
 
     // Animation Event for Death Animation
     public void OnDeathAnimationEnd() 
