@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class GameplayInputHandler : MonoBehaviour
 {
+    
+
+
     // Contains new "instance" of the Input Action
     // Ensures changes to the input are not hardcoded and local
     // multiplayer acessible. 
@@ -71,7 +74,7 @@ public class GameplayInputHandler : MonoBehaviour
         _playerDodgeAction.canceled += player.OnDashInput;
 
         // Slash Only when released
-        _playerSlashAction.canceled += player.OnSlashInput;
+        _playerSlashAction.canceled += player.OnAttackInput;
 
         // Use skill Only when released
         _playerSkillAction.canceled += player.OnSkillInput;
@@ -102,7 +105,7 @@ public class GameplayInputHandler : MonoBehaviour
         // -- PLAYER MAP ASSIGNMENT --
         _playerDodgeAction.canceled -= player.OnDashInput;
 
-        _playerSlashAction.canceled -= player.OnSlashInput;
+        _playerSlashAction.canceled -= player.OnAttackInput;
 
         _playerSkillAction.canceled -= player.OnSkillInput;
 

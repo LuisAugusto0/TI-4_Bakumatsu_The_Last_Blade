@@ -36,7 +36,6 @@ public class CharacterHealthEffects : MonoBehaviour
 
     public void EndImmunityEffect()
     {
-        Debug.Log("HEre");
         _character.spriteRenderer.color = _originalColor;
     }
 

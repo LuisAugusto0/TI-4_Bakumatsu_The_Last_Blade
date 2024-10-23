@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InstantiatePrefab : CharacterAction
+public class InstantiatePrefab : CharacterCooldownAction
 {
     public GameObject prefab;
     public Transform spawnPos;

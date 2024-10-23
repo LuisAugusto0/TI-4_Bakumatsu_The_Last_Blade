@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 
@@ -82,29 +83,32 @@ public class Character : MonoBehaviour
     }
 
 
-    public void FlipX(Vector2 moveVector)
+    public void FlipX(bool value)
     {
-        spriteRenderer.flipX = moveVector.x < 0;
-        if (spriteRenderer.flipX)
+        if (value != spriteRenderer.flipX)
         {
-            for (int i = 0; i < colliders.Count; i++)
+            spriteRenderer.flipX = value;
+            if (spriteRenderer.flipX)
             {
-                colliders[i].offset = collidersFlipXOffset[i];
+                for (int i = 0; i < colliders.Count; i++)
+                {
+                    colliders[i].offset = collidersFlipXOffset[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < colliders.Count; i++)
+                {
+                    colliders[i].offset = collidersOriginalOffset[i];
+                }
             }
         }
-        else
-        {
-            for (int i = 0; i < colliders.Count; i++)
-            {
-                colliders[i].offset = collidersOriginalOffset[i];
-            }
-        }
+        
         
     }
 
     public void Move(Vector2 moveVector)
     {
-        FlipX(moveVector);
         _lastMoveVector = moveVector;
         Vector2 newPos = rb.position + moveVector * Time.fixedDeltaTime;
         rb.MovePosition(newPos);

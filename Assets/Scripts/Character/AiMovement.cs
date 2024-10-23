@@ -65,8 +65,10 @@ public class AiMovement : MonoBehaviour
             new Vector2(_target.transform.position.x, _target.transform.position.y)
         );
 
+   
         if (!character.IsActionLocked)
         {
+            Vector2 direction = GetDirection();
 
             switch (currentState) {
                 case MovementState.Stop:
@@ -81,37 +83,53 @@ public class AiMovement : MonoBehaviour
                     break;
 
                 case MovementState.Attack:
-                    AttackTarget();
+                    AttackTarget(direction);
                     break;
 
                 case MovementState.Escape:
-                    Avoid();
+                    Avoid(direction);
                     break;
             }
         }
     }
 
-    void MoveTowards()
+    Vector2 GetDirection()
     {
-        Vector2 direction = (_target.transform.position - transform.position).normalized;
+        return (_target.transform.position - transform.position).normalized;
+    }
+
+
+    void MoveTowards(Vector2 direction)
+    {
         character.Move(direction * character.moveSpeed);
     }
 
-    void Avoid()
+    void Avoid(Vector2 direction)
     {
-        Vector2 direction = (_target.transform.position - transform.position).normalized;
         character.Move(-direction * character.moveSpeed);
     }
     
-    void AttackTarget()
+
+    void AttackTarget(Vector2 direction)
     {
+
         if (currentDistance > minimumApproachableDistance)
         {
-            MoveTowards();
+            MoveTowards(direction);
         } 
-        else
+        else if (currentDistance < minimumInteractionRadius)
         {
-            Avoid();
+            Avoid(direction);
+        }
+     
+    }
+
+    void Update()
+    {
+        Vector2 direction = GetDirection();
+        if(direction != Vector2.zero)
+        {
+            character.FlipX(direction.x < 0);
         }
     }
 

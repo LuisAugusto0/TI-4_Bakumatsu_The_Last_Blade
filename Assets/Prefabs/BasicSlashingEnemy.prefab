@@ -295,11 +295,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681ef5476de40f4f9da4f045d4a7b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isActionLocked: 0
   baseMoveSpeed: 2
   moveSpeed: 2
-  _isActionLocked: 0
   damageable: {fileID: 7007264390564678606}
-  statusEffectManager: {fileID: 0}
   colliders:
   - {fileID: 9149805214977451969}
   - {fileID: 7982978148433594415}
@@ -315,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50530e9434dbd1d488979cc99c0f7f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumApproachableDistance: 0.5
+  minimumApproachableDistance: 0.8
   keepAwayRadius: 1
   minimumInteractionRadius: 2
   currentState: 3
@@ -380,7 +379,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7828049399744223928}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -405,7 +404,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1, y: 0.077847004}
+  m_Offset: {x: 0.2518642, y: -0.014619112}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -416,7 +415,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6526835, y: 1.4670801}
+  m_Size: {x: 0.8712406, y: 1.1812754}
   m_EdgeRadius: 0
 --- !u!114 &4242044036769483260
 MonoBehaviour:

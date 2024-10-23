@@ -1,16 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 
 
-public class Dash : CharacterAction
+public class Dash : CharacterCooldownAction
 {
+    [Serializable]
+    public class OnDashEvent : UnityEvent<PlayerDodgeRoll>
+    { }
+
     public float speed;
     public float duration;
 
     private float _lastStartTime;
     private Vector2 moveVector = Vector2.zero; 
+    
+    
+    [Tooltip("Event triggered when this action begins.")]
+    public OnDashEvent onActionStart;
 
+    [Tooltip("Event triggered when the action has ended.")]
+    public OnDashEvent onActionEnd;
+
+    [Tooltip("Event triggered when the action is cancelled before it ends.")]
+    public OnDashEvent onActionCancel;
 
     protected override void Perform(int context = 0)
     {

@@ -1,12 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 
-public class InstantiateProjectile : CharacterAction
+public class InstantiateProjectile : CharacterCooldownAction
 {
+    [Serializable]
+    public class OnFiredEvent : UnityEvent<InstantiateProjectile>
+    { }
+
     public GameObject prefab;
     public float rotationOffset;
     public Transform spawnPos;
+
+    [Tooltip("Event triggered when the skill is fired.")]
+    public OnFiredEvent fired;
 
     protected override void Perform(int context = 0)
     {
@@ -18,6 +25,12 @@ public class InstantiateProjectile : CharacterAction
 
         Instantiate(prefab, spawnPos.position, rotation);
 
+        fired.Invoke(this);
+
         End();
+
+
     }
 }
+
+

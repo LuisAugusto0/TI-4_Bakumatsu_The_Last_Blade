@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,23 @@ public class CameraController : SceneSingleton<CameraController>
 {
     public static float s_CameraLayer = -10f; 
 
+    // current singleton is inside main camera
+    public Camera MainCamera { get{ return _mainCamera; } }
+
+    [NonSerialized]
+    Camera _mainCamera;
+
     PlayerController player;
     Transform playerTransform;
 
+    public override void Awake()
+    {
+        _mainCamera = GetComponent<Camera>();
+        if (_mainCamera == null)
+        {
+            Debug.LogError("HJEREEE!@");
+        }
+    }
 
     void Start()
     {

@@ -5,47 +5,45 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+
+
 [RequireComponent(typeof(Character))]
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     // Static management Player
     // Player must always exist on the scene otherwise other components will break
+    // Not a singleton, as more than one player may exist
     public static PlayerController ActivePlayer { get { return s_ActivePlayer; } }
     protected static PlayerController s_ActivePlayer;
 
 
+    // Unity events
     [Serializable]
     public class OnDeathEnd : UnityEvent<PlayerController>
     { }
 
-    // Reference to character data
-    public Character character;
 
     // Animator clips
-    static readonly public int moveParameterHash = Animator.StringToHash("IsMoving");
-    static readonly public int deadParameterHash = Animator.StringToHash("IsDead");
-    static readonly public int slashTriggerHash = Animator.StringToHash("SlashTrigger");
-    static readonly public int rollTriggerHash = Animator.StringToHash("RollTrigger");
-    public Animator animator;
-    
-
-    // Delegates for Animation specific events for communication for 
-    // animation specific actions
-    public delegate void SlashEventAction(int context);    
-    public delegate void RollEventAction(int context);    
-
-    [NonSerialized]
-    public SlashEventAction onSlashEvent;
-    
-    [NonSerialized]
-    public RollEventAction onRollEvent;
+    static readonly public int moveHash = Animator.StringToHash("Moving");
+    static readonly public int deadTriggerHash = Animator.StringToHash("Dead");
+    static readonly public int verticalAxisHash = Animator.StringToHash("VerticalAxis");
+    static readonly public int horizontalAxisHash = Animator.StringToHash("HorizontalAxis");
 
     // Actions
-    public CharacterAction slashAction;
-    public CharacterAction dodgeAction;
-    public List<CharacterAction> skillActions;
-    private int _skillIndex = 0;
+    static readonly public int baseAttackTriggerHash = Animator.StringToHash("BaseAttack");
+    static readonly public int rollTriggerHash = Animator.StringToHash("Roll");
+    static readonly public int groundSlamTriggerHash = Animator.StringToHash("GroundSlam");
+    
+    public Animator animator;
+
+    [NonSerialized]
+    public PlayerGetFacingDirection animatorFacingDirection;
+    
+
+
+    // Character data
+    public Character character;
 
     // Handle when to swap from moving to idle
     public float toIdleCooldown;
@@ -54,11 +52,37 @@ public class PlayerController : MonoBehaviour
     
     // Event called exactly when death anim ends
     public OnDeathEnd onDeathEnd;
+    public Vector2 pointDirectionVector = Vector2.zero;
     Vector2 _moveInputVector = Vector2.zero;
-    
 
     // Create singleton
     public Camera mainCamera;
+
+
+    // Action
+    public PlayerBaseAttack baseAttack;
+    public CharacterCooldownAction dodgeAction;
+    public List<CharacterCooldownAction> skillActions;
+    private int _skillIndex = 0;
+
+
+    // Delegates to transmit values received from animation events to the actions
+    public delegate void ActionAnimationEvent(int context);    
+
+    
+    [NonSerialized]
+    public ActionAnimationEvent actionAnimationEvent;
+
+
+    // Functions subscribed to animation-specific events
+    public void OnActionAnimationEvent(int context)
+    {
+        actionAnimationEvent?.Invoke(context);
+    }
+
+
+
+
 
     void Awake()
     {
@@ -66,6 +90,12 @@ public class PlayerController : MonoBehaviour
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
     }
+
+    void Start()
+    {
+        //mainCamera = CameraController.Instance.MainCamera;
+    }
+
 
 
 
@@ -79,11 +109,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnSlashInput(InputAction.CallbackContext context)
+    public void OnAttackInput(InputAction.CallbackContext context)
     {
         if (!character.IsActionLocked)
         {
-            slashAction.Attempt();
+            baseAttack.Attempt();
         }
     }
     
@@ -99,6 +129,7 @@ public class PlayerController : MonoBehaviour
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         _moveInputVector = context.ReadValue<Vector2>().normalized;
+        
     }
 
     public void OnAim(InputAction.CallbackContext context)
@@ -108,29 +139,54 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 mousePosition  = context.ReadValue<Vector2>();
             Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane));
-            Vector2 dir = (worldMousePosition - transform.position);
+            Vector2 dir = worldMousePosition - transform.position;
             character.lastLookDirection = dir.normalized;
+            pointDirectionVector= dir.normalized;
         }
         // Uses normalized vector2
         else 
         {
             character.lastLookDirection = context.ReadValue<Vector2>();
+            pointDirectionVector = context.ReadValue<Vector2>();
         }
     }
 
+
+
+    // Subscribed to Damageable OnDeath event
+    public void OnDeath()
+    {
+        animator.SetTrigger(deadTriggerHash);
+        character.DisableCharacter();
+    }
+
+    // Subscribed to Death Animation
+    public void OnDeathAnimationEnd()
+    {
+        GameOverManager.Instance.StartGameOver();
+        onDeathEnd.Invoke(this);
+    }
+
+
+
     void Update()
     {
+        animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(_moveInputVector.y));
+        animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(_moveInputVector.x));
+
         if (!character.IsActionLocked)
         {
+            FlipX();
             UpdateMovementAnimation();
             character.Move(_moveInputVector * character.moveSpeed);
         }
         
     }
-    
+
+
+    // Time to determine when to set move to true
     void UpdateMovementAnimation()
     {
-   
         if (_moveInputVector == Vector2.zero)
         {
             if (_lastStopTime == 0)
@@ -152,40 +208,24 @@ public class PlayerController : MonoBehaviour
             _onIdleAnimation = false;
         }
 
-        animator.SetBool(moveParameterHash, !_onIdleAnimation);
+        animator.SetBool(moveHash, !_onIdleAnimation);
     }
 
-    // Subscribed to Damageable OnDeath event
-    public void OnDeath()
+    void FlipX()
     {
-        animator.SetBool(deadParameterHash, true);
-        character.DisableCharacter();
+        if (AnimatorGetFacingDirection.CurrentDirection == 
+            AnimatorGetFacingDirection.Direction.Forward)
+        {
+            if (_moveInputVector != Vector2.zero)
+            {
+                character.FlipX(_moveInputVector.x < 0);
+            }
+        }
+        else
+        {
+           character.FlipX(false);
+            
+        }
     }
-
-
-
-
-
-    
-    // Functions subscribed to animation-specific events
-    public void OnSlashAnimation(int context)
-    {
-        onSlashEvent?.Invoke(context);
-    }
-
-    public void OnRollAnimation(int context)
-    {
-        onRollEvent?.Invoke(context);
-    }
-
-    public void OnDeathAnimationEnd()
-    {
-        GameOverManager.Instance.StartGameOver();
-        onDeathEnd.Invoke(this);
-        Debug.Log("DeathAnimEnd");
-    }
-
-
-
-    
 }
+

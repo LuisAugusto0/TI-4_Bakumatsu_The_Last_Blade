@@ -1,13 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using System;
 
 [RequireComponent(typeof(Character))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AiMovement))]
 public class BasicSlashEnemy : MonoBehaviour
 {
+    [Serializable]
+    public class OnAttackEvent : UnityEvent<BasicSlashEnemy>
+    { }
+
+    [Serializable]
+    public class OnCorpseDestroyedEvent : UnityEvent<BasicSlashEnemy>
+    { }
+
     static readonly int attackTriggerHash = Animator.StringToHash("Attack");
     static readonly int deathTriggerHash = Animator.StringToHash("Death");
     static readonly int idleBooleanHash = Animator.StringToHash("Idle");
@@ -24,6 +32,25 @@ public class BasicSlashEnemy : MonoBehaviour
     
     private float lastSlashEndTime = 0f;
 
+
+
+    [Tooltip("Event triggered when this action begins.")]
+    public OnAttackEvent performed;
+
+    [Tooltip("Event triggered when the slash attack starts (frames with collision ON).")]
+    public OnAttackEvent slashStart;
+
+    [Tooltip("Event triggered when the action has ended.")]
+    public OnAttackEvent actionEnded;
+
+    [Tooltip("Event triggered when the action is cancelled before it ends.")]
+    public OnAttackEvent actionCancelled;
+
+    [Tooltip("Event triggered when the corpse is destroyed.")]
+    public OnCorpseDestroyedEvent corpseDestroyed;
+
+
+
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -38,10 +65,12 @@ public class BasicSlashEnemy : MonoBehaviour
 
     void Update()
     {
+        // behaviour can be improved
         if (CanAttack())
         {
             _animator.SetBool(idleBooleanHash, true);
             character.StartActionLock(OnSlashCancel, this);
+            performed.Invoke(this);
             StartCoroutine(StartSlash());
         }
         
@@ -67,7 +96,7 @@ public class BasicSlashEnemy : MonoBehaviour
     public void OnSlashCollisionStart()
     {
         damager.EnableCollider();
-
+        slashStart.Invoke(this);
     }
 
     public void OnSlashCollisionEnd()
@@ -80,6 +109,7 @@ public class BasicSlashEnemy : MonoBehaviour
         character.EndActionLock(this);
         _animator.SetBool(idleBooleanHash, false);
         lastSlashEndTime = Time.time;
+        actionEnded.Invoke(this);
     }
 
     public void OnSlashCancel()
@@ -88,6 +118,7 @@ public class BasicSlashEnemy : MonoBehaviour
         damager.DisableCollider();
         _animator.SetBool(idleBooleanHash, false);
         lastSlashEndTime = Time.time;
+        actionCancelled.Invoke(this);
     }
 
 
@@ -109,7 +140,7 @@ public class BasicSlashEnemy : MonoBehaviour
 
     public IEnumerator DestroyAfterTime()
     {
-
+        corpseDestroyed.Invoke(this);
         yield return new WaitForSeconds(corpseDestroyDelay);  
         Destroy(gameObject);  
     }
