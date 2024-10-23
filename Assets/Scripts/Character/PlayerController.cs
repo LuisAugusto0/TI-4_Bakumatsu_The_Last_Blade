@@ -227,5 +227,11 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+
+    public SoundEffectPlayer soundFX;
+    
+    public void Passos(){
+        soundFX.FootstepsGrass();
+    }
 }
 
