@@ -36,8 +36,8 @@ public class Damageable : MonoBehaviour
     public float onHitImmunityTime = 2f;
 
     
-    public int baseHealth = 5;
-    public int currentHealth = 5;
+    public int baseHealth = 6;
+    public int currentHealth = 6;
 
 
     [NonSerialized]
@@ -140,6 +140,9 @@ public class Damageable : MonoBehaviour
         {
             currentHealth -= damage;
             onHit.Invoke(damagerObject, this);
+
+            FindObjectOfType<GameplayUI>().UpdateHearts();
+
             if (currentHealth <= 0)
             {
                 Death();
@@ -155,6 +158,8 @@ public class Damageable : MonoBehaviour
     {
         currentHealth = Math.Min(baseHealth, currentHealth + value);
         onHeal.Invoke(value, this);
+
+        FindObjectOfType<GameplayUI>().UpdateHearts();
     }
 
     public void Death()
