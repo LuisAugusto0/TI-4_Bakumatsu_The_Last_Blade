@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AnimatorGetFacingDirection : StateMachineBehaviour 
+public class AnimatorGetFacingDirection : StateMachineBehaviour 
 {
-    // Define enums for direction and state
     public enum Direction
     {
         Up = 1,
@@ -12,25 +11,62 @@ public abstract class AnimatorGetFacingDirection : StateMachineBehaviour
         Down = -1
     }
 
-    protected static Direction _currentDirection = Direction.Forward; //default direction
-    public static Direction CurrentDirection { get{return _currentDirection; }}
+    // Delegate for getting direction
+    public delegate Direction GetDirectionDelegate();
 
-    public delegate int GetDirectionDelegate();
-    protected GetDirectionDelegate getFacingDirection;
+    // Store the delegate for each instance
+    public delegate void SetDirectionDelegate(Direction direction);
+    public SetDirectionDelegate setFacingDirection;
 
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Set the direction based on the delegate
         SetDirection(animator, stateInfo);
-        getFacingDirection?.Invoke();
     }
 
-    public int GetCurrentDirection()
+
+
+    // Hash codes for states
+    private static readonly int IdleUpHash = Animator.StringToHash("BaseLayer.Up.Idle");
+    private static readonly int IdleForwardHash = Animator.StringToHash("BaseLayer.Forward.Idle");
+    private static readonly int IdleDownHash = Animator.StringToHash("BaseLayer.Down.Idle");
+    private static readonly int MoveUpHash = Animator.StringToHash("BaseLayer.Up.Walk");
+    private static readonly int MoveForwardHash = Animator.StringToHash("BaseLayer.Forward.Walk");
+    private static readonly int MoveDownHash = Animator.StringToHash("BaseLayer.Down.Walk");
+    
+
+    protected void SetDirection(Animator animator, AnimatorStateInfo stateInfo)
     {
-        return (int)_currentDirection; 
+        // Check which state is currently active and set the direction
+        if (stateInfo.fullPathHash == IdleUpHash || stateInfo.fullPathHash == MoveUpHash)
+        {
+            setFacingDirection?.Invoke(Direction.Up);
+        }
+
+        else if (stateInfo.fullPathHash == IdleForwardHash || stateInfo.fullPathHash == MoveForwardHash)
+        {
+            setFacingDirection?.Invoke(Direction.Forward);
+        
+        }
+
+        else if (stateInfo.fullPathHash == IdleDownHash || stateInfo.fullPathHash == MoveDownHash)
+        {
+            setFacingDirection?.Invoke(Direction.Down);
+            
+        }
+
+        else
+        {
+            Debug.LogWarning("None of the assigned values match for " + animator.gameObject);
+        }
     }
 
-    protected abstract void SetDirection(Animator animator, AnimatorStateInfo stateInfo);
+    public static void AssignDelegatesToAnimator(Animator animator, SetDirectionDelegate setDirection)
+    {
+        foreach (var behaviour in animator.GetBehaviours<AnimatorGetFacingDirection>())
+        {
+            behaviour.setFacingDirection = setDirection;
+        }
+    }
 }
-
-

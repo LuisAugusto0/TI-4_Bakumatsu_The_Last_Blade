@@ -68,7 +68,7 @@ public class AiMovement : MonoBehaviour
    
         if (!character.IsActionLocked)
         {
-            Vector2 direction = GetDirection();
+            Vector2 direction = GetFacingDirection();
 
             switch (currentState) {
                 case MovementState.Stop:
@@ -93,7 +93,7 @@ public class AiMovement : MonoBehaviour
         }
     }
 
-    Vector2 GetDirection()
+    public Vector2 GetFacingDirection()
     {
         return (_target.transform.position - transform.position).normalized;
     }
@@ -124,13 +124,6 @@ public class AiMovement : MonoBehaviour
      
     }
 
-    void Update()
-    {
-        Vector2 direction = GetDirection();
-        if(direction != Vector2.zero)
-        {
-            character.FlipX(direction.x < 0);
-        }
-    }
+ 
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -37,23 +38,26 @@ public class PlayerController : MonoBehaviour
     
     public Animator animator;
 
-    [NonSerialized]
-    public PlayerGetFacingDirection animatorFacingDirection;
-    
+
 
 
     // Character data
     public Character character;
+
+
+
 
     // Handle when to swap from moving to idle
     public float toIdleCooldown;
     private float _lastStopTime; 
     private bool _onIdleAnimation = true;
     
+
     // Event called exactly when death anim ends
     public OnDeathEnd onDeathEnd;
     public Vector2 pointDirectionVector = Vector2.zero;
     Vector2 _moveInputVector = Vector2.zero;
+
 
     // Create singleton
     public Camera mainCamera;
@@ -82,13 +86,15 @@ public class PlayerController : MonoBehaviour
 
 
 
-
+    AnimatorGetFacingDirection.Direction facingDirection = AnimatorGetFacingDirection.Direction.Forward;
+    public AnimatorGetFacingDirection.Direction FacingDirection {get{return facingDirection;}}
 
     void Awake()
     {
         s_ActivePlayer = this;
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
+        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx;});
     }
 
     void Start()
@@ -176,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
         if (!character.IsActionLocked)
         {
-            FlipX();
+            UpdateFacingDirection();
             UpdateMovementAnimation();
             character.Move(_moveInputVector * character.moveSpeed);
         }
@@ -211,10 +217,10 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(moveHash, !_onIdleAnimation);
     }
 
-    void FlipX()
+    // Static member changed among all animator state instances
+    void UpdateFacingDirection()
     {
-        if (AnimatorGetFacingDirection.CurrentDirection == 
-            AnimatorGetFacingDirection.Direction.Forward)
+        if (facingDirection == AnimatorGetFacingDirection.Direction.Forward)
         {
             if (_moveInputVector != Vector2.zero)
             {

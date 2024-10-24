@@ -16,12 +16,15 @@ public class BasicSlashEnemy : MonoBehaviour
     public class OnCorpseDestroyedEvent : UnityEvent<BasicSlashEnemy>
     { }
 
-    static readonly int attackTriggerHash = Animator.StringToHash("Attack");
-    static readonly int deathTriggerHash = Animator.StringToHash("Death");
-    static readonly int idleBooleanHash = Animator.StringToHash("Idle");
-    private Animator _animator;
+    static readonly int horizontalAxisHash = Animator.StringToHash("HorizontalAxis");
+    static readonly int verticalAxisHash = Animator.StringToHash("VerticalAxis");
 
-    public TriggerDamager damager; 
+    static readonly int attackTriggerHash = Animator.StringToHash("BaseAttack");
+    static readonly int deathTriggerHash = Animator.StringToHash("Dead");
+    static readonly int movingBooleanHash = Animator.StringToHash("Moving");
+    private Animator _animator;
+    
+
     public AiMovement aiMovement;
     public Character character; 
 
@@ -31,6 +34,11 @@ public class BasicSlashEnemy : MonoBehaviour
     public float corpseDestroyDelay = 4f;
     
     private float lastSlashEndTime = 0f;
+
+    public TriggerDamager damagerForward;
+    public TriggerDamager damagerUp;
+    public TriggerDamager damagerDown;
+    TriggerDamager currentDamager = null;
 
 
 
@@ -49,31 +57,61 @@ public class BasicSlashEnemy : MonoBehaviour
     [Tooltip("Event triggered when the corpse is destroyed.")]
     public OnCorpseDestroyedEvent corpseDestroyed;
 
-
+    AnimatorGetFacingDirection.Direction facingDirection = AnimatorGetFacingDirection.Direction.Forward;
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
+       AnimatorGetFacingDirection.AssignDelegatesToAnimator(_animator, (ctx) => {facingDirection = ctx;});
     }
 
 
     void Start()
     {
         aiMovement.currentState = AiMovement.MovementState.Attack;
+        damagerForward.DisableCollider();
+        damagerUp.DisableCollider();
+        damagerDown.DisableCollider();
     }
 
 
     void Update()
     {
+        
+        UpdateAnimatorFacing();
+        _animator.SetBool(movingBooleanHash, true);
         // behaviour can be improved
         if (CanAttack())
         {
-            _animator.SetBool(idleBooleanHash, true);
             character.StartActionLock(OnSlashCancel, this);
             performed.Invoke(this);
             StartCoroutine(StartSlash());
         }
+
         
+    }
+
+    // Static member changed among all animator state instances
+    void UpdateAnimatorFacing()
+    {
+        Vector2 direction = aiMovement.GetFacingDirection();
+        _animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(direction.x));
+        _animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(direction.y));
+
+        if (facingDirection == AnimatorGetFacingDirection.Direction.Forward)
+        {
+            if (direction != Vector2.zero)
+            {
+                character.FlipX(direction.x < 0);
+            }
+        }
+        else
+        {
+           character.FlipX(false);
+            
+        }
+
+
     }
 
     bool CanAttack()
@@ -86,7 +124,27 @@ public class BasicSlashEnemy : MonoBehaviour
     IEnumerator StartSlash()
     {
         yield return new WaitForSeconds(slashDelayTime);
+        SelectDamager(facingDirection);
         _animator.SetTrigger(attackTriggerHash);
+
+    }
+
+    void SelectDamager(AnimatorGetFacingDirection.Direction direction)
+    {
+        //Debug.Log(direction);
+        switch (direction)
+        {
+            case AnimatorGetFacingDirection.Direction.Up:
+                currentDamager = damagerUp;
+                break;
+            case AnimatorGetFacingDirection.Direction.Down:
+                currentDamager = damagerDown;
+                break;
+            case AnimatorGetFacingDirection.Direction.Forward:
+                currentDamager = damagerForward;
+                break;
+        }
+        Debug.Log(direction);
     }
 
 
@@ -95,19 +153,18 @@ public class BasicSlashEnemy : MonoBehaviour
     // Animation Events for the Slashing Attack
     public void OnSlashCollisionStart()
     {
-        damager.EnableCollider();
+        currentDamager.EnableCollider();
         slashStart.Invoke(this);
     }
 
     public void OnSlashCollisionEnd()
     {
-        damager.DisableCollider();
+        currentDamager.DisableCollider();
     }
 
     public void OnSlashAnimationEnd()
     {
         character.EndActionLock(this);
-        _animator.SetBool(idleBooleanHash, false);
         lastSlashEndTime = Time.time;
         actionEnded.Invoke(this);
     }
@@ -115,8 +172,7 @@ public class BasicSlashEnemy : MonoBehaviour
     public void OnSlashCancel()
     {
         character.EndActionLock(this);
-        damager.DisableCollider();
-        _animator.SetBool(idleBooleanHash, false);
+        currentDamager.DisableCollider();
         lastSlashEndTime = Time.time;
         actionCancelled.Invoke(this);
     }
