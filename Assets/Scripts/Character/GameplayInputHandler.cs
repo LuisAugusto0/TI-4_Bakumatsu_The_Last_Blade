@@ -89,14 +89,14 @@ public class GameplayInputHandler : MonoBehaviour
         _playerAimAction.performed += player.OnAim;
 
         // Pause only when released
-        _playerPauseAction.canceled += TogglePauseOn;
+        _playerPauseAction.canceled += TogglePauseOnInput;
 
 
 
         // -- UI MAP ASSIGNMENT --
 
         // Unpause only when released
-        _uiCancel.canceled += TogglePauseOff;
+        _uiCancel.canceled += TogglePauseOffInput;
 
     }
 
@@ -115,16 +115,27 @@ public class GameplayInputHandler : MonoBehaviour
 
         _playerAimAction.performed -= player.OnAim;
 
-        _playerPauseAction.canceled -= TogglePauseOn;
+        _playerPauseAction.canceled -= TogglePauseOnInput;
 
 
 
         // -- UI MAP ASSIGNMENT
-        _uiCancel.canceled -= TogglePauseOff;
+        _uiCancel.canceled -= TogglePauseOffInput;
     }
 
 
-    void TogglePauseOn(InputAction.CallbackContext context)
+    void TogglePauseOnInput(InputAction.CallbackContext context)
+    {  
+        TogglePauseOn();
+    }
+
+    
+    void TogglePauseOffInput(InputAction.CallbackContext context)
+    {
+      TogglePauseOff();
+    }
+
+    public void TogglePauseOn()
     {
       
         _playerMap.Disable();
@@ -134,7 +145,7 @@ public class GameplayInputHandler : MonoBehaviour
     }
 
     
-    void TogglePauseOff(InputAction.CallbackContext context)
+    public void TogglePauseOff()
     {
       
         _playerMap.Enable();
@@ -142,5 +153,6 @@ public class GameplayInputHandler : MonoBehaviour
 
         PauseMenu.Instance.Unpause();
     }
+
 
 }
