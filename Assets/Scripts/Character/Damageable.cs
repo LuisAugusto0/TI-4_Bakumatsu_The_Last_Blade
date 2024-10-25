@@ -11,7 +11,7 @@ public class Damageable : MonoBehaviour
     [Serializable]
     public class HealthSetEvent : UnityEvent<Damageable>
     { }
-    
+
     [Serializable]
     public class HealEvent : UnityEvent<int, Damageable>
     { }
@@ -36,14 +36,12 @@ public class Damageable : MonoBehaviour
     public float onHitImmunityTime = 2f;
 
     
-    public int baseHealth = 5;
-    public int currentHealth = 5;
-
+    public int baseHealth = 6;
+    public int currentHealth = 6;
 
     [NonSerialized]
     public bool isDead = false;
 
-    
     // Track different sources of immunity
     private HashSet<object> _immunitySources = new();
 
@@ -140,6 +138,9 @@ public class Damageable : MonoBehaviour
         {
             currentHealth -= damage;
             onHit.Invoke(damagerObject, this);
+
+            FindObjectOfType<GameplayUI>().UpdateHearts();
+
             if (currentHealth <= 0)
             {
                 Death();
@@ -155,6 +156,8 @@ public class Damageable : MonoBehaviour
     {
         currentHealth = Math.Min(baseHealth, currentHealth + value);
         onHeal.Invoke(value, this);
+
+        FindObjectOfType<GameplayUI>().UpdateHearts();
     }
 
     public void Death()
