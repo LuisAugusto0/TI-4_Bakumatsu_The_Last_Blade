@@ -1,88 +1,89 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
+
+// Uses main tile map along with tile collision data to determine optimal path
+public class TargetSearchAlgorithm : MonoBehaviour
 {
-    private TilemapToMatrix tilemapToMatrix;  // Reference to the TilemapToMatrix script
-    //private Damageable damageable;  // Reference to the Damageable script
-    private Transform player;
+    TilemapToMatrix tilemapToMatrix;  // Reference to the TilemapToMatrix script
+
+    [SerializeField]
+    Transform target;
+    public float baseMoveSpeed = 2f;
     public float moveSpeed = 2f;  // Speed of the sprite movement
     public float pathUpdateIntervalSeconds = 0.1f;  // How often to check for path updates (in seconds)
-    public bool drawPath = true;
+    
+    public bool displayPathLine = true;
 
-    private Vector2[] path;  // Private array of positions to move along (matrix coordinates)
-    private int currentTargetIndex = 0;  // Index of the current target position
-    private LineRenderer lineRenderer;  // LineRenderer component for visualizing the path
+    Vector2[] path = null;  // Private array of positions to move along (matrix coordinates)
+    int currentTargetIndex = 0;  // Index of the current target position
+    LineRenderer lineRenderer;  // LineRenderer component for visualizing the path
 
-    public Damageable damageable;  // Referência ao script Damageable
-    private bool isDead = false;
+    Rigidbody2D rb;
+    Vector2 lastMoveDirection;
+    public Vector2 LastMoveDirection { get{return lastMoveDirection;} }
+ 
 
-    void Start()
+    void Awake()
     {
-
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = GetComponent<Rigidbody2D>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         tilemapToMatrix = GameObject.FindGameObjectWithTag("Scenario").GetComponent<TilemapToMatrix>();
-        damageable.onDeath.AddListener(HandleDeath);
 
         // Get the LineRenderer component
         lineRenderer = GetComponent<LineRenderer>();
-        if (lineRenderer == null)
-        {
-            Debug.LogError("LineRenderer component is missing!");
-            return;
-        }
 
-        // Start the movement coroutine
-        StartCoroutine(MoveAlongPath());
-        // Start the path update coroutine
-        StartCoroutine(UpdatePath());
+
     }
 
-    void HandleDeath(Damageable damageable)
+    public void SetTargetTransform(Transform transform)
     {
-        isDead = true;
-        //Debug.Log("O inimigo morreu!");
+        target = transform;
     }
 
-    private System.Collections.IEnumerator UpdatePath()
+
+
+    public IEnumerator UpdatePathForMovingTarget()
     {
         while (true)
         {
-            Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(transform.position);
-            Vector2 playerPosition = tilemapToMatrix.WalkableMatrixToMatrix(player.position);
-            Vector2[] newPath = CalculatePath(enemyPosition, playerPosition);
-
-            // Check if a valid new path is found
-            if (newPath != null && newPath.Length > 0 && !isDead)
-            {
-                path = newPath;
-                currentTargetIndex = 0;  // Reset target index when the path is updated
-                if (drawPath) DrawPath();  // Visualize the path
-            }
-            else
-            {
-                // Clear the line if no valid path
-                lineRenderer.positionCount = 0;
-            }
-
-            yield return new WaitForSeconds(pathUpdateIntervalSeconds);  // Wait before checking again
+            Debug.Log("path to " + 1212121);
+            UpdatePath(target.position);
+            // Wait for the next fixed update to prevent busy waiting
+            yield return new WaitForSeconds(pathUpdateIntervalSeconds);
         }
     }
 
-    private void DrawPath()
+    // Get Path with Search Algorithm
+    void UpdatePath(Vector2 targetPos)
     {
-        if (path != null && path.Length > 0)
-        {
-            lineRenderer.positionCount = path.Length;  // Set the number of points in the line
+        Debug.Log("path to " + targetPos);
+        Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(transform.position);
+        Vector2 targetPosition = tilemapToMatrix.WalkableMatrixToMatrix(targetPos);
+        Vector2[] newPath = CalculatePath(enemyPosition, targetPosition);
 
-            // Set the positions of the points in world space
-            for (int i = 0; i < path.Length; i++)
+        // Check if a valid new path is found
+        if (newPath != null && newPath.Length > 0)
+        {
+            path = newPath;
+            currentTargetIndex = 0;  // Reset target index when the path is updated
+            
+            if (displayPathLine) 
             {
-                Vector3 worldPos = tilemapToMatrix.WalkableMatrix[(int)path[i].x, (int)path[i].y].worldPosition;
-                lineRenderer.SetPosition(i, worldPos);
+                DisplayPathLine();  
             }
         }
+        else
+        {
+            // Clear the line if no valid path
+            lineRenderer.positionCount = 0;
+        }
+        
     }
+
 
     private Vector2[] CalculatePath(Vector2 start, Vector2 goal)
     {
@@ -130,6 +131,7 @@ public class EnemyMovement : MonoBehaviour
         return null;  // No path found
     }
 
+
     private bool IsWalkable(Vector2 position)
     {
         if (position.x < 0 || position.x >= tilemapToMatrix.WalkableMatrix.GetLength(0) ||
@@ -141,6 +143,27 @@ public class EnemyMovement : MonoBehaviour
         return tilemapToMatrix.WalkableMatrix[(int)position.x, (int)position.y].isWalkable;
     }
 
+    
+    // Debug info
+    private void DisplayPathLine()
+    {
+        if (path != null && path.Length > 0)
+        {
+            lineRenderer.positionCount = path.Length;  // Set the number of points in the line
+
+            // Set the positions of the points in world space
+            for (int i = 0; i < path.Length; i++)
+            {
+                Vector3 worldPos = tilemapToMatrix.WalkableMatrix[(int)path[i].x, (int)path[i].y].worldPosition;
+                lineRenderer.SetPosition(i, worldPos);
+            }
+        }
+    }
+
+
+
+
+    // Get result
     private Vector2[] ReconstructPath(Dictionary<Vector2, Vector2> cameFrom, Vector2 current)
     {
         List<Vector2> totalPath = new List<Vector2> { current };
@@ -153,27 +176,35 @@ public class EnemyMovement : MonoBehaviour
         return totalPath.ToArray();
     }
 
-    private System.Collections.IEnumerator MoveAlongPath()
+
+
+
+    // Follow along created path
+
+    public IEnumerator MoveAlongPath()
     {
-        while (true && !isDead)
+        while (true)
         {
             if (path == null || path.Length == 0)
             {
-                yield return null;  // Wait for the path to be calculated
+                yield return new WaitForFixedUpdate();  // Wait for the path to be calculated
             }
             else
             {
-                while (currentTargetIndex < path.Length && !isDead)
+                // Move towards points of the graph
+                while (currentTargetIndex < path.Length)
                 {
                     // Get the current target position from the path
                     Vector2 targetMatrixPos = path[currentTargetIndex];
-                    Vector3 targetWorldPos = tilemapToMatrix.WalkableMatrix[(int)targetMatrixPos.x, (int)targetMatrixPos.y].worldPosition;
+                    Vector3 pathPointWorldPos = tilemapToMatrix.WalkableMatrix[(int)targetMatrixPos.x, (int)targetMatrixPos.y].worldPosition;
 
                     // Move towards the target position
-                    while (Vector2.Distance(transform.position, targetWorldPos) > 0.1f && !isDead)
+                    while (Vector2.Distance(transform.position, pathPointWorldPos) > 0.1f)
                     {
-                        transform.position = Vector2.MoveTowards(transform.position, targetWorldPos, moveSpeed * Time.deltaTime);
-                        yield return null;  // Wait for the next frame
+                        Vector2 nextPoint = Vector2.MoveTowards(transform.position, pathPointWorldPos, moveSpeed * Time.deltaTime);
+                        lastMoveDirection = (nextPoint - (Vector2)transform.position).normalized;
+                        rb.MovePosition(nextPoint);
+                        yield return new WaitForFixedUpdate();  // Wait for the next frame
                     }
 
                     // Move to the next target position
@@ -185,7 +216,7 @@ public class EnemyMovement : MonoBehaviour
                 path = null;  // Clear the path until recalculated
             }
 
-            yield return null;  // Wait until next frame if no path is available
+            yield return new WaitForFixedUpdate();  // Wait until next frame if no path is available
         }
     }
 }

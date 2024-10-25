@@ -5,6 +5,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Character))]
+[RequireComponent(typeof(TargetSearchAlgorithm))]
 public class AiMovement : MonoBehaviour
 {
     // Ai will not approach closer than this at all. 
@@ -42,95 +43,146 @@ public class AiMovement : MonoBehaviour
         Escape,
     }
 
-    public MovementState currentState = MovementState.Attack;
+    [SerializeField]
+    MovementState currentState = MovementState.Attack;
     public float CurrentDistance { get {return currentDistance;} }
     float currentDistance = 0;
 
     public Character character;
     public Animator animator;
-    private GameObject _target;
+    TargetSearchAlgorithm targetSearchAlgorithm;
+    public TargetSearchAlgorithm GetTargetSearchAlgorithm {get {return targetSearchAlgorithm;}}
 
+    public Coroutine updatePathCoroutine = null;
+    public Coroutine followPathCoroutine = null;
+    GameObject player;
 
     void Awake()
     {
+        targetSearchAlgorithm = GetComponent<TargetSearchAlgorithm>();
         keepAwayRadius = 1;
-        _target = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
+        
     }
 
-
-    void FixedUpdate()
+    void Start()
     {
-        currentDistance = Vector2.Distance(
-            new Vector2(transform.position.x, transform.position.y), 
-            new Vector2(_target.transform.position.x, _target.transform.position.y)
-        );
-
-   
-        if (!character.IsActionLocked)
-        {
-            Vector2 direction = GetDirection();
-
-            switch (currentState) {
-                case MovementState.Stop:
-                    break;
-
-                case MovementState.Roaming:
-                    // Not implemented
-                    break;
-
-                case MovementState.Surround:
-                    //Not implemented
-                    break;
-
-                case MovementState.Attack:
-                    AttackTarget(direction);
-                    break;
-
-                case MovementState.Escape:
-                    Avoid(direction);
-                    break;
-            }
-        }
-    }
-
-    Vector2 GetDirection()
-    {
-        return (_target.transform.position - transform.position).normalized;
-    }
-
-
-    void MoveTowards(Vector2 direction)
-    {
-        character.Move(direction * character.moveSpeed);
-    }
-
-    void Avoid(Vector2 direction)
-    {
-        character.Move(-direction * character.moveSpeed);
-    }
-    
-
-    void AttackTarget(Vector2 direction)
-    {
-
-        if (currentDistance > minimumApproachableDistance)
-        {
-            MoveTowards(direction);
-        } 
-        else if (currentDistance < minimumInteractionRadius)
-        {
-            Avoid(direction);
-        }
-     
+        targetSearchAlgorithm.SetTargetTransform(player.gameObject.transform);
+        EnablePathFindingCoroutines();
+        //SwitchState(currentState);
     }
 
     void Update()
     {
-        Vector2 direction = GetDirection();
-        if(direction != Vector2.zero)
-        {
-            character.FlipX(direction.x < 0);
+        currentDistance = Vector2.Distance(player.transform.position, gameObject.transform.position);
+    }
+
+
+    // void FixedUpdate()
+    // {
+    //     if (!character.IsActionLocked)
+    //     {
+    //         switch (currentState) {
+    //             case MovementState.Stop:
+    //                 StopState();
+    //                 break;
+
+    //             case MovementState.Roaming:
+    //                 Roaming();
+    //                 break;
+
+    //             case MovementState.Surround:
+    //                 Surround();
+    //                 break;
+
+    //             case MovementState.Attack:
+    //                 AttackTarget();
+    //                 break;
+
+    //             case MovementState.Escape:
+    //                 Avoid();
+    //                 break;
+    //         }
+    //     }
+    // }
+
+    public void SwitchState(MovementState state)
+    {
+        switch (state) {
+            case MovementState.Stop:
+                StopState();
+                break;
+
+            case MovementState.Roaming:
+                Roaming();
+                break;
+
+            case MovementState.Surround:
+                Surround();
+                break;
+
+            case MovementState.Attack:
+                AttackTarget();
+                break;
+
+            case MovementState.Escape:
+                Avoid();
+                break;
         }
     }
+
+    // Handling Coroutines
+    void DisablePathFindingCoroutines()
+    {
+        if (followPathCoroutine != null)
+        {
+            StopCoroutine(followPathCoroutine);
+            StopCoroutine(updatePathCoroutine);
+            followPathCoroutine = null;
+            updatePathCoroutine = null;
+        }
+    }
+
+    void EnablePathFindingCoroutines()
+    {
+        Debug.Log("Enabled");
+        if (followPathCoroutine == null)
+        {
+            followPathCoroutine = StartCoroutine(targetSearchAlgorithm.UpdatePathForMovingTarget());
+            updatePathCoroutine = StartCoroutine(targetSearchAlgorithm.MoveAlongPath());
+        }
+    }
+
+    // Managing State value updates
+    void StopState()
+    {
+        DisablePathFindingCoroutines();
+        currentState = MovementState.Stop;
+    }
+
+    void Roaming()
+    {
+
+    }
+
+    void Surround()
+    {
+
+    }
+
+    void AttackTarget()
+    {
+        targetSearchAlgorithm.SetTargetTransform(player.gameObject.transform);
+        EnablePathFindingCoroutines();
+    }
+
+    void Avoid()
+    {
+
+    }
+    
+
+
+ 
 
 }

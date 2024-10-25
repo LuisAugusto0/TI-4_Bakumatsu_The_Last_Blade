@@ -47,7 +47,7 @@ public class PlayerBaseAttack : PlayerCooldownAction
     {
         // Animation will be responsible for sending animation events
         playerController.animator.SetTrigger(PlayerController.baseAttackTriggerHash);
-        EnableCollider(AnimatorGetFacingDirection.CurrentDirection);
+        SelectDamager(playerController.FacingDirection);
 
         character.StartActionLock(Cancel, this);
         playerController.actionAnimationEvent = OnAnimationEventReceived;
@@ -55,7 +55,7 @@ public class PlayerBaseAttack : PlayerCooldownAction
         performed.Invoke(this);
     }
 
-    void EnableCollider(AnimatorGetFacingDirection.Direction direction)
+    void SelectDamager(AnimatorGetFacingDirection.Direction direction)
     {
         //Debug.Log(direction);
         switch (direction)
@@ -70,7 +70,6 @@ public class PlayerBaseAttack : PlayerCooldownAction
                 currentDamager = damagerForward;
                 break;
         }
-        Debug.Log(direction);
     }
 
 

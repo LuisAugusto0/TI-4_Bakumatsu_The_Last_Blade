@@ -4,15 +4,15 @@ using static UnityEngine.Tilemaps.Tile;
 
 public class TilemapToMatrix : MonoBehaviour
 {
-    public Tilemap tilemap;  // Referência ao Tilemap
+    public Tilemap tilemap;  // Referï¿½ncia ao Tilemap
 
     private CellInfo[,] walkableMatrix;  // Matriz de caminhabilidade
 
     [System.Serializable]
     public struct CellInfo
     {
-        public bool isWalkable;  // Indica se é caminhável
-        public Vector3 worldPosition;  // Posição no mundo
+        public bool isWalkable;  // Indica se ï¿½ caminhï¿½vel
+        public Vector3 worldPosition;  // Posiï¿½ï¿½o no mundo
 
         public CellInfo(bool isWalkable, Vector3 worldPosition)
         {
@@ -26,11 +26,12 @@ public class TilemapToMatrix : MonoBehaviour
         get { return walkableMatrix; }
     }
 
-    void Start()
+    void Awake()
     {
         CreateBooleanMatrix();
-        PrintMatrix();  // Imprimir a matriz após a criação
+        PrintMatrix();  // Imprimir a matriz apï¿½s a criaï¿½ï¿½o
     }
+
 
     void CreateBooleanMatrix()
     {
@@ -45,7 +46,7 @@ public class TilemapToMatrix : MonoBehaviour
                 TileBase tile = tilemap.GetTile(cellPosition);
 
                 bool isWalkable = IsTileWalkable(tile);
-                Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);  // Obter a posição mundial
+                Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);  // Obter a posiï¿½ï¿½o mundial
 
                 walkableMatrix[x - bounds.xMin, y - bounds.yMin] = new CellInfo(isWalkable, worldPosition);
             }
@@ -56,17 +57,17 @@ public class TilemapToMatrix : MonoBehaviour
 
     bool IsTileWalkable(TileBase tile)
     {
-        // Verifica se o tile tem algum tipo de colisão
+        // Verifica se o tile tem algum tipo de colisï¿½o
         if (tile is Tile tileWithCollider)
         {
             return tileWithCollider.colliderType == ColliderType.None;
         }
-        return true;  // Se não for um Tile com colliderType, assume que é caminhável
+        return true;  // Se nï¿½o for um Tile com colliderType, assume que ï¿½ caminhï¿½vel
     }
 
     public Vector2 WalkableMatrixToMatrix(Vector3 worldPosition)
     {
-        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);  // Converter posição mundial para posição de célula
+        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);  // Converter posiï¿½ï¿½o mundial para posiï¿½ï¿½o de cï¿½lula
         return new Vector2(cellPosition.x - tilemap.cellBounds.xMin, cellPosition.y - tilemap.cellBounds.yMin);
     }
 
