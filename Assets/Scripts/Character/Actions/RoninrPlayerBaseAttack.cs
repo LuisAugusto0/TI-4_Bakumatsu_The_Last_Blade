@@ -30,11 +30,11 @@ public class RoninBaseAttack : IAction
     [Tooltip("Event triggered when the action is cancelled before it ends.")]
     public OnAttackEvent actionCancelled;
 
+    bool onRecoveryFrames = false;
 
     void Awake()
     {
         character = player.character;
-
     }
 
     void Start()
@@ -45,8 +45,10 @@ public class RoninBaseAttack : IAction
     }
 
 
-    public override void StartAction()
+    public override void StartAction(OnActionEnded callback)
     {
+        finished = callback;
+
         // Animation will be responsible for sending animation events
         player.animator.SetTrigger(RoninPlayerBehaviourHandler.baseAttackTriggerHash);
         SelectDamager(player.FacingDirection);
@@ -108,6 +110,7 @@ public class RoninBaseAttack : IAction
     void CollisionFrameEnd()
     {
         currentDamager.DisableCollider();
+        onRecoveryFrames = true;
     }
 
     
@@ -116,9 +119,10 @@ public class RoninBaseAttack : IAction
         character.EndActionLock(this);
         player.actionAnimationEvent = null;
 
+        onRecoveryFrames = false;
+        finished.Invoke();
     }
-
-
+   
     void Cancel()
     {
         // For now there is no force end to animation
@@ -127,5 +131,18 @@ public class RoninBaseAttack : IAction
         End();
         
         actionCancelled.Invoke(this);
+    }
+
+
+    // Force cancel when on recovery frame
+    public bool CancelOnRecoveryFrame()
+    {   
+        bool b = false;
+        if (onRecoveryFrames)
+        {
+            b = true;
+            Cancel();
+        }
+        return b;
     }
 }

@@ -16,8 +16,10 @@ public class PlayerThrowProjectile : IAction
     [Tooltip("Event triggered when the skill is fired.")]
     public OnFiredEvent fired;
 
-    public override void StartAction()
+    public override void StartAction(OnActionEnded callback)
     {
+        finished = callback;
+
         float angle = Mathf.Atan2(player.LastPointDirection.y, player.LastPointDirection.x) * Mathf.Rad2Deg;
 
         angle += rotationOffset;
@@ -27,6 +29,6 @@ public class PlayerThrowProjectile : IAction
         Instantiate(prefab, spawnPos.position, rotation);
 
         fired.Invoke(this);
-
+        finished.Invoke();
     }
 }

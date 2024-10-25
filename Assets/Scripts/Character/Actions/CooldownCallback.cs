@@ -8,83 +8,89 @@ using UnityEngine;
 
 // Separate object that contains 
 
+public delegate void OnActionEnded();
+
+[Serializable]
 public abstract class IAction : MonoBehaviour
 {
-    public abstract void StartAction();
+    public OnActionEnded finished = () => {}; //default (do nothing)
+    public bool isInstanteneous;
+
+
+    public abstract void StartAction(OnActionEnded callback);
 }
 
-public interface CooldownBehaviour
+public interface CooldownIAction
 {
     public bool Attempt();
 }
 
 
+
 [Serializable]
-public class CooldownCallback : CooldownBehaviour
+public class Cooldown
 {
-    public delegate void FunctionCallback();    
-    public FunctionCallback callback;
+    [SerializeField] 
+    private float cooldown; 
 
-    public float cooldown = 0f;
-    public float lastExecutedTime = 0f;
+    [SerializeField]
+    private float lastTimeUsed; 
 
-    public CooldownCallback(FunctionCallback callback)
+    public bool IsOnCooldown => Time.time < lastTimeUsed + cooldown;
+
+
+    public float GetRemaningTime()
     {
-        this.callback = callback;
+        return cooldown - (Time.time - lastTimeUsed);
     }
-
-    public CooldownCallback(IAction action)
+   
+    public void StartCooldown()
     {
-        this.callback = action.StartAction;
+        lastTimeUsed = Time.time;
     }
-
-    public bool Attempt()
+   
+    public void ResetCooldown()
     {
-        bool success = false;
-        if (Time.time >= lastExecutedTime + cooldown)
-        {
-            success = true;
-            callback.Invoke();
-        }
-        return success;
+        lastTimeUsed = Time.time;
     }
 }
 
 
 
 [Serializable]
-public class IterableCooldownCallback : CooldownBehaviour
+public class CooldownAction : CooldownIAction
 {
-    public delegate void FunctionCallback();    
-    public FunctionCallback callback;
-
-    public int maxCharges = 1;
-    
     [SerializeField]
-    private int storedCharges;
-    
-    
-    public float cooldown = 0f;
-    public float lastExecutedTime = 0f;
+    public Cooldown cooldown;
 
-    public IterableCooldownCallback(FunctionCallback callback)
+    [SerializeField]
+    public IAction action;
+
+    bool onAction = false;
+
+    OnActionEnded callback = () => {};
+
+    public void SetEndedCallback(OnActionEnded callback)
     {
         this.callback = callback;
-    }
-
-    public IterableCooldownCallback(IAction action)
-    {
-        this.callback = action.StartAction;
     }
 
     public bool Attempt()
     {
         bool success = false;
-        if (Time.time >= lastExecutedTime + cooldown)
+        if (!cooldown.IsOnCooldown && !onAction)
         {
-            success = true;
-            callback.Invoke();
+            onAction = true;
+            action.StartAction(ActionEnd);
+            
         }
         return success;
+    }
+
+    void ActionEnd()
+    {
+        onAction = false;
+        cooldown.ResetCooldown();
+        callback.Invoke();
     }
 }

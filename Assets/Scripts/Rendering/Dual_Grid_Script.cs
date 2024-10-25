@@ -19,8 +19,6 @@ public class Dual_Grid_Script : MonoBehaviour {
     int RandGrass;
     System.Random rand;
 
-    public Camera mainCamera;
-
     // Referencia para cada Tilemap
     public Tilemap ConfigTilemap;
     public Tilemap DisplayTilemap;
@@ -111,15 +109,10 @@ public class Dual_Grid_Script : MonoBehaviour {
         Steps = 0;
         RandGrass = rand.Next(8, 20);
 
-        Rect rect = mainCamera.pixelRect;
-        Vector2 pos = rect.position;
-
-        Debug.Log("\nCamera x: " + rect.x);
-
         
         //Atualizar 50 pixel acima e 50 abaixo da câmeta quando refresh display for chamado
-        for (int i = ((int)Math.Ceiling(pos.x))-50; i < ((int)Math.Ceiling(pos.x)) + 50; i++) {
-            for (int j = ((int)pos.y)-10; j < ((int)pos.y) + 10; j++) {
+        for (int i = -50; i < 50; i++) {
+            for (int j = -10; j < 10; j++) {
                 setDisplayTile(new Vector3Int(i, j, 0));
             }
         }

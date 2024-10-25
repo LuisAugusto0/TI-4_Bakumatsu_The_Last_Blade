@@ -16,13 +16,16 @@ public class FacingTeleport : IAction
     public OnFiredEvent fired;
 
     public float distance;
-    public override void StartAction()
+    public override void StartAction(OnActionEnded callback)
     {
+        finished = callback;
+        
         Vector2 teleportVector = movement.LastMoveVector == Vector2.zero ? 
             movement.GetFacingDirection() : movement.LastMoveVector;
         
-        movement.Teleport(teleportVector);
+        movement.TeleportTowards(teleportVector);
 
         fired.Invoke(this);
+        finished.Invoke();
     }
 }

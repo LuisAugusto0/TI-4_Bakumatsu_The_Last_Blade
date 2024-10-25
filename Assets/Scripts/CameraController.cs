@@ -18,6 +18,7 @@ public class CameraController : SceneSingleton<CameraController>
 
     public override void Awake()
     {
+        base.Awake();
         _mainCamera = GetComponent<Camera>();
         if (_mainCamera == null)
         {

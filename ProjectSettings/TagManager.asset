@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - EnemyRange
   - AtaqueInimigo
+  - Scenario
   layers:
   - Default
   - TransparentFX

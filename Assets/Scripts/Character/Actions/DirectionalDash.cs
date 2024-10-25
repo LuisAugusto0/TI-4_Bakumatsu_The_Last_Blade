@@ -31,8 +31,10 @@ public class DirectionalDash : IAction
     [Tooltip("Event triggered when the action is cancelled before it ends.")]
     public OnDashEvent onActionCancel;
 
-    public override void StartAction()
+    public override void StartAction(OnActionEnded callback)
     {
+        finished = callback;
+        
         _lastStartTime = Time.time;
         moveVector = movement.LastMoveVector == Vector2.zero ? 
             movement.GetFacingDirection() : movement.LastMoveVector;
@@ -52,7 +54,7 @@ public class DirectionalDash : IAction
     {
         while (!IsActionDone()) 
         {
-            movement.Move(moveVector);
+            movement.MoveTowardsMoveVector(moveVector);
             yield return new WaitForFixedUpdate();
         }
      
@@ -63,6 +65,7 @@ public class DirectionalDash : IAction
     {
         character.EndActionLock(this);
         character.damageable.RemoveImmunity(this);
+        finished.Invoke();
     }
 
     void Cancel()

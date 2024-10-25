@@ -33,10 +33,15 @@ public class RoninDodgeRoll : IAction
     public OnRollEvent onActionCancel;
 
 
-    public override void StartAction()
+    public override void StartAction(OnActionEnded callback)
     {
-        moveVector = movement.GetFacingDirection();
+        finished = callback;
 
+        Vector2 dir = player.LastMoveInputVector == Vector2.zero ?
+            movement.GetFacingDirection() : player.LastMoveInputVector.normalized;
+
+  
+        moveVector = dir *  speed;
         player.actionAnimationEvent = OnRollAnimationEvent;
         player.animator.SetTrigger(RoninPlayerBehaviourHandler.rollTriggerHash);
         
@@ -47,8 +52,10 @@ public class RoninDodgeRoll : IAction
         character.StartActionLock(Cancel, this);
         onActionStart.Invoke(this);
 
+        isActive = true;
         StartCoroutine(DashRoutine());
         StartCoroutine(PerfectDashTime());
+        
     }
 
 
@@ -69,7 +76,7 @@ public class RoninDodgeRoll : IAction
     {
         while (isActive) 
         {
-
+            movement.MoveTowardsMoveVector(moveVector);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -100,7 +107,8 @@ public class RoninDodgeRoll : IAction
         character.damageable.RemoveImmunity(this);
         character.EndActionLock(this);
         player.actionAnimationEvent = null;
-        player.states = RoninPlayerBehaviourHandler.States.Default;
+        finished.Invoke();
+        isActive = false;
     }
 
     void Cancel()
