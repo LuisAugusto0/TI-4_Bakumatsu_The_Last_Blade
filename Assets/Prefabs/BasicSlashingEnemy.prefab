@@ -486,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   pathUpdateIntervalSeconds: 0.1
-  drawPath: 1
+  drawPath: 0
   damageable: {fileID: 7007264390564678606}
 --- !u!1 &7828049399744223928
 GameObject:
