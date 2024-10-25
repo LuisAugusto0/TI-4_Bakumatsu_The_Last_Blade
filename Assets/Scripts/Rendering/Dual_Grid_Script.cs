@@ -111,8 +111,8 @@ public class Dual_Grid_Script : MonoBehaviour {
 
         
         //Atualizar 50 pixel acima e 50 abaixo da câmeta quando refresh display for chamado
-        for (int i = -50; i < 50; i++) {
-            for (int j = -10; j < 10; j++) {
+        for (int i = -100; i < 100; i++) {
+            for (int j = -20; j < 20; j++) {
                 setDisplayTile(new Vector3Int(i, j, 0));
             }
         }
