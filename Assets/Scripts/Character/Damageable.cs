@@ -11,7 +11,7 @@ public class Damageable : MonoBehaviour
     [Serializable]
     public class HealthSetEvent : UnityEvent<Damageable>
     { }
-    
+
     [Serializable]
     public class HealEvent : UnityEvent<int, Damageable>
     { }
@@ -39,11 +39,9 @@ public class Damageable : MonoBehaviour
     public int baseHealth = 6;
     public int currentHealth = 6;
 
-
     [NonSerialized]
     public bool isDead = false;
 
-    
     // Track different sources of immunity
     private HashSet<object> _immunitySources = new();
 
