@@ -22,7 +22,7 @@ public class CharacterHealthEffects : MonoBehaviour
     {
         _character = GetComponent<Character>();
         _damageable = GetComponent<Damageable>();
-        _originalColor = _character.spriteRenderer.color;
+        _originalColor = _character.mainSpriteRenderer.color;
 
     }
 
@@ -30,13 +30,13 @@ public class CharacterHealthEffects : MonoBehaviour
     {
         if (_damageable.IsImmune() && !isOnFlashEffect)
         {
-            _character.spriteRenderer.color = immunityColor;
+            _character.mainSpriteRenderer.color = immunityColor;
         }
     }
 
     public void EndImmunityEffect()
     {
-        _character.spriteRenderer.color = _originalColor;
+        _character.mainSpriteRenderer.color = _originalColor;
     }
 
 
@@ -49,13 +49,13 @@ public class CharacterHealthEffects : MonoBehaviour
 
     private IEnumerator ColorFlashCoroutine(Color flashColor)
     {
-        _character.spriteRenderer.color = flashColor;
+        _character.mainSpriteRenderer.color = flashColor;
         _character.StartActionLock(null, this);
         isOnFlashEffect = true;
 
         yield return new WaitForSeconds(damageFlashDuration);
 
-        _character.spriteRenderer.color = _originalColor;
+        _character.mainSpriteRenderer.color = _originalColor;
         
         _character.EndActionLock(this);
 

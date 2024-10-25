@@ -5,7 +5,7 @@ using System;
 
 [RequireComponent(typeof(Character))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(AiMovement))]
+[RequireComponent(typeof(AIBehaviourHandler))]
 public class BasicSlashEnemy : MonoBehaviour
 {
     [Serializable]
@@ -25,7 +25,7 @@ public class BasicSlashEnemy : MonoBehaviour
     private Animator _animator;
     
 
-    public AiMovement aiMovement;
+    public AIBehaviourHandler aiMovement;
     public Character character; 
 
     public float slashDelayTime = 0.5f;
@@ -62,13 +62,14 @@ public class BasicSlashEnemy : MonoBehaviour
     void Awake()
     {
         _animator = GetComponent<Animator>();
-       AnimatorGetFacingDirection.AssignDelegatesToAnimator(_animator, (ctx) => {facingDirection = ctx;});
+        currentDamager = damagerForward;
+        AnimatorGetFacingDirection.AssignDelegatesToAnimator(_animator, (ctx) => {facingDirection = ctx;});
     }
 
 
     void Start()
     {
-        aiMovement.currentState = AiMovement.MovementState.Attack;
+        aiMovement.currentState = AIBehaviourHandler.MovementState.Attack;
         damagerForward.DisableCollider();
         damagerUp.DisableCollider();
         damagerDown.DisableCollider();
@@ -110,8 +111,6 @@ public class BasicSlashEnemy : MonoBehaviour
            character.FlipX(false);
             
         }
-
-
     }
 
     bool CanAttack()

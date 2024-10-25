@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    private PlayerController player;
+    private AbstractPlayerBehaviourHandler player;
     public GameObject enemyPrefab;  
     public float spawnDelay = 5f;  
 
     void Start()
     {
-        player = PlayerController.ActivePlayer;
+        player = AbstractPlayerBehaviourHandler.ActivePlayer;
         StartCoroutine(GenerateEnemy());
     }
 

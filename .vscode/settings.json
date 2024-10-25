@@ -2,14 +2,11 @@
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,
-<<<<<<< HEAD
-        "**/.gitmodules": true,
-=======
-        "**/.vs": true,
+        "<<<<<<<HEAD**/.gitmodules": true,
+        "=======**/.vs": true,
         "**/.gitmodules": true,
         "**/.vsconfig": true,
->>>>>>> a4e92e9e76f8d628eb326ffe6f87ce3ac3fb8ee7
-        "**/*.booproj": true,
+        ">>>>>>>a4e92e9e76f8d628eb326ffe6f87ce3ac3fb8ee7**/*.booproj": true,
         "**/*.pidb": true,
         "**/*.suo": true,
         "**/*.user": true,
@@ -53,16 +50,13 @@
         "library/": true,
         "obj/": true,
         "Obj/": true,
-<<<<<<< HEAD
-        "ProjectSettings/": true,
-=======
-        "Logs/": true,
+        "<<<<<<<HEADProjectSettings/": true,
+        "=======Logs/": true,
         "logs/": true,
         "ProjectSettings/": true,
         "UserSettings/": true,
->>>>>>> a4e92e9e76f8d628eb326ffe6f87ce3ac3fb8ee7
-        "temp/": true,
+        ">>>>>>>a4e92e9e76f8d628eb326ffe6f87ce3ac3fb8ee7temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TI-4_Bakumatsu_The_Last_Blade.sln"
+    "dotnet.defaultSolution": "TI-4_Bakumatsu_The_Last_Blade_Old.sln"
 }

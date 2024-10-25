@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class PlayerBaseAttack : PlayerCooldownAction
+public class RoninBaseAttack : IAction
 {
     [Serializable]
-    public class OnAttackEvent : UnityEvent<PlayerBaseAttack>
+    public class OnAttackEvent : UnityEvent<RoninBaseAttack>
     { }
 
     public TriggerDamager damagerForward;
@@ -15,6 +15,8 @@ public class PlayerBaseAttack : PlayerCooldownAction
     public TriggerDamager damagerDown;
     TriggerDamager currentDamager = null;
     
+    public RoninPlayerBehaviourHandler player;
+    private Character character;
     
     [Tooltip("Event triggered when this action begins.")]
     public OnAttackEvent performed;
@@ -31,7 +33,7 @@ public class PlayerBaseAttack : PlayerCooldownAction
 
     void Awake()
     {
-        character = playerController.character;
+        character = player.character;
 
     }
 
@@ -43,14 +45,14 @@ public class PlayerBaseAttack : PlayerCooldownAction
     }
 
 
-    protected override void Perform(int context = 0)
+    public override void StartAction()
     {
         // Animation will be responsible for sending animation events
-        playerController.animator.SetTrigger(PlayerController.baseAttackTriggerHash);
-        SelectDamager(playerController.FacingDirection);
+        player.animator.SetTrigger(RoninPlayerBehaviourHandler.baseAttackTriggerHash);
+        SelectDamager(player.FacingDirection);
 
         character.StartActionLock(Cancel, this);
-        playerController.actionAnimationEvent = OnAnimationEventReceived;
+        player.actionAnimationEvent = OnAnimationEventReceived;
         
         performed.Invoke(this);
     }
@@ -109,11 +111,11 @@ public class PlayerBaseAttack : PlayerCooldownAction
     }
 
     
-    protected override void End()
+    protected void End()
     {
-        base.End();
         character.EndActionLock(this);
-        playerController.actionAnimationEvent = null;
+        player.actionAnimationEvent = null;
+
     }
 
 

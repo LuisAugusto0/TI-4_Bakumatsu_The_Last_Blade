@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Character))]
-public class AiMovement : MonoBehaviour
+public class AIBehaviourHandler : MonoBehaviour
 {
     // Ai will not approach closer than this at all. 
     public float minimumApproachableDistance = 0.5f;
@@ -46,13 +46,16 @@ public class AiMovement : MonoBehaviour
     public float CurrentDistance { get {return currentDistance;} }
     float currentDistance = 0;
 
+
     public Character character;
     public Animator animator;
+    public DirectionalMovement movement;
     private GameObject _target;
 
 
     void Awake()
     {
+         
         keepAwayRadius = 1;
         _target = GameObject.FindGameObjectWithTag("Player");
     }
@@ -101,12 +104,12 @@ public class AiMovement : MonoBehaviour
 
     void MoveTowards(Vector2 direction)
     {
-        character.Move(direction * character.moveSpeed);
+        movement.Move(direction * movement.moveSpeed);
     }
 
     void Avoid(Vector2 direction)
     {
-        character.Move(-direction * character.moveSpeed);
+        movement.Move(-direction * movement.moveSpeed);
     }
     
 

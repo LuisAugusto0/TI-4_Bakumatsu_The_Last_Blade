@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameplayInputHandler : MonoBehaviour
+// Generic Player Behaviour Handler class to handle which actions to take
+// Contains abstract and fixed implementations for how to handle inputs
+[RequireComponent(typeof(AbstractPlayerBehaviourHandler))]
+
+// Contains new "instance" of the Input Action
+// Ensures changes to the input are not hardcoded and local
+// multiplayer acessible. 
+// <If time available, test if c# InputAsset auto generated script 
+// would be a better choise for manual control>
+[RequireComponent(typeof(PlayerInput))]
+
+public class PlayerInputHandler : MonoBehaviour
 {
-    
-
-
-    // Contains new "instance" of the Input Action
-    // Ensures changes to the input are not hardcoded and local
-    // multiplayer acessible. 
-    // <If time available, test if c# InputAsset auto generated script 
-    // would be a better choise for manual control>
-    public PlayerInput playerInput; 
-
-
-    // Signal player action inputs to the controller
-    public PlayerController player;
+    private PlayerInput playerInput; 
+    private AbstractPlayerBehaviourHandler player;
 
 
     // Input definitions
@@ -38,6 +40,10 @@ public class GameplayInputHandler : MonoBehaviour
 
     void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
+        player = GetComponent<AbstractPlayerBehaviourHandler>();
+
+
         _playerMap = playerInput.actions.FindActionMap("Player");
         _uiMap = playerInput.actions.FindActionMap("UI");
 
@@ -61,23 +67,27 @@ public class GameplayInputHandler : MonoBehaviour
     }
 
 
-
-
     // Manually enable / disable PlayerController events
     // Since PlayerInput is only limited to .performed (hold), this script was added
     // for greater controls of inputs and map switches
     void OnEnable()
     {
-        // -- PLAYER MAP ASSIGNMENT --
+        /// -- PLAYER MAP ASSIGNMENT --
 
-        // Dodge Only when released
-        _playerDodgeAction.canceled += player.OnDashInput;
+        // -- Abstract mappings --
+        _playerDodgeAction.started += player.OnDodgeInputStarted;
+        _playerDodgeAction.performed += player.OnDodgeInputPerformed;
+        _playerDodgeAction.canceled += player.OnDodgeInputCancelled;
 
-        // Slash Only when released
-        _playerSlashAction.canceled += player.OnAttackInput;
+        _playerSlashAction.started += player.OnAttackInputStarted;
+        _playerSlashAction.performed += player.OnAttackInputPerformed;
+        _playerSlashAction.canceled += player.OnAttackInputCancelled;
 
-        // Use skill Only when released
-        _playerSkillAction.canceled += player.OnSkillInput;
+        _playerSkillAction.started += player.OnSkillInputStarted;
+        _playerSkillAction.performed += player.OnSkillInputPerformed;
+        _playerSkillAction.canceled += player.OnSkillInputCancelled;
+
+        // -- Defined behaviour mappings --
 
         // Get when you start (first frame), performed (remaining frames), 
         // and when ended (get Vector2.zero for move vector)
@@ -103,15 +113,21 @@ public class GameplayInputHandler : MonoBehaviour
     void OnDisable()
     {
         // -- PLAYER MAP ASSIGNMENT --
-        _playerDodgeAction.canceled -= player.OnDashInput;
+        _playerDodgeAction.started -= player.OnDodgeInputStarted;
+        _playerDodgeAction.performed -= player.OnDodgeInputPerformed;
+        _playerDodgeAction.canceled -= player.OnDodgeInputCancelled;
 
-        _playerSlashAction.canceled -= player.OnAttackInput;
+        _playerSlashAction.started -= player.OnAttackInputStarted;
+        _playerSlashAction.performed -= player.OnAttackInputPerformed;
+        _playerSlashAction.canceled -= player.OnAttackInputCancelled;
 
-        _playerSkillAction.canceled -= player.OnSkillInput;
+        _playerSkillAction.started -= player.OnSkillInputStarted;
+        _playerSkillAction.performed -= player.OnSkillInputPerformed;
+        _playerSkillAction.canceled -= player.OnSkillInputCancelled;
 
-        _playerMoveAction.started -= player.OnSkillInput;
-        _playerMoveAction.performed -= player.OnSkillInput;
-        _playerMoveAction.canceled -= player.OnSkillInput;
+        _playerMoveAction.started -= player.OnMoveInput;
+        _playerMoveAction.performed -= player.OnMoveInput;
+        _playerMoveAction.canceled -= player.OnMoveInput;
 
         _playerAimAction.performed -= player.OnAim;
 
@@ -119,11 +135,16 @@ public class GameplayInputHandler : MonoBehaviour
 
 
 
-        // -- UI MAP ASSIGNMENT
+        // -- UI MAP ASSIGNMENT --
         _uiCancel.canceled -= TogglePauseOffInput;
     }
 
 
+
+
+
+
+  
     void TogglePauseOnInput(InputAction.CallbackContext context)
     {  
         TogglePauseOn();
@@ -153,6 +174,5 @@ public class GameplayInputHandler : MonoBehaviour
 
         PauseMenu.Instance.Unpause();
     }
-
 
 }

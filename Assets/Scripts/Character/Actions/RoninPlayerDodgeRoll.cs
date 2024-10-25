@@ -4,15 +4,25 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-public class PlayerDodgeRoll : PlayerCooldownAction
+[Serializable]
+public class RoninDodgeRoll : IAction
 {
     [Serializable]
-    public class OnRollEvent : UnityEvent<PlayerDodgeRoll>
+    public class OnRollEvent : UnityEvent<RoninDodgeRoll>
     { }
 
     public float speed;
-    public Vector2 moveVector = Vector2.zero; 
+    public float perfectDodgeTime = 0.1f; 
     
+    public Vector2 moveVector = Vector2.zero; 
+    public RoninPlayerBehaviourHandler player;
+    public Character character;
+    public DirectionalMovement movement;
+
+    bool isActive = false;
+
+
+
     [Tooltip("Event triggered when this action begins.")]
     public OnRollEvent onActionStart;
 
@@ -22,25 +32,36 @@ public class PlayerDodgeRoll : PlayerCooldownAction
     [Tooltip("Event triggered when the action is cancelled before it ends.")]
     public OnRollEvent onActionCancel;
 
-    protected override void Perform(int context = 0)
+
+    public override void StartAction()
     {
-        playerController.actionAnimationEvent = OnRollAnimationEvent;
-        playerController.animator.SetTrigger(PlayerController.rollTriggerHash);
+        moveVector = movement.GetFacingDirection();
+
+        player.actionAnimationEvent = OnRollAnimationEvent;
+        player.animator.SetTrigger(RoninPlayerBehaviourHandler.rollTriggerHash);
         
-        if (character.LastMoveVector == Vector2.zero)
-        {
-            Vector2 dir = character.spriteRenderer.flipX ? Vector2.left : Vector2.right;
-            moveVector = dir * speed;
-        }
-        else
-        {
-            moveVector = character.LastMoveVector.normalized * speed;
-        }
+        character.damageable.onHit.AddListener(HitOnPerfectDodgeWindow);
+
 
         character.damageable.AddImmunity(this);
         character.StartActionLock(Cancel, this);
         onActionStart.Invoke(this);
+
         StartCoroutine(DashRoutine());
+        StartCoroutine(PerfectDashTime());
+    }
+
+
+    void HitOnPerfectDodgeWindow(GameObject source, Damageable damageable)
+    {
+        Debug.Log("PERFECT DODGE!!");
+    }
+
+
+    IEnumerator PerfectDashTime()
+    {
+        yield return new WaitForSeconds(perfectDodgeTime);
+        character.damageable.onHit.RemoveListener(HitOnPerfectDodgeWindow);
     }
 
 
@@ -48,7 +69,7 @@ public class PlayerDodgeRoll : PlayerCooldownAction
     {
         while (isActive) 
         {
-            character.Move(moveVector);
+
             yield return new WaitForFixedUpdate();
         }
     }
@@ -57,12 +78,13 @@ public class PlayerDodgeRoll : PlayerCooldownAction
     {
         switch(context) {
             case 0:
-                CollisionFrameStart();
+                //Starting to roll
                 break;
             case 1:
-                CollisionFrameEnd();
+                // Ended Roll
                 break;
             case 2:
+                // Ended Animation
                 End();
                 onActionEnd.Invoke(this);
                 break;
@@ -72,23 +94,13 @@ public class PlayerDodgeRoll : PlayerCooldownAction
         }   
     }
 
-    void CollisionFrameStart()
-    {
-        
-    }
-
-    void CollisionFrameEnd()
-    {
-
-    }
-
     // When animation truly finished
-    protected override void End()
+    void End()
     {
-        base.End();
         character.damageable.RemoveImmunity(this);
         character.EndActionLock(this);
-        playerController.actionAnimationEvent = null;
+        player.actionAnimationEvent = null;
+        player.states = RoninPlayerBehaviourHandler.States.Default;
     }
 
     void Cancel()
@@ -97,4 +109,6 @@ public class PlayerDodgeRoll : PlayerCooldownAction
         onActionCancel.Invoke(this);
         End();
     }
+
+    
 }

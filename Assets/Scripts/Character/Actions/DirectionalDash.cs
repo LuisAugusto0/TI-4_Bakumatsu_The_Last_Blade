@@ -4,17 +4,22 @@ using UnityEngine.Events;
 using System;
 
 
-public class Dash : CharacterCooldownAction
+public class DirectionalDash : IAction
 {
     [Serializable]
-    public class OnDashEvent : UnityEvent<PlayerDodgeRoll>
+    public class OnDashEvent : UnityEvent<DirectionalDash>
     { }
 
+    public AbstractPlayerBehaviourHandler player;
+    public DirectionalMovement movement;
+    public Character character;
+    
     public float speed;
     public float duration;
 
     private float _lastStartTime;
     private Vector2 moveVector = Vector2.zero; 
+
     
     
     [Tooltip("Event triggered when this action begins.")]
@@ -26,18 +31,11 @@ public class Dash : CharacterCooldownAction
     [Tooltip("Event triggered when the action is cancelled before it ends.")]
     public OnDashEvent onActionCancel;
 
-    protected override void Perform(int context = 0)
+    public override void StartAction()
     {
         _lastStartTime = Time.time;
-        if (character.LastMoveVector == Vector2.zero)
-        {
-            Vector2 dir = character.spriteRenderer.flipX ? Vector2.left : Vector2.left;
-            moveVector = dir * speed;
-        }
-        else
-        {
-            moveVector = character.LastMoveVector.normalized * speed;
-        }
+        moveVector = movement.LastMoveVector == Vector2.zero ? 
+            movement.GetFacingDirection() : movement.LastMoveVector;
 
         character.StartActionLock(Cancel, this);
         character.damageable.AddImmunity(this);
@@ -54,16 +52,15 @@ public class Dash : CharacterCooldownAction
     {
         while (!IsActionDone()) 
         {
-            character.Move(moveVector);
+            movement.Move(moveVector);
             yield return new WaitForFixedUpdate();
         }
      
         End();
     }
 
-    protected override void End()
+    void End()
     {
-        base.End();
         character.EndActionLock(this);
         character.damageable.RemoveImmunity(this);
     }

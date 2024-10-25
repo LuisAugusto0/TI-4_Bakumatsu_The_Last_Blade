@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-public class InstantiateProjectile : CharacterCooldownAction
+public class PlayerThrowProjectile : IAction
 {
     [Serializable]
-    public class OnFiredEvent : UnityEvent<InstantiateProjectile>
+    public class OnFiredEvent : UnityEvent<PlayerThrowProjectile>
     { }
 
+    public AbstractPlayerBehaviourHandler player;
     public GameObject prefab;
     public float rotationOffset;
     public Transform spawnPos;
@@ -15,9 +16,9 @@ public class InstantiateProjectile : CharacterCooldownAction
     [Tooltip("Event triggered when the skill is fired.")]
     public OnFiredEvent fired;
 
-    protected override void Perform(int context = 0)
+    public override void StartAction()
     {
-        float angle = Mathf.Atan2(character.lastLookDirection.y, character.lastLookDirection.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(player.LastPointDirection.y, player.LastPointDirection.x) * Mathf.Rad2Deg;
 
         angle += rotationOffset;
         
@@ -27,10 +28,5 @@ public class InstantiateProjectile : CharacterCooldownAction
 
         fired.Invoke(this);
 
-        End();
-
-
     }
 }
-
-

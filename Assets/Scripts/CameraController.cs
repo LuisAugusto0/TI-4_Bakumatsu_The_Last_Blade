@@ -13,7 +13,7 @@ public class CameraController : SceneSingleton<CameraController>
     [NonSerialized]
     Camera _mainCamera;
 
-    PlayerController player;
+    AbstractPlayerBehaviourHandler player;
     Transform playerTransform;
 
     public override void Awake()
@@ -27,7 +27,7 @@ public class CameraController : SceneSingleton<CameraController>
 
     void Start()
     {
-        player = PlayerController.ActivePlayer;
+        player = AbstractPlayerBehaviourHandler.ActivePlayer;
         Debug.Log(player.gameObject ? "transform" : "nopt transofrm");
         Debug.Log(player ? "player exits" : "palyer not exists");
         playerTransform = player.gameObject.transform;

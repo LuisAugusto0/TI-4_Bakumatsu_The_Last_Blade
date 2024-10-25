@@ -7,8 +7,27 @@ using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 
+// Physics movement is required for any character
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))] //Must face right!!
+
+// Generic definition for the movement of character
+// Subclasses may be used to handle more specific movement needs
+[RequireComponent(typeof(EntityMovement))]
+
+// Main character sprite required
+[RequireComponent(typeof(SpriteRenderer))] 
+
+
+// Other non-required but generally used components:
+
+/// - Damageable: Allows character to take damage, and send signals on hit or on death
+
+/// - Any State Manager script: Signals when to move to CharacterMovement, Action Locks and when
+/// to execute any other behaviour
+
+/// - Other extensible behaviours such as CooldownAction<T> and DamageableEffects 
+/// (usually without any Update() routines)
+
 public class Character : MonoBehaviour
 {
     // Actions Lock disables character movement / actions
@@ -25,7 +44,7 @@ public class Character : MonoBehaviour
     public bool IsActionLocked { get {return _isActionLocked;} }
 
     [SerializeField]
-    private bool _isActionLocked;
+    private bool _isActionLocked = false;
 
     // Only the script that began the lock can remove it to ensure consitency
     // This object reference key is set to null when its not in use
@@ -33,30 +52,18 @@ public class Character : MonoBehaviour
 
 
 
-
-    // Main attributes
-    public int baseMoveSpeed = 2;
-    public int moveSpeed = 2;
-
-
-    // Manages hp and immunity (can be on child)
     public Damageable damageable;
 
-
-    // Get relative movement direction from other scripts
-    Vector2 _lastMoveVector = Vector2.zero;
-    public Vector2 LastMoveVector { get {return _lastMoveVector;} }
-    
-    [NonSerialized]
-    public Vector2 lastLookDirection = Vector2.zero;
-
-
-    // Acessible Character gameObject components
     [NonSerialized]
     public Rigidbody2D rb;
 
+
+
+    public List<SpriteRenderer> subSpriteRenderers;
+
     [NonSerialized]
-    public SpriteRenderer spriteRenderer;
+    public SpriteRenderer mainSpriteRenderer;
+
 
   
     // Handle collider flipping
@@ -69,9 +76,10 @@ public class Character : MonoBehaviour
     void Awake() 
     {
         damageable = GetComponent<Damageable>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        mainSpriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
+        // Collider facing values
         collidersOriginalOffset = new(colliders.Count);
         collidersFlipXOffset = new(colliders.Count);
         for (int i = 0; i < colliders.Count; i++)
@@ -85,10 +93,17 @@ public class Character : MonoBehaviour
 
     public void FlipX(bool value)
     {
-        if (value != spriteRenderer.flipX)
+        if (value != mainSpriteRenderer.flipX)
         {
-            spriteRenderer.flipX = value;
-            if (spriteRenderer.flipX)
+            // Flip sprite renderers
+            mainSpriteRenderer.flipX = value;
+            for (int i = 0; i < subSpriteRenderers.Count; i++)
+            {
+                subSpriteRenderers[i].flipX = value;
+            }
+
+            // Flip colliders tied to the sprite renderers
+            if (mainSpriteRenderer.flipX)
             {
                 for (int i = 0; i < colliders.Count; i++)
                 {
@@ -103,26 +118,13 @@ public class Character : MonoBehaviour
                 }
             }
         }
-        
-        
     }
 
-    public void Move(Vector2 moveVector)
-    {
-        _lastMoveVector = moveVector;
-        Vector2 newPos = rb.position + moveVector * Time.fixedDeltaTime;
-        rb.MovePosition(newPos);
-    }
 
-    public void Teleport(Vector2 offset)
-    {
-        Vector2 newPos = rb.position + offset;
-        rb.MovePosition(newPos);
-    }
+
 
 
     // Action lock methods
-
     public bool StartActionLock(InterruptAction method, object key)
     {
         if (_isActionLocked) {
