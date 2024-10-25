@@ -535,8 +535,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isActionLocked: 0
-  baseMoveSpeed: 2
-  moveSpeed: 2
+  baseMoveSpeed: 4
+  moveSpeed: 4
   damageable: {fileID: 8382639332297340402}
   colliders:
   - {fileID: 3345223180982794658}
@@ -559,7 +559,6 @@ MonoBehaviour:
   currentState: 3
   character: {fileID: 6399458737954384990}
   animator: {fileID: 5959861539089424675}
-  player: {fileID: 0}
 --- !u!114 &8733007096577307723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,9 +573,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiMovement: {fileID: 7729747446948127956}
   character: {fileID: 6399458737954384990}
-  slashDelayTime: 0.5
+  slashDelayTime: 0.3
   slashCooldown: 0.75
-  attackDistance: 1.5
+  attackDistance: 1.2
   corpseDestroyDelay: 4
   damagerForward: {fileID: 1631353648732639706}
   damagerUp: {fileID: 5126247399512351870}
@@ -609,8 +608,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  baseMoveSpeed: 2
-  moveSpeed: 2
+  baseMoveSpeed: 3
+  moveSpeed: 3
   pathUpdateIntervalSeconds: 0.1
   displayPathLine: 1
 --- !u!120 &4803832650283520926
