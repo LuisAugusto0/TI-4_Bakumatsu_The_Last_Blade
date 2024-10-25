@@ -8,18 +8,21 @@ using UnityEngine.Events;
 // The damage is expected to be done only once to each collider
 
 [RequireComponent(typeof(Collider2D))] // of type trigger
-public class TriggerDamager : MonoBehaviour
+public class ContinuousDamage : MonoBehaviour
 {
     [Serializable]
-    public class DamageableEvent : UnityEvent<Damageable, TriggerDamager> { }
+    public class DamageableEvent : UnityEvent<Damageable, ContinuousDamage> { }
 
     [Serializable]
-    public class NonDamageableEvent : UnityEvent<TriggerDamager> { }
+    public class NonDamageableEvent : UnityEvent<ContinuousDamage> { }
 
     public int damage = 1;
     public LayerMask hittableLayers;
     public DamageableEvent onDamageableHit;
     public NonDamageableEvent onNonDamageableHit;
+
+    public float timeUntilNextHit = 0.5f;
+
     private Collider2D _collider;
     public SpriteRenderer characterSpriteRenderer;
     private Vector2 originalColliderOffset;
@@ -31,7 +34,7 @@ public class TriggerDamager : MonoBehaviour
     {
         _collider = GetComponent<Collider2D>();
         originalColliderOffset = _collider.offset;
-        hitColliders = new HashSet<Collider2D>(); 
+        hitColliders = new HashSet<Collider2D>();
         //AdjustColliderBasedOnSpriteFlip();
     }
 
@@ -44,7 +47,7 @@ public class TriggerDamager : MonoBehaviour
                 + "This damager may not work");
         }
     }
-    
+
     public void EnableCollider()
     {
         _collider.enabled = true;
@@ -72,11 +75,6 @@ public class TriggerDamager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        // Ignore colliders that accidentally re-enter
-        if (hitColliders.Contains(collider))
-        {
-            return; 
-        }
 
         hitColliders.Add(collider);
 

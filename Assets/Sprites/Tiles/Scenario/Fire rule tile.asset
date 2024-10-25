@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire rule tile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: -1041112774, guid: 9058c6866d7dc014696497d82b29e384, type: 3}
-  m_DefaultGameObject: {fileID: 0}
+  m_DefaultGameObject: {fileID: 2394953487538387181, guid: b153eb3ee9009754f8a6d3a0c9eaaef4, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules:
   - m_Id: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     m_MaxAnimationSpeed: 6
     m_PerlinScale: 0.5
     m_Output: 2
-    m_ColliderType: 1
+    m_ColliderType: 2
     m_RandomTransform: 0
     m_Neighbors: 0100000001000000
     m_NeighborPositions:

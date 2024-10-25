@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2264972016707002302
+--- !u!1 &2394953487538387181
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5852310067418509934}
-  - component: {fileID: 3606129530145331939}
+  - component: {fileID: 7683478435659454519}
+  - component: {fileID: 7570015148941122807}
+  - component: {fileID: 8873044946484844205}
+  - component: {fileID: 1594094702991702847}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -17,35 +19,104 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5852310067418509934
+--- !u!4 &7683478435659454519
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2264972016707002302}
+  m_GameObject: {fileID: 2394953487538387181}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2583758797647577269}
+  - {fileID: 6012537075801666767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!156049354 &3606129530145331939
+--- !u!156049354 &7570015148941122807
 Grid:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2264972016707002302}
+  m_GameObject: {fileID: 2394953487538387181}
   m_Enabled: 1
   m_CellSize: {x: 1, y: 1, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!1 &8585608270601979635
+--- !u!61 &8873044946484844205
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394953487538387181}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5111861, y: -0.5199742}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.96479744, y: 0.700354}
+  m_EdgeRadius: 0
+--- !u!114 &1594094702991702847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394953487538387181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36c93d567ba786b4ca0fd4429af21ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onNonDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  timeUntilNextHit: 0.5
+  characterSpriteRenderer: {fileID: 0}
+--- !u!1 &6809238362569186282
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,9 +124,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2583758797647577269}
-  - component: {fileID: 2439401242650943703}
-  - component: {fileID: 985725924417191721}
+  - component: {fileID: 6012537075801666767}
+  - component: {fileID: 9109804923693496867}
+  - component: {fileID: 2624255803370029745}
   m_Layer: 0
   m_Name: Layer1
   m_TagString: Untagged
@@ -63,28 +134,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2583758797647577269
+--- !u!4 &6012537075801666767
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8585608270601979635}
+  m_GameObject: {fileID: 6809238362569186282}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5852310067418509934}
+  m_Father: {fileID: 7683478435659454519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1839735485 &2439401242650943703
+--- !u!1839735485 &9109804923693496867
 Tilemap:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8585608270601979635}
+  m_GameObject: {fileID: 6809238362569186282}
   m_Enabled: 1
   m_Tiles:
   - first: {x: 0, y: -1, z: 0}
@@ -112,7 +183,7 @@ Tilemap:
       - {fileID: -49684157, guid: 9058c6866d7dc014696497d82b29e384, type: 3}
       - {fileID: 18879712, guid: 9058c6866d7dc014696497d82b29e384, type: 3}
       - {fileID: -482662471, guid: 9058c6866d7dc014696497d82b29e384, type: 3}
-      m_AnimationSpeed: 6.0000005
+      m_AnimationSpeed: 6
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -167,13 +238,13 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!483693784 &985725924417191721
+--- !u!483693784 &2624255803370029745
 TilemapRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8585608270601979635}
+  m_GameObject: {fileID: 6809238362569186282}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -216,7 +287,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &8063911101548396243
+--- !u!114 &2909494457485965283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
