@@ -20,6 +20,7 @@ public class TriggerDamager : MonoBehaviour
     public LayerMask hittableLayers;
     public DamageableEvent onDamageableHit;
     public NonDamageableEvent onNonDamageableHit;
+
     private Collider2D _collider;
     public SpriteRenderer characterSpriteRenderer;
     private Vector2 originalColliderOffset;

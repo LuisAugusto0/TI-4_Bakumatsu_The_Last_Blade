@@ -85,5 +85,4 @@ public class InterectableObjects : MonoBehaviour
         //destroi a tocha depois de 2 segundos
         Destroy(breakedObject, 2.0f);
     }
-
 }
