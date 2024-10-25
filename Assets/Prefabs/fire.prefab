@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6614394560583261082}
   - component: {fileID: 105306665022724776}
   - component: {fileID: 1875705536182049646}
+  - component: {fileID: -8696720359219893284}
+  - component: {fileID: -4256605625804915649}
   m_Layer: 0
   m_Name: fire
   m_TagString: Untagged
@@ -177,3 +179,61 @@ MonoBehaviour:
       m_Calls: []
   timeUntilNextHit: 0.5
   characterSpriteRenderer: {fileID: 0}
+--- !u!114 &-8696720359219893284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619964950186231802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8bb85d7550cbc428052c85800a3321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHitImmunityTime: 0
+  baseHealth: 2
+  currentHealth: 2
+  onHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -4256605625804915649}
+        m_TargetAssemblyTypeName: DissipateFire, Assembly-CSharp
+        m_MethodName: destroyFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  addedImmunity:
+    m_PersistentCalls:
+      m_Calls: []
+  endedImmunity:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-4256605625804915649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619964950186231802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bb575bd8e65dd429f93959c7eb9fa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fire: {fileID: 619964950186231802}

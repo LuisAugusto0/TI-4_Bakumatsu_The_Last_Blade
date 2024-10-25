@@ -52,6 +52,7 @@ public class InterectableObjects : MonoBehaviour
 
         //criando fogo acima da tocha
         fire = Instantiate(fire);
+
         fire.transform.position = new Vector3(breakedObject.transform.position.x / 2, breakedObject.transform.position.y + 1.2f, breakedObject.transform.position.z);
         fire.SetActive(true);
         //criando fogo abaixo da tocha
@@ -82,7 +83,7 @@ public class InterectableObjects : MonoBehaviour
         fire = Instantiate(fire);
         fire.transform.position = new Vector3(breakedObject.transform.position.x - 0.25f, (breakedObject.transform.position.y - (float)((breakableObject.transform.position.y + 1)/2)), breakedObject.transform.position.z);
         fire.SetActive(true);
-        //destroi a tocha depois de 2 segundos
-        Destroy(breakedObject, 2.0f);
+        // //destroi a tocha depois de 2 segundos
+        // Destroy(breakedObject, 2.0f);
     }
 }
