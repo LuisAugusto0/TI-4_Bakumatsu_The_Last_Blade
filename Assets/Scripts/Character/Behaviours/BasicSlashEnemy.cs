@@ -116,18 +116,7 @@ public class BasicSlashEnemy : MonoBehaviour
         _animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(direction.x));
         _animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(direction.y));
 
-        if (facingDirection == AnimatorGetFacingDirection.Direction.Forward)
-        {
-            if (direction != Vector2.zero)
-            {
-                character.FlipX(direction.x < 0);
-            }
-        }
-        else
-        {
-           character.FlipX(false);
-            
-        }
+        movement.UpdateFacingDirection();
     }
 
     bool CanAttack()

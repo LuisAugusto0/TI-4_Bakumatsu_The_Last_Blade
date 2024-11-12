@@ -17,7 +17,7 @@ public class EnemyGenerator : MonoBehaviour
     // Corrotina para gerar inimigos
     IEnumerator GenerateEnemy()
     {
-        while (player.character.damageable.currentHealth > 0)  // Enquanto o jogador estiver vivo
+        while (player.character.damageable.CurrentHealth > 0)  // Enquanto o jogador estiver vivo
         {
             yield return new WaitForSeconds(spawnDelay);  // Aguarda o tempo definido
 

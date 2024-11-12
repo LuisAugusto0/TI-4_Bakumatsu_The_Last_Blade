@@ -21,7 +21,7 @@ public class FacingTeleport : IAction
         finished = callback;
         
         Vector2 teleportVector = movement.LastMoveVector == Vector2.zero ? 
-            movement.GetFacingDirection() : movement.LastMoveVector;
+            movement.GetFacingDirectionVector2() : movement.LastMoveVector;
         
         movement.TeleportTowards(teleportVector);
 

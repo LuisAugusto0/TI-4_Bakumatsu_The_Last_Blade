@@ -11,7 +11,8 @@ public class RoninDodgeRoll : IAction
     public class OnRollEvent : UnityEvent<RoninDodgeRoll>
     { }
 
-    public float speed;
+    // Multiplied over character base speed
+    public float speedMultiplier = 1.2f;
     public float perfectDodgeTime = 0.1f; 
     
     public Vector2 moveVector = Vector2.zero; 
@@ -38,10 +39,10 @@ public class RoninDodgeRoll : IAction
         finished = callback;
 
         Vector2 dir = player.LastMoveInputVector == Vector2.zero ?
-            movement.GetFacingDirection() : player.LastMoveInputVector.normalized;
+            movement.GetFacingDirectionVector2() : player.LastMoveInputVector.normalized;
 
   
-        moveVector = dir *  speed;
+        moveVector = dir * (speedMultiplier * movement.CurrentSpeed);
         player.actionAnimationEvent = OnRollAnimationEvent;
         player.animator.SetTrigger(RoninPlayerBehaviourHandler.rollTriggerHash);
         
@@ -59,7 +60,7 @@ public class RoninDodgeRoll : IAction
     }
 
 
-    void HitOnPerfectDodgeWindow(GameObject source, Damageable damageable)
+    void HitOnPerfectDodgeWindow(object source, Damageable damageable)
     {
         Debug.Log("PERFECT DODGE!!");
     }

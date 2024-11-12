@@ -84,6 +84,6 @@ public class TilemapToMatrix : MonoBehaviour
             matrixString += "\n";
         }
 
-        Debug.Log(matrixString);
+        //Debug.Log(matrixString);
     }
 }

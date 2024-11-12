@@ -18,13 +18,20 @@ public class DirectionalMovement : EntityMovement
         base.Awake();
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
-        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx;});
+        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx; Debug.Log(facingDirection);});
     }
 
-    protected void UpdateFacingDirection(Vector2 moveInputVector)
+    
+    public void UpdateFacingDirection()
+    {
+        UpdateFacingDirection(lastMoveVector);
+    }
+    
+    public void UpdateFacingDirection(Vector2 moveInputVector)
     {
         if (facingDirection == AnimatorGetFacingDirection.Direction.Forward)
         {
+            //  Debug.Log(facingDirection);
             if (moveInputVector != Vector2.zero)
             {
                 character.FlipX(moveInputVector.x < 0);
@@ -37,7 +44,8 @@ public class DirectionalMovement : EntityMovement
         }
     }
     
-    public Vector2 GetFacingDirection()
+
+    public Vector2 GetFacingDirectionVector2()
     {
         Vector2 dir = Vector2.zero;
   
@@ -57,34 +65,4 @@ public class DirectionalMovement : EntityMovement
         return dir;
     }
 
-
-    public override void MoveTowardsPoint(Vector2 worldPosition)
-    {
-        Vector2 currentPos = rb.position; 
-
-        Vector2 pointBetween = Vector2.MoveTowards(currentPos, worldPosition, moveSpeed * Time.fixedDeltaTime); 
-
-        
-        // Normalize to avoid errors with numbers too small
-        // <Not getting mvoe vector for now>
-        lastMoveVector = (worldPosition - currentPos).normalized;
-        UpdateFacingDirection(lastMoveVector);
-        Debug.Log(lastMoveVector);
-
-
-        
-        rb.MovePosition(pointBetween);
-    }
-    
-    public override void MoveTowardsDirection(Vector2 direction)
-    {
-        UpdateFacingDirection(direction);
-        base.Move(direction * moveSpeed);
-    }
-
-    public override void MoveTowardsMoveVector(Vector2 moveVector)
-    {
-        UpdateFacingDirection(moveVector);
-        base.Move(moveVector);
-    }
 }

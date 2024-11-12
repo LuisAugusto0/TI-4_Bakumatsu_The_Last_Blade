@@ -37,7 +37,7 @@ public class DirectionalDash : IAction
         
         _lastStartTime = Time.time;
         moveVector = movement.LastMoveVector == Vector2.zero ? 
-            movement.GetFacingDirection() : movement.LastMoveVector;
+            movement.GetFacingDirectionVector2() : movement.LastMoveVector;
 
         character.StartActionLock(Cancel, this);
         character.damageable.AddImmunity(this);

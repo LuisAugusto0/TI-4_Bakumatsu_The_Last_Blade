@@ -33,7 +33,7 @@ public class GameplayUI : MonoBehaviour
     {
         for (int i = 0; i < heartImages.Length; i++)
         {
-            int heartStatus = (player.currentHealth - (i * 2));  // Determina o status de cada coração
+            int heartStatus = (player.CurrentHealth - (i * 2));  // Determina o status de cada coração
 
             if (heartStatus >= 2)
             {

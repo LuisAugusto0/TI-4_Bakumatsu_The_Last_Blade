@@ -18,6 +18,7 @@ public abstract class IAction : MonoBehaviour
 
 
     public abstract void StartAction(OnActionEnded callback);
+    public virtual bool AttemptCancelAction() {return false;} 
 }
 
 public interface CooldownIAction

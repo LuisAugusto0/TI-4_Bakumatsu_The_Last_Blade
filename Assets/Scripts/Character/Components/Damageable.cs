@@ -17,7 +17,7 @@ public class Damageable : MonoBehaviour
     { }
 
     [Serializable]
-    public class OnHitEvent : UnityEvent<GameObject, Damageable>
+    public class OnHitEvent : UnityEvent<object, Damageable>
     { }
 
     [Serializable]
@@ -36,8 +36,13 @@ public class Damageable : MonoBehaviour
     public float onHitImmunityTime = 2f;
 
     
-    public int baseHealth = 6;
-    public int currentHealth = 6;
+    [SerializeField] int baseHp = 6;
+    [SerializeField] int baseHpBonus = 0;
+    [SerializeField] int currentBaseHp = 6;
+
+    public int CurrentHealth {get {return currentHp;}}
+    [SerializeField] protected int currentHp = 6;
+
 
     [NonSerialized]
     public bool isDead = false;
@@ -54,30 +59,36 @@ public class Damageable : MonoBehaviour
     public EndedImmunityEvent endedImmunity; 
 
 
-    // Health setters
-
-    public void SetBaseHealth(int newBaseHealth)
+    void Start()
     {
-        if (newBaseHealth <= 0) 
-        {
-            Debug.LogWarningFormat(
-                "Illegal health value of {0} received for {1} with ID {2}",
-                newBaseHealth, GetType().Name, GetInstanceID()
-            );    
-        }
-        baseHealth = newBaseHealth;
+        currentHp = baseHp;
+        RecalculateBaseHealth();
     }
 
-    public void SetHealth(int health)
+    public void IncreaseBaseHealthBonus(int value)
     {
-        if (health <= 0) 
+        baseHpBonus += value;
+        currentHp += value;
+        RecalculateBaseHealth();
+    }
+
+    public void RecalculateBaseHealth()
+    {
+        int newBaseHp = baseHp + baseHpBonus;
+
+        if (newBaseHp <= 0)
         {
-            Debug.LogWarningFormat(
-                "Illegal health value of {0} received for {1} with ID {2}",
-                health, GetType().Name, GetInstanceID()
-            );    
+            currentBaseHp = 1;        
         }
-        currentHealth = Math.Min(baseHealth, health);
+
+        currentBaseHp = newBaseHp;
+    }
+
+    
+    // Health setters
+    public void ResetHealth()
+    {
+        currentHp = currentBaseHp;
     }
 
     
@@ -87,7 +98,7 @@ public class Damageable : MonoBehaviour
         return _immunitySources.Count > 0;
     } 
 
-    IEnumerator OnHitImmunity(GameObject damager)
+    IEnumerator OnHitImmunity(object damager)
     {
         AddImmunity(damager);
         
@@ -132,16 +143,16 @@ public class Damageable : MonoBehaviour
 
 
     // Main TakeDamage (calle from Damager scripts)
-    public void TakeDamage(GameObject damagerObject, int damage) 
+    public void TakeDamage(object damagerObject, int damage) 
     {
         if (!IsImmune())
         {
-            currentHealth -= damage;
+            currentHp -= damage;
             onHit.Invoke(damagerObject, this);
 
             FindObjectOfType<GameplayUI>().UpdateHearts();
 
-            if (currentHealth <= 0)
+            if (currentHp <= 0)
             {
                 Death();
             }
@@ -154,7 +165,7 @@ public class Damageable : MonoBehaviour
 
     public void Heal(int value)
     {
-        currentHealth = Math.Min(baseHealth, currentHealth + value);
+        currentHp = Math.Min(baseHp, currentHp + value);
         onHeal.Invoke(value, this);
 
         FindObjectOfType<GameplayUI>().UpdateHearts();

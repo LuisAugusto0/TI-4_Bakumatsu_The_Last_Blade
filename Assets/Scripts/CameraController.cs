@@ -29,8 +29,6 @@ public class CameraController : SceneSingleton<CameraController>
     void Start()
     {
         player = AbstractPlayerBehaviourHandler.ActivePlayer;
-        Debug.Log(player.gameObject ? "transform" : "nopt transofrm");
-        Debug.Log(player ? "player exits" : "palyer not exists");
         playerTransform = player.gameObject.transform;
     }
 

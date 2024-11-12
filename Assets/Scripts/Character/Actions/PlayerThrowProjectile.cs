@@ -27,6 +27,7 @@ public class PlayerThrowProjectile : IAction
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
         Instantiate(prefab, spawnPos.position, rotation);
+        
 
         fired.Invoke(this);
         finished.Invoke();

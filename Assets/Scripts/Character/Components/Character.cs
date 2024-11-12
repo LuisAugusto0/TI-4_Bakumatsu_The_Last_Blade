@@ -17,15 +17,13 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))] 
 
 
+
 // Other non-required but generally used components:
 
 /// - Damageable: Allows character to take damage, and send signals on hit or on death
 
 /// - Any State Manager script: Signals when to move to CharacterMovement, Action Locks and when
 /// to execute any other behaviour
-
-/// - Other extensible behaviours such as CooldownAction<T> and DamageableEffects 
-/// (usually without any Update() routines)
 
 public class Character : MonoBehaviour
 {

@@ -51,22 +51,21 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     [NonSerialized]
     public Animator animator;
 
-    DirectionalMovement movement;
-
-    AnimatorGetFacingDirection.Direction facingDirection = AnimatorGetFacingDirection.Direction.Forward;
-    public AnimatorGetFacingDirection.Direction FacingDirection {get{return facingDirection;}}
+    [NonSerialized]
+    public DirectionalMovement movement;
 
     [SerializeField]
     PlayerState states = PlayerState.Default;
 
     public CooldownAction dodgeAction;   
-
     public CooldownAction attackAction;   
-
     public CooldownAction skillAction;
 
 
     public OnDeathEnd onDeathEnd;
+
+    [NonSerialized]
+    public bool canDodgeCancel = false;
 
 
     protected override void Awake()
@@ -74,8 +73,6 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
         base.Awake();
 
         animator = GetComponent<Animator>();
-        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx;});
-
         movement = GetComponent<DirectionalMovement>();
 
         dodgeAction.SetEndedCallback(ExitStateLock);
@@ -94,9 +91,18 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     {
         if (!character.IsActionLocked)
         {
+            states = PlayerState.DodgeLock;
             dodgeAction.Attempt();
         }
-        
+        else if (states == PlayerState.AttackLock)
+        {
+            if (attackAction.action.AttemptCancelAction())
+            {
+                states = PlayerState.DodgeLock;
+                dodgeAction.Attempt();
+            }
+
+        } 
     }
 
 
@@ -106,6 +112,7 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     {
         if (!character.IsActionLocked)
         {
+            states = PlayerState.AttackLock;
             attackAction.Attempt();
         }
         
@@ -117,6 +124,7 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     {
         if (!character.IsActionLocked)
         {
+            states = PlayerState.SkillLock;
             skillAction.Attempt();
         }
         
@@ -130,6 +138,7 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
             animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(_moveInputVector.x));
             animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(_moveInputVector.y));
             UpdateIdle();
+            movement.UpdateFacingDirection();
         }
     }
 
