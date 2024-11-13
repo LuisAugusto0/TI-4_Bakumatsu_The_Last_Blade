@@ -20,7 +20,7 @@ public class UpgradeGiver : MonoBehaviour
         }
     }
 
-    public static void GiveUpgrade<T>(BaseUpgradeManager target, int quantity = 1) 
+    public static void GiveUpgrade<T>(UpgradeManager target, int quantity = 1) 
         where T : Upgrade
     {
         if (target != null)
@@ -29,31 +29,31 @@ public class UpgradeGiver : MonoBehaviour
         }
     }
  
-    public static void GiveUpgradeFromEnum(UpgradesName name, BaseUpgradeManager target, 
+    public static void GiveUpgradeFromEnum(UpgradesName name, UpgradeManager target, 
         int quantity = 1)
     {
         switch(name)
         {            
-            case UpgradesName.SpeedBoost:
-                GiveUpgrade<SpeedBoost>(target, quantity);
+            case UpgradesName.SpeedBonus:
+                GiveUpgrade<SpeedBonusUpgrade>(target, quantity);
                 break;
-            case UpgradesName.SpeedBoostAfterHit:
-                GiveUpgrade<SpeedBoostAfterHit>(target, quantity);
+            case UpgradesName.SpeedBonusAfterHit:
+                GiveUpgrade<SpeedBonusAfterHitUpgrade>(target, quantity);
                 break;
             case UpgradesName.DoubleSpeed:
-                GiveUpgrade<DoubleSpeed>(target, quantity);
+                GiveUpgrade<DoubleSpeedUpgrade>(target, quantity);
                 break;
-            case UpgradesName.DamageBoost:
-                GiveUpgrade<DamageBoost>(target, quantity);
+            case UpgradesName.ImmunityAfterHit:
+                GiveUpgrade<ImmunityAfterHitUpgrade>(target, quantity);
                 break;
             case UpgradesName.DamageBoostAfterHit:
-                GiveUpgrade<DamageBoostAfterHit>(target, quantity);
+                GiveUpgrade<DamageBonusUpgrade>(target, quantity);
                 break;
             case UpgradesName.DoubleDamage:
-                GiveUpgrade<DoubleDamage>(target, quantity);
+                GiveUpgrade<DoubleDamageUpgrade>(target, quantity);
                 break;
-            case UpgradesName.HealthBoost:
-                GiveUpgrade<HealthBoost>(target, quantity);
+            case UpgradesName.SingleHealthBoost:
+                GiveUpgrade<SingleHealthBonusUpgrade>(target, quantity);
                 break;
             default:
                 Debug.LogWarning("Invalid effect give attempt");
@@ -64,28 +64,19 @@ public class UpgradeGiver : MonoBehaviour
     }
 
 
-    public static void GiveDamageBoost(BaseUpgradeManager target, int quantity = 1)
-    {
-        GiveUpgrade<DamageBoost>(target, quantity);
-    }  
-
-    public static void Give(BaseUpgradeManager target, int quantity = 1)
-    {
-        GiveUpgrade<DamageBoost>(target, quantity);
-    }  
 
 
 
     // Instance methods
 
-    public void GiveSelectedUpgrade(BaseUpgradeManager target)
+    public void GiveSelectedUpgrade(UpgradeManager target)
     {
         GiveUpgradeFromEnum(selectedUpgrade, target, upgradeQuantity);
     }
 
     public void GiveSelectedUpgradeFromGameObject(GameObject target)
     {
-        BaseUpgradeManager manager = target.GetComponent<BaseUpgradeManager>();
+        UpgradeManager manager = target.GetComponent<UpgradeManager>();
         
         if (manager != null) 
         {
@@ -101,12 +92,12 @@ public class UpgradeGiver : MonoBehaviour
 
 public enum UpgradesName
 {
-    SpeedBoost,
-    SpeedBoostAfterHit,
+    SpeedBonus,
+    SpeedBonusAfterHit,
     DoubleSpeed,
-    DamageBoost,
+    ImmunityAfterHit,
     DamageBoostAfterHit,
     DoubleDamage,
-    HealthBoost,
+    SingleHealthBoost,
     None,   
 }

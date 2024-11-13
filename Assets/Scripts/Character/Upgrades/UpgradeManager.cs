@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Damageable))]
-[RequireComponent(typeof(Character))]
-[RequireComponent(typeof(EntityMovement))]
-[RequireComponent(typeof(CharacterDamage))]
+[RequireComponent(typeof(EffectReceiver))]
 
-public class BaseUpgradeManager : MonoBehaviour
+public class UpgradeManager : MonoBehaviour
 {
     [Serializable]
     public class UpgradeUpdatedEvent : UnityEvent<Upgrade> {}
 
-    // Components that upgrade can request changes
-    [NonSerialized] public Character character;
-    [NonSerialized] public EntityMovement entityMovement;
-    [NonSerialized] public Damageable damageable;
-    [NonSerialized] public CharacterDamage characterDamage;
+
+    [NonSerialized] public EffectReceiver effectReceiver;
 
     // Dictionary containing each active upgrade
     // Ensures only one instance of each type of upgrade exists
@@ -28,10 +22,7 @@ public class BaseUpgradeManager : MonoBehaviour
 
     void Awake()
     {
-        character = GetComponent<Character>();
-        entityMovement = GetComponent<EntityMovement>();
-        damageable = GetComponent<Damageable>();
-        characterDamage = GetComponent<CharacterDamage>();
+        effectReceiver = GetComponent<EffectReceiver>();
         upgrades = new();
     }
 
@@ -64,7 +55,7 @@ public class BaseUpgradeManager : MonoBehaviour
         }
         else
         {
-            upgrades[upgradeType].AddToEffect(quantity);
+            upgrades[upgradeType].AddToQuantity(quantity);
         }
 
         onUpgradeUpdated.Invoke(upgrades[upgradeType]);
@@ -85,7 +76,7 @@ public class BaseUpgradeManager : MonoBehaviour
         if (upgrades.ContainsKey(upgradeType))
         {
             Upgrade instance = upgrades[upgradeType];
-            instance.AddToEffect(-quantity);
+            instance.AddToQuantity(-quantity);
             onUpgradeUpdated.Invoke(instance);
             return true;
         }

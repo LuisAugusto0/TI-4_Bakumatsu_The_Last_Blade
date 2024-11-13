@@ -18,7 +18,7 @@ public class DirectionalMovement : EntityMovement
         base.Awake();
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
-        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx; Debug.Log(facingDirection);});
+        AnimatorGetFacingDirection.AssignDelegatesToAnimator(animator, (ctx) => {facingDirection = ctx;});
     }
 
     
