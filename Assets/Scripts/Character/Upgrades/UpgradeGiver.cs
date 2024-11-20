@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+using Upgrades.Implementations.EventUpgrade;
+using Upgrades.Implementations.PermanentUpgrade;
+
 public class UpgradeGiver : MonoBehaviour
 {
-    public UpgradesName selectedUpgrade;
+    public UpgradesNameTable selectedUpgrade;
     public int upgradeQuantity = 1;
 
     // Static definitions
@@ -29,31 +32,31 @@ public class UpgradeGiver : MonoBehaviour
         }
     }
  
-    public static void GiveUpgradeFromEnum(UpgradesName name, UpgradeManager target, 
+    public static void GiveUpgradeFromEnum(UpgradesNameTable name, UpgradeManager target, 
         int quantity = 1)
     {
         switch(name)
         {            
-            case UpgradesName.SpeedBonus:
+            case UpgradesNameTable.SpeedBonusUpgrade:
                 GiveUpgrade<SpeedBonusUpgrade>(target, quantity);
                 break;
-            case UpgradesName.SpeedBonusAfterHit:
-                GiveUpgrade<SpeedBonusAfterHitUpgrade>(target, quantity);
+            case UpgradesNameTable.DamageBonusStatBoost:
+                GiveUpgrade<DamageBonusStatBoost>(target, quantity);
                 break;
-            case UpgradesName.DoubleSpeed:
-                GiveUpgrade<DoubleSpeedUpgrade>(target, quantity);
+            case UpgradesNameTable.DamageMultiplierStatBonus:
+                GiveUpgrade<DamageMultiplierStatBonus>(target, quantity);
                 break;
-            case UpgradesName.ImmunityAfterHit:
+            case UpgradesNameTable.BaseHealthBonusUpgrade:
+                GiveUpgrade<BaseHealthBonusUpgrade>(target, quantity);
+                break;
+            case UpgradesNameTable.ImmunityAfterHitUpgrade:
                 GiveUpgrade<ImmunityAfterHitUpgrade>(target, quantity);
                 break;
-            case UpgradesName.DamageBoostAfterHit:
-                GiveUpgrade<DamageBonusUpgrade>(target, quantity);
+            case UpgradesNameTable.SpeedBoostAfterHitUpgrade:
+                GiveUpgrade<SpeedBoostAfterHitUpgrade>(target, quantity);
                 break;
-            case UpgradesName.DoubleDamage:
-                GiveUpgrade<DoubleDamageUpgrade>(target, quantity);
-                break;
-            case UpgradesName.SingleHealthBoost:
-                GiveUpgrade<SingleHealthBonusUpgrade>(target, quantity);
+            case UpgradesNameTable.BaseDamageBonusAfterHit:
+                GiveUpgrade<BaseDamageBonusAfterHit>(target, quantity);
                 break;
             default:
                 Debug.LogWarning("Invalid effect give attempt");
@@ -90,14 +93,16 @@ public class UpgradeGiver : MonoBehaviour
     }
 }
 
-public enum UpgradesName
+public enum UpgradesNameTable
 {
-    SpeedBonus,
-    SpeedBonusAfterHit,
-    DoubleSpeed,
-    ImmunityAfterHit,
-    DamageBoostAfterHit,
-    DoubleDamage,
-    SingleHealthBoost,
-    None,   
+    SpeedBonusUpgrade,
+    DamageBonusStatBoost,
+    DamageMultiplierStatBonus,
+    BaseHealthBonusUpgrade,
+
+    ImmunityAfterHitUpgrade,
+    SpeedBoostAfterHitUpgrade,
+    BaseDamageBonusAfterHit,  
 }
+
+

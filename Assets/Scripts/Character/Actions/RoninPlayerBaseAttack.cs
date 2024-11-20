@@ -114,7 +114,6 @@ public class RoninBaseAttack : IAction
     
     void End()
     {
-        Debug.Log(" HERE ");
         character.EndActionLock(this);
         player.actionAnimationEvent = null;
 

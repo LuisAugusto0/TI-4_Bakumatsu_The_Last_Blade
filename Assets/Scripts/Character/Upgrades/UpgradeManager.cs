@@ -5,6 +5,12 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(EffectReceiver))]
 
+// Hold references held in EffectReceive for less redirections
+[RequireComponent(typeof(Damageable))]
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(EntityMovement))]
+[RequireComponent(typeof(CharacterDamage))]
+
 public class UpgradeManager : MonoBehaviour
 {
     [Serializable]
@@ -12,16 +18,25 @@ public class UpgradeManager : MonoBehaviour
 
 
     [NonSerialized] public EffectReceiver effectReceiver;
+    [NonSerialized] public Character character;
+    [NonSerialized] public EntityMovement entityMovement;
+    [NonSerialized] public Damageable damageable;
+    [NonSerialized] public CharacterDamage characterDamage;
 
     // Dictionary containing each active upgrade
     // Ensures only one instance of each type of upgrade exists
-    [NonSerialized] public Dictionary<Type, Upgrade> upgrades;
+    public Dictionary<Type, Upgrade> upgrades;
 
     // Invokers
     public UpgradeUpdatedEvent onUpgradeUpdated; 
 
     void Awake()
     {
+        character = GetComponent<Character>();
+        entityMovement = GetComponent<EntityMovement>();
+        damageable = GetComponent<Damageable>();
+        characterDamage = GetComponent<CharacterDamage>();
+
         effectReceiver = GetComponent<EffectReceiver>();
         upgrades = new();
     }

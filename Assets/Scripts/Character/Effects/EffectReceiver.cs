@@ -8,12 +8,17 @@ using UnityEngine;
 [RequireComponent(typeof(EntityMovement))]
 [RequireComponent(typeof(CharacterDamage))]
 public class EffectReceiver : MonoBehaviour
-{    // Components that upgrade can request changes
+{    
+    
+    // Components that upgrade can request changes
     [NonSerialized] public Character character;
     [NonSerialized] public EntityMovement entityMovement;
     [NonSerialized] public Damageable damageable;
     [NonSerialized] public CharacterDamage characterDamage;
 
+    readonly HashSet<IChargeStatusEffect> chargeStatusEffects = new();
+    readonly HashSet<ITimedStatusEffect> timedStatusEffects = new();
+    
     void Awake()
     {
         character = GetComponent<Character>();
@@ -21,4 +26,13 @@ public class EffectReceiver : MonoBehaviour
         damageable = GetComponent<Damageable>();
         characterDamage = GetComponent<CharacterDamage>();
     }
+
+    // Displayed as total time remaning
+    public bool AddTimedStatusEffect(ITimedStatusEffect effect) => timedStatusEffects.Add(effect);
+    public bool AddChargeStatusEffect(IChargeStatusEffect effect) => chargeStatusEffects.Add(effect);
+
+    public bool RemoveTimedStatusEffect(ITimedStatusEffect effect) => timedStatusEffects.Remove(effect);
+    public bool RemoveChargeStatusEffect(IChargeStatusEffect effect) => chargeStatusEffects.Remove(effect);
+
+
 }
