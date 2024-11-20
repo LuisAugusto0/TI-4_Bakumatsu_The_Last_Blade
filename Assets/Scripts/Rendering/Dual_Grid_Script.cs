@@ -30,6 +30,9 @@ public class Dual_Grid_Script : MonoBehaviour {
     // Provide the 16 tiles in the inspector
     public Tile[] tiles;
 
+    public int mapWidth;
+    public int mapHeigth;
+
     void Start() {
         // This dictionary stores the "rules", each 4-neighbour configuration corresponds to a tile
         // |_1_|_2_|
@@ -111,8 +114,8 @@ public class Dual_Grid_Script : MonoBehaviour {
 
         
         //Atualizar 50 pixel acima e 50 abaixo da câmeta quando refresh display for chamado
-        for (int i = -50; i < 50; i++) {
-            for (int j = -10; j < 10; j++) {
+        for (int i = -mapWidth; i < mapWidth; i++) {
+            for (int j = -mapHeigth; j < mapHeigth; j++) {
                 setDisplayTile(new Vector3Int(i, j, 0));
             }
         }

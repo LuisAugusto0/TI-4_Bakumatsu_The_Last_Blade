@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -83,6 +85,8 @@ public class PathFindingAlgorithm : MonoBehaviour
     {
         Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(transform.position);
         Vector2 targetPosition = tilemapToMatrix.WalkableMatrixToMatrix(targetPos);
+        targetPosition = new Vector2(targetPosition.x, targetPosition.y);
+        targetPosition = findClosestWalkable(targetPosition);
         Vector2[] newPath = CalculatePath(enemyPosition, targetPosition);
 
         // Check if a valid new path is found
@@ -104,6 +108,57 @@ public class PathFindingAlgorithm : MonoBehaviour
         
     }
 
+    //bredth find algorithm to find the closest walkable tile. This fix the infinite loop if the player body 
+    //is located in a non-walkable place
+    Vector2 findClosestWalkable(Vector2 actualPosition)
+    {
+        // Queue for BFS
+        Queue<Vector2> positions = new Queue<Vector2>();
+        positions.Enqueue(actualPosition);
+        // Set to track visited nodes
+        HashSet<Vector2> visited = new HashSet<Vector2>();
+
+        while (positions.Count > 0)
+        {
+            Vector2 current = positions.Dequeue();
+
+            // If the current position is walkable, return it
+            if (IsWalkable(current))
+            {
+                return current;
+            }
+
+            // Mark the current position as visited
+            if (!visited.Contains(current))
+            {
+                visited.Add(current);
+
+                // Add adjacent positions to the queue
+                foreach (Vector2 adjacent in GetAdjacentPositions(current))
+                {
+                    if (!visited.Contains(adjacent))
+                    {
+                        positions.Enqueue(adjacent);
+                    }
+                }
+            }
+        }
+
+        // If no walkable position is found, return a default value (or handle appropriately)
+        throw new Exception("No walkable position found.");
+    }
+
+    // Helper method to get adjacent positions in 4 directions (up, down, left, right)
+    IEnumerable<Vector2> GetAdjacentPositions(Vector2 position)
+    {
+        return new List<Vector2>
+        {
+            new Vector2(position.x, position.y - 1),   // Down
+            new Vector2(position.x + 1, position.y),  // Right
+            new Vector2(position.x - 1, position.y),  // Left
+            new Vector2(position.x, position.y + 1)  // Up            
+        };
+    }
 
     Vector2[] CalculatePath(Vector2 start, Vector2 goal)
     {
@@ -133,7 +188,7 @@ public class PathFindingAlgorithm : MonoBehaviour
             {
                 for (int dy = -1; dy <= 1; dy++)
                 {
-                    //if (Mathf.Abs(dx) == Mathf.Abs(dy)) continue; // Skip diagonal movements
+                    // if (Mathf.Abs(dx) == Mathf.Abs(dy)) continue; // Skip diagonal movements
 
                     Vector2 neighbor = current + new Vector2(dx, dy);
 
