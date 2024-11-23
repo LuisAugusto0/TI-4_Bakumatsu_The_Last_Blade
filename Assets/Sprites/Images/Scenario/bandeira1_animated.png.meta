@@ -1458,7 +1458,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: a40477a1d08d4fa49a5de627345abf4f, type: 3}
+      name: _NormalMap
     nameFileIdTable:
       bandeira1_animated_0: -1658807527
       bandeira1_animated_1: -996201100

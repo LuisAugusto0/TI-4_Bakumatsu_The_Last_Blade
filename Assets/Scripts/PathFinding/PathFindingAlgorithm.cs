@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 [RequireComponent(typeof(LineRenderer))]
 
@@ -188,6 +189,13 @@ public class PathFindingAlgorithm : MonoBehaviour
             {
                 for (int dy = -1; dy <= 1; dy++)
                 {
+                     // Skip diagonal movements if the corresponding non-diagonal paths are non-walkable
+                    // if (Mathf.Abs(dx) == Mathf.Abs(dy)) // Check for diagonal movement
+                    // {
+                    //     if (!IsWalkable(current + new Vector2(dx, 0)) || !IsWalkable(current + new Vector2(0, dy)))
+                    //         continue;
+                    // }
+
                     // if (Mathf.Abs(dx) == Mathf.Abs(dy)) continue; // Skip diagonal movements
 
                     Vector2 neighbor = current + new Vector2(dx, dy);

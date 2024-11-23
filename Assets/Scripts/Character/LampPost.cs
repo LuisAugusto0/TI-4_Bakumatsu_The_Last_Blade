@@ -7,7 +7,7 @@ public class InterectableObjects : MonoBehaviour
     public GameObject breakableObject;
     public GameObject breakedObject;
     public GameObject fire;
-    public GameObject player;
+
 
 
     // Start is called before the first frame update
