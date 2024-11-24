@@ -16,6 +16,8 @@ using UnityEngine;
 // Main character sprite required
 [RequireComponent(typeof(SpriteRenderer))] 
 
+[RequireComponent(typeof(CharacterDamage))]
+
 
 
 // Other non-required but generally used components:
@@ -49,19 +51,15 @@ public class Character : MonoBehaviour
 
 
     
-    public Damageable damageable;
-
-    [NonSerialized]
-    public Rigidbody2D rb;
-
-
+    [NonSerialized] public Damageable damageable;
+    [NonSerialized] public SpriteRenderer mainSpriteRenderer;
+    [NonSerialized] public Rigidbody2D rb;
+    [NonSerialized] public EntityMovement entityMovement;
+    [NonSerialized] public CharacterDamage damage;
 
     public List<SpriteRenderer> subSpriteRenderers;
 
-    [NonSerialized]
-    public SpriteRenderer mainSpriteRenderer;
-
-
+   
   
     // Handle collider flipping
     public List<Collider2D> colliders;
@@ -72,9 +70,11 @@ public class Character : MonoBehaviour
 
     void Awake() 
     {
+        damage = GetComponent<CharacterDamage>();
         damageable = GetComponent<Damageable>();
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        entityMovement = GetComponent<EntityMovement>();
 
         // Collider facing values
         collidersOriginalOffset = new(colliders.Count);

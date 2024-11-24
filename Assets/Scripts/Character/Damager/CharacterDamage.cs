@@ -34,11 +34,30 @@ public class CharacterDamage : MonoBehaviour
         UpdateCurrentDamage();
     }
 
+    
     public void AddDamageMultiplier(float value)
     {
-        damageMultiplier += value;
+        damageMultiplier *= value;
         UpdateCurrentDamage();
     }
+
+    public void AddDamageMultiplierAndNotUpdate(float value)
+    {
+        damageMultiplier *= value;
+    }
+
+
+    public void RemoveDamageMultiplier(float value)
+    {
+        damageMultiplier /= value;
+        UpdateCurrentDamage();    
+    }
+
+    public void RemoveDamageMultiplierAndNotUpdate(float value)
+    {
+        damageMultiplier /= value;
+    }
+
 
 
     void UpdateCurrentDamage()
@@ -49,19 +68,18 @@ public class CharacterDamage : MonoBehaviour
         {
             currentDamage = 0;
         }
-        else if (damageMultiplier > 0)
-        {
-            currentDamage = Mathf.RoundToInt(totalDamageValue * damageMultiplier);
-        }
         else
         {
-            // From 0, -1, onwards we have 1/2, 1/4
-            double multiplier = Math.Pow(2, damageMultiplier - 1);
             currentDamage = Mathf.RoundToInt(totalDamageValue * damageMultiplier);
         }
 
         onDamageChange.Invoke(currentDamage);
         
+    }
+
+    void Start()
+    {
+        UpdateCurrentDamage();
     }
 
 }

@@ -84,22 +84,22 @@ namespace Effects.Implementations.PersistantEffect
         {
             if (inEffect == false)
             {
-                target.entityMovement.AddToSpeedMultiplier(speedMultiplier);
+                target.entityMovement.AddSpeedMultiplier(speedMultiplier);
                 inEffect = true;
             }
         }
 
         public void End() 
         {
-            target.entityMovement.AddToSpeedMultiplier(-speedMultiplier);
+            target.entityMovement.RemoveSpeedMultiplier(speedMultiplier);
             inEffect = false;
         }
 
         public void Update(float newSpeedMultiplier) 
         {
-            float diff = newSpeedMultiplier - speedMultiplier;
-            target.entityMovement.AddToSpeedMultiplier(diff);
-            this.speedMultiplier += diff;
+            target.entityMovement.RemoveSpeedMultiplierAndNotUpdate(speedMultiplier);
+            this.speedMultiplier = newSpeedMultiplier;
+            target.entityMovement.AddSpeedMultiplier(speedMultiplier);
         }
     }
 
@@ -141,7 +141,10 @@ namespace Effects.Implementations.PersistantEffect
     public class DamageMultiplierEffect : BaseEffect, IPersistantEffect {
         float damageMultiplier;
         public DamageMultiplierEffect(EffectReceiver target, float damageMultiplier) 
-        : base(target) { }
+        : base(target) 
+        {
+            this.damageMultiplier = damageMultiplier;
+        }
 
         bool inEffect = false;
 
@@ -159,15 +162,15 @@ namespace Effects.Implementations.PersistantEffect
 
         public void End()
         {
-            target.characterDamage.AddDamageMultiplier(-damageMultiplier);
+            target.characterDamage.RemoveDamageMultiplier(damageMultiplier);
             inEffect = false;
         }
 
         public void Update(float newDamageMultiplier) 
         {
-            float diff = newDamageMultiplier - damageMultiplier;
-            target.characterDamage.AddDamageMultiplier(diff);
-            this.damageMultiplier += diff;
+            target.characterDamage.RemoveDamageMultiplierAndNotUpdate(damageMultiplier);
+            this.damageMultiplier = newDamageMultiplier;
+            target.characterDamage.AddDamageMultiplier(damageMultiplier);
         }
     } 
 

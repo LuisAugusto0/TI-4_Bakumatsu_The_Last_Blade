@@ -57,10 +57,14 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     [SerializeField]
     PlayerState states = PlayerState.Default;
 
-    public CooldownAction dodgeAction;   
-    public CooldownAction attackAction;   
-    public CooldownAction skillAction;
+    public RoninPlayerActionManager dodgeAction;
+    public RoninPlayerActionManager attackAction; 
+    public RoninPlayerActionManager skillAction;
 
+    public void OnAttackEnd()
+    {
+
+    }
 
     public OnDeathEnd onDeathEnd;
 
@@ -68,16 +72,37 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
     public bool canDodgeCancel = false;
 
 
+    public GameObject dodgeRollPrefab;
+    public GameObject attackPrefab;
+    public GameObject skillPrefab;
+
     protected override void Awake()
     {
         base.Awake();
 
+        
+
         animator = GetComponent<Animator>();
         movement = GetComponent<DirectionalMovement>();
+    }
 
-        dodgeAction.SetEndedCallback(ExitStateLock);
-        attackAction.SetEndedCallback(ExitStateLock);
-        skillAction.SetEndedCallback(ExitStateLock);
+    protected override void Start()
+    {
+        base.Start();
+        dodgeAction = new RoninPlayerActionManager(
+            this, character, gameObject.transform, OnAttackEnd
+        );   
+        dodgeAction.SetRoninPlayerCancellableAction(dodgeRollPrefab);
+
+        attackAction = new RoninPlayerActionManager(
+            this, character, gameObject.transform, OnAttackEnd
+        );   
+        attackAction.SetRoninPlayerCancellableAction(attackPrefab);
+
+        skillAction = new RoninPlayerActionManager(
+            this, character, gameObject.transform, OnAttackEnd
+        );   
+        skillAction.SetPlayerAction(skillPrefab);
     }
 
     void ExitStateLock()
@@ -87,19 +112,21 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
 
 
 
+
+
     public override void OnDodgeInputCancelled(InputAction.CallbackContext context) 
     {
         if (!character.IsActionLocked)
         {
             states = PlayerState.DodgeLock;
-            dodgeAction.Attempt();
+            dodgeAction.ManagedAction.Attempt();
         }
         else if (states == PlayerState.AttackLock)
         {
-            if (attackAction.action.AttemptCancelAction())
+            if (attackAction.ManagedAction.AttemptCancel())
             {
                 states = PlayerState.DodgeLock;
-                dodgeAction.Attempt();
+                dodgeAction.ManagedAction.Attempt();
             }
 
         } 
@@ -113,7 +140,7 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
         if (!character.IsActionLocked)
         {
             states = PlayerState.AttackLock;
-            attackAction.Attempt();
+            attackAction.ManagedAction.Attempt();
         }
         
     }
@@ -125,7 +152,7 @@ public class RoninPlayerBehaviourHandler : AbstractPlayerBehaviourHandler
         if (!character.IsActionLocked)
         {
             states = PlayerState.SkillLock;
-            skillAction.Attempt();
+            skillAction.ManagedAction.Attempt();
         }
         
     }

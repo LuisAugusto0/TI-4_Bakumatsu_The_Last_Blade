@@ -6,6 +6,10 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Character))] 
+
+// Defines player as entity that must contain facing directions
+[RequireComponent(typeof(DirectionalMovement))]
+
 public abstract class AbstractPlayerBehaviourHandler : MonoBehaviour
 {
     // Static management Player
@@ -21,22 +25,23 @@ public abstract class AbstractPlayerBehaviourHandler : MonoBehaviour
     protected Vector2 _lastFacingDirection;
     public Vector2 LastPointDirection {get {return _lastFacingDirection;}}
 
-    [NonSerialized]
-    public Camera mainCamera;
-
-    [NonSerialized]
-    public Character character;
-
+    [SerializeField] Camera mainCamera;
+    [NonSerialized] public Character character;
+    [NonSerialized] public DirectionalMovement directionalMovement;
 
     protected virtual void Awake()
     {
         s_ActivePlayer = this;
         character = GetComponent<Character>();
+        directionalMovement = GetComponent<DirectionalMovement>();
     }
 
     protected virtual void Start()
     {
         mainCamera = CameraController.Instance.MainCamera;
+        if (CameraController.Instance == null) Debug.LogWarning("NOTNONONON");
+        if (mainCamera == null) Debug.LogWarning( "HERE!");
+        else Debug.LogWarning("MAHOYY");
     }
 
     public virtual void OnMoveInput(InputAction.CallbackContext context)

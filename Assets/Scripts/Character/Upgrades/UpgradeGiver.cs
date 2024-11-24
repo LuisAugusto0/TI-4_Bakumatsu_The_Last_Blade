@@ -40,6 +40,9 @@ public class UpgradeGiver : MonoBehaviour
             case UpgradesNameTable.SpeedBonusUpgrade:
                 GiveUpgrade<SpeedBonusUpgrade>(target, quantity);
                 break;
+            case UpgradesNameTable.DoubleSpeedUpgrade:
+                GiveUpgrade<DoubleSpeedUpgrade>(target, quantity);
+                break;
             case UpgradesNameTable.DamageBonusStatBoost:
                 GiveUpgrade<DamageBonusStatBoost>(target, quantity);
                 break;
@@ -96,6 +99,7 @@ public class UpgradeGiver : MonoBehaviour
 public enum UpgradesNameTable
 {
     SpeedBonusUpgrade,
+    DoubleSpeedUpgrade,
     DamageBonusStatBoost,
     DamageMultiplierStatBonus,
     BaseHealthBonusUpgrade,

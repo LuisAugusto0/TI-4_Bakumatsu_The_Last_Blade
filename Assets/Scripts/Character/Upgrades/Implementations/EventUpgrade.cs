@@ -30,7 +30,7 @@ namespace Upgrades.Implementations.EventUpgrade
         protected override void Update()
         {
             float newDuration = quantity * baseDuration;
-            effect.UpdateDuration(newDuration);
+            effect.RefreshUpdateDuration(newDuration);
         }
 
 
@@ -54,36 +54,36 @@ namespace Upgrades.Implementations.EventUpgrade
 
 
     /* Description:
-    *   Instantenous boost of 40% speed for (0.15 * quantity) seconds after kill
+    *   Instantenous boost of 100% speed for (1 * quantity) seconds after kill
     *
     * Growth type: Linear
     * Rarity: ? 
     */
-    public class SpeedBoostAfterHitUpgrade : BaseUpgradeAfterEvent<TimedPositiveSpeedBonusEffect>  
+    public class SpeedBoostAfterHitUpgrade : BaseUpgradeAfterEvent<TimedPositiveSpeedMultiplier>  
     {
-        const float BaseDuration = 2f;
-        const float BaseBonus = 2f;
-        const float SpeedUpgradeCoeficient = 0.5f;
+        const float BaseDuration = 1f;
+        const float BaseMultiplier = 2f;
 
         public SpeedBoostAfterHitUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) {}
 
-        protected override TimedPositiveSpeedBonusEffect GetEffect()
+        public float CalculateDuration() => BaseDuration * quantity;
+
+
+        protected override TimedPositiveSpeedMultiplier GetEffect()
         {
-            return new TimedPositiveSpeedBonusEffect(
-                new SpeedBonusEffect(target.effectReceiver, BaseBonus), 
-                BaseDuration * quantity,
+            return new TimedPositiveSpeedMultiplier(
+                new SpeedMultiplierEffect(target.effectReceiver, BaseMultiplier), 
+                CalculateDuration(),
                 null
             );
         }
 
+    
         protected override void Update()
         {
-            float newDuration = quantity * BaseDuration;
-            effect.UpdateDuration(newDuration);
-
-            float newSpeedBonus = quantity * SpeedUpgradeCoeficient * BaseBonus;
-            effect.effect.Update(newSpeedBonus);
+            float newDuration = CalculateDuration();
+            effect.RefreshUpdateDuration(newDuration);
         }
 
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Effects.Implementations.PersistantEffect;
 using System.Data;
+using Effects.Implementations.TimedEffect;
+using System;
 #nullable enable
 
 namespace Upgrades.Implementations.PermanentUpgrade
@@ -27,8 +29,27 @@ namespace Upgrades.Implementations.PermanentUpgrade
         {
             return new SpeedBonusEffect(target.effectReceiver, quantity * bonus);
         }
+    }
 
-        
+    public class DoubleSpeedUpgrade : BasePermanentUpgrade<SpeedMultiplierEffect> {
+        const float baseMultiplier = 1f;
+
+
+        public DoubleSpeedUpgrade(UpgradeManager target, int quantity)
+        : base(target, quantity) {}
+
+        // Linear growth of 100% speed per upgrade
+        protected override void Update()
+        {
+
+            float newMultiplier = quantity + baseMultiplier;
+            effect.Update(newMultiplier);
+        }
+
+        protected override SpeedMultiplierEffect GetEffect()
+        {
+            return new SpeedMultiplierEffect(target.effectReceiver, quantity * baseMultiplier);
+        }
     }
 
     public class DamageBonusStatBoost : BasePermanentUpgrade<DamageBonusEffect> {
@@ -68,6 +89,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
 
         protected override DamageMultiplierEffect GetEffect()
         {
+            Debug.Log("AAAA" +quantity);
             return new DamageMultiplierEffect(target.effectReceiver, quantity * baseMultiplier);
         }
     }

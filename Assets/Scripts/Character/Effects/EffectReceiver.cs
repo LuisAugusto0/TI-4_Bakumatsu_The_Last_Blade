@@ -34,5 +34,17 @@ public class EffectReceiver : MonoBehaviour
     public bool RemoveTimedStatusEffect(ITimedStatusEffect effect) => timedStatusEffects.Remove(effect);
     public bool RemoveChargeStatusEffect(IChargeStatusEffect effect) => chargeStatusEffects.Remove(effect);
 
+    void Update()
+    {
+        foreach (var effect in timedStatusEffects)
+        {
+            //Debug.Log(effect.GetType());
+        }
+
+        foreach (var effect in chargeStatusEffects)
+        {
+            //Debug.Log(effect.GetType());
+        }
+    }
 
 }

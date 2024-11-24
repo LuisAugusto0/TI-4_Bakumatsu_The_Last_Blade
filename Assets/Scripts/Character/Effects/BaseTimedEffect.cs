@@ -86,9 +86,10 @@ where TEffect : BaseEffect, IPersistantEffect {
     {
         UpdateRemaningTime(Mathf.Min(newTime, duration));
     }
-
+    
+    
     // Update current duration and refresh
-    public void UpdateDuration(float newDuration)
+    public void RefreshUpdateDuration(float newDuration)
     {
         UpdateRemaningTime(newDuration);
         this.duration = newDuration;

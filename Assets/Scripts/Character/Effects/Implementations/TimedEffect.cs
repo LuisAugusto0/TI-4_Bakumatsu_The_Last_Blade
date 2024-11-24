@@ -18,6 +18,14 @@ namespace Effects.Implementations.TimedEffect
         {
             throw new NotImplementedException();
         }
+
+        public void Update(float duration)
+        {
+            this.duration = duration;
+        }
+
+        public void RefreshUpdate(float duration) => Update(duration);
+        
     }
 
 
@@ -33,6 +41,18 @@ namespace Effects.Implementations.TimedEffect
         {
             throw new NotImplementedException();
         }
+
+        public void Update(float duration, int bonus)
+        {
+            this.duration = duration;
+            this.effect.Update(bonus);
+        }
+
+        public void RefreshUpdate(float duration, int bonus)
+        {
+            Update(duration, bonus);
+            UpdateRemaningTime(duration);
+        }
     }  
 
     public class TimedPositiveDamageBonusEffect : TimedEffect<DamageBonusEffect>
@@ -44,6 +64,18 @@ namespace Effects.Implementations.TimedEffect
         public override Sprite GetIcon()
         {
             throw new NotImplementedException();
+        }
+
+        public void Update(float duration, int bonus)
+        {
+            this.duration = duration;
+            this.effect.Update(bonus);
+        }
+
+        public void RefreshUpdate(float duration, int bonus)
+        {
+            Update(duration, bonus);
+            UpdateRemaningTime(duration);
         }
     }  
 
@@ -57,26 +89,45 @@ namespace Effects.Implementations.TimedEffect
         {
             throw new NotImplementedException();
         }
+
+        public void Update(float duration, int bonus)
+        {
+            this.duration = duration;
+            this.effect.Update(bonus);
+        }
+
+        public void RefreshUpdate(float duration, int bonus)
+        {
+            Update(duration, bonus);
+            UpdateRemaningTime(duration);
+        }
     }  
 
 
 
 
 
-    public class TimedDoubleSpeedEffect : TimedEffect<SpeedMultiplierEffect>
+    public class TimedPositiveSpeedMultiplier : TimedEffect<SpeedMultiplierEffect>
     {
-        public TimedDoubleSpeedEffect(EffectReceiver target, float duration, Action? onEffectEnd) 
-        : base(GetEffect(target), duration, onEffectEnd) 
+        public TimedPositiveSpeedMultiplier(SpeedMultiplierEffect effect, float duration, Action? onEffectEnd) 
+        : base(effect, duration, onEffectEnd) 
         {}
-
-        public static SpeedMultiplierEffect GetEffect(EffectReceiver target)
-        {
-            return new SpeedMultiplierEffect(target, 1f);
-        }
 
         public override Sprite GetIcon()
         {
             throw new NotImplementedException();
+        }
+
+        public void Update(float duration, float multiplier)
+        {
+            this.duration = duration;
+            this.effect.Update(multiplier);
+        }
+
+        public void RefreshUpdate(float duration, float multiplier)
+        {
+            Update(duration, multiplier);
+            UpdateRemaningTime(duration);
         }
     }  
 

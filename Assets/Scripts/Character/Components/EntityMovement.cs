@@ -49,11 +49,32 @@ public class EntityMovement : MonoBehaviour
         UpdateCurrentSpeed();
     }
 
-    public void AddToSpeedMultiplier(float value)
+
+
+    public void AddSpeedMultiplier(float value)
     {
-        speedMultiplier += value;
+        speedMultiplier *= value;
         UpdateCurrentSpeed();
     }
+
+    public void AddSpeedMultiplierAndNotUpdate(float value)
+    {
+        speedMultiplier *= value;
+    }
+
+
+    public void RemoveSpeedMultiplier(float value)
+    {
+        speedMultiplier /= value;
+        UpdateCurrentSpeed();    
+    }
+
+    public void RemoveSpeedMultiplierAndNotUpdate(float value)
+    {
+        speedMultiplier /= value;
+    }
+
+
 
 
     void UpdateCurrentSpeed()
@@ -61,18 +82,12 @@ public class EntityMovement : MonoBehaviour
         float totalSpeedValue = baseSpeed + speedBonus;
         if (totalSpeedValue <= 0)
         {
-            Debug.LogWarning("Unexpected Speed");
+            Debug.LogError("Unexpected Speed");
             currentSpeed = 0;
         }
-        else if (speedMultiplier > 0)
+        else 
         {
             currentSpeed = Mathf.RoundToInt(totalSpeedValue * speedMultiplier);
-        }
-        else
-        {
-            // From 0, -1, onwards we have 1/2, 1/4
-            double multiplier = Math.Pow(2, speedMultiplier - 1);
-            currentSpeed = (int)Math.Round(totalSpeedValue * multiplier);
         }
 
         onSpeedChange.Invoke(currentSpeed);

@@ -6,27 +6,22 @@ using UnityEngine;
 public class CharacterTriggerDamager : TriggerDamager
 {
     [Tooltip("Damage calculated based on character damage values and this multiplier")]
-    public float bonusDamageMultiplier = 1;
+    public float damagePorcentage = 1;
     
     // From parent
     public CharacterDamage characterDamage;
 
-    protected override void Awake()
+    // Cant find a better solution to allow updating from outside
+    public void UpdateCharacterDamage(CharacterDamage characterDamage)
     {
-        base.Awake();
         characterDamage.onDamageChange.AddListener(UpdateDamage);
-        
-    }
-   
-    protected override void Start()
-    {
-        base.Start();
         UpdateDamage(characterDamage.CurrentDamage);
     }
 
+
     void UpdateDamage(int characterDamage)
     {
-        damage = Mathf.RoundToInt(bonusDamageMultiplier * characterDamage);
+        damage = Mathf.RoundToInt(damagePorcentage * characterDamage);
     }
 
 }
