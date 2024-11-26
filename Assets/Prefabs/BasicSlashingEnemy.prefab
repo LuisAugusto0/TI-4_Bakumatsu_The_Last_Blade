@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 8507461201228074429}
   - component: {fileID: 1352788232137375781}
   - component: {fileID: -3428752278474741430}
+  - component: {fileID: 21411401110138837}
+  - component: {fileID: 199363605741173595}
   m_Layer: 7
   m_Name: BasicSlashingEnemy
   m_TagString: Enemy
@@ -63,7 +65,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 49717d4efe459a14588c49d66e032ec0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,7 +94,7 @@ SpriteRenderer:
   m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &9149805214977451969
@@ -201,8 +203,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onHitImmunityTime: 0.2
-  baseHealth: 5
-  currentHealth: 2
+  baseHp: 6
+  baseHpBonus: 0
+  currentBaseHp: 6
+  currentHp: 6
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -310,9 +314,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isActionLocked: 0
-  baseMoveSpeed: 2
-  moveSpeed: 2
   damageable: {fileID: 7007264390564678606}
+  subSpriteRenderers: []
   colliders:
   - {fileID: 9149805214977451969}
   - {fileID: 7982978148433594415}
@@ -346,13 +349,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9548d1dd89702fc41a242b3ff6249a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damager: {fileID: 4242044036769483260}
-  aiMovement: {fileID: 7466155722435722836}
-  character: {fileID: 1676213709742681762}
   slashDelayTime: 0.5
   slashCooldown: 0.75
   attackDistance: 1.5
   corpseDestroyDelay: 4
+  damagerForward: {fileID: 0}
+  damagerUp: {fileID: 0}
+  damagerDown: {fileID: 0}
   performed:
     m_PersistentCalls:
       m_Calls: []
@@ -484,10 +487,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e570d870e2dc79748b49a43e23ee9e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
   pathUpdateIntervalSeconds: 0.1
-  drawPath: 0
-  damageable: {fileID: 7007264390564678606}
+  displayPathLine: 1
+--- !u!114 &21411401110138837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757177240899665340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ae5349b057ab04abae54ccbc8b61ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 2
+  speedBonus: 0
+  speedMultiplier: 1
+  currentSpeed: 2
+  onSpeedChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &199363605741173595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757177240899665340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff9cc9fb9576ce4c9da8265cae11041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 2
+  speedBonus: 0
+  speedMultiplier: 1
+  currentSpeed: 2
+  onSpeedChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7828049399744223928
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,4 +627,3 @@ MonoBehaviour:
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
-  characterSpriteRenderer: {fileID: 3962300876699628697}

@@ -144,10 +144,14 @@ TextureImporter:
         width: 12
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: -6}
+        - {x: 1, y: -6}
+        - {x: 1, y: -1}
+        - {x: -1, y: -1}
       tessellationDetail: 0
       bones: []
       spriteID: acbc8a64c4e38634b88a93a6a835f8b4
@@ -165,10 +169,30 @@ TextureImporter:
         width: 12
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: 6}
+        - {x: -1, y: 4}
+        - {x: -6, y: 4}
+        - {x: -6, y: 3}
+        - {x: -1, y: 3}
+        - {x: -1, y: 0}
+        - {x: -6, y: 0}
+        - {x: -6, y: -1}
+        - {x: -1, y: -1}
+        - {x: -1, y: -6}
+        - {x: 1, y: -6}
+        - {x: 1, y: -1}
+        - {x: 6, y: -1}
+        - {x: 6, y: 0}
+        - {x: 1, y: 0}
+        - {x: 1, y: 3}
+        - {x: 6, y: 3}
+        - {x: 6, y: 4}
+        - {x: 1, y: 4}
+        - {x: 1, y: 6}
       tessellationDetail: 0
       bones: []
       spriteID: 5005f8dedd2ad9a4baee952923f05600
@@ -186,10 +210,30 @@ TextureImporter:
         width: 12
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: 6}
+        - {x: -1, y: 2}
+        - {x: -6, y: 2}
+        - {x: -6, y: 1}
+        - {x: -1, y: 1}
+        - {x: -1, y: -2}
+        - {x: -6, y: -2}
+        - {x: -6, y: -3}
+        - {x: -1, y: -3}
+        - {x: -1, y: -5}
+        - {x: 1, y: -5}
+        - {x: 1, y: -3}
+        - {x: 6, y: -3}
+        - {x: 6, y: -2}
+        - {x: 1, y: -2}
+        - {x: 1, y: 1}
+        - {x: 6, y: 1}
+        - {x: 6, y: 2}
+        - {x: 1, y: 2}
+        - {x: 1, y: 6}
       tessellationDetail: 0
       bones: []
       spriteID: 37bbfa7469f43c04a845b681506aeb50
@@ -207,7 +251,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 8c1948118127bf7458b81868a21d9215, type: 3}
+      name: _NormalMap
     nameFileIdTable:
       cerca1_0: 1525829139
       cerca1_1: -63393367
