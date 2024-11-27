@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 // Generic Player Behaviour Handler class to handle which actions to take
 // Contains abstract and fixed implementations for how to handle inputs
-[RequireComponent(typeof(AbstractPlayerBehaviourHandler))]
+[RequireComponent(typeof(BasePlayerBehaviour))]
 
 // Contains new "instance" of the Input Action
 // Ensures changes to the input are not hardcoded and local
@@ -19,7 +19,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerInput playerInput; 
-    private AbstractPlayerBehaviourHandler player;
+    private BasePlayerBehaviour player;
 
 
     // Input definitions
@@ -41,7 +41,7 @@ public class PlayerInputHandler : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        player = GetComponent<AbstractPlayerBehaviourHandler>();
+        player = GetComponent<BasePlayerBehaviour>();
 
 
         _playerMap = playerInput.actions.FindActionMap("Player");

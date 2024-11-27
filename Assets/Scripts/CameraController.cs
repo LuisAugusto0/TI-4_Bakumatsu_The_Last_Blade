@@ -13,7 +13,7 @@ public class CameraController : SceneSingleton<CameraController>
     [NonSerialized]
     Camera _mainCamera;
 
-    AbstractPlayerBehaviourHandler player;
+    BasePlayerBehaviour player;
     Transform playerTransform;
 
     public override void Awake()
@@ -28,7 +28,7 @@ public class CameraController : SceneSingleton<CameraController>
 
     void Start()
     {
-        player = AbstractPlayerBehaviourHandler.ActivePlayer;
+        player = BasePlayerBehaviour.ActivePlayer;
         playerTransform = player.gameObject.transform;
     }
 

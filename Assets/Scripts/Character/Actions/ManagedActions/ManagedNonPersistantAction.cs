@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManagedNonPersistantAction: BaseManagedAction<INonPersistantAction>
+public class ManagedNonPersistantAction: BaseManagedAction<NonPersistantAction>
 {
     [SerializeField]
     public readonly Character target;
 
-    public IBaseCharacterAction GetAction() => action;
+    public BaseCharacterAction GetAction() => action;
 
-    public ManagedNonPersistantAction(Character target, INonPersistantAction action)
+    public ManagedNonPersistantAction(Character target, NonPersistantAction action)
     : base(action)
     {
         this.target = target;

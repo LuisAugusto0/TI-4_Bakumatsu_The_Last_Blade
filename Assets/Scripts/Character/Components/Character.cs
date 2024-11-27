@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.Mathematics;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 
@@ -29,6 +31,8 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public event Action<bool> OnFlipX;
+
     // Actions Lock disables character movement / actions
     // They are used when taking damage, doing attack animations, etc
     // All actions can be force cancelled (for example when the character dies)
@@ -115,6 +119,8 @@ public class Character : MonoBehaviour
                 }
             }
         }
+
+        OnFlipX.Invoke(value);
     }
 
 

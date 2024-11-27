@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9092844212239552494}
   - component: {fileID: 1771292395714687154}
+  - component: {fileID: 1767411292455735461}
   m_Layer: 0
   m_Name: DodgeRoll
   m_TagString: Untagged
@@ -46,5 +47,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMultiplier: 1.2
   perfectDodgeWindow: 1
-  cooldown: 4
-  charges: 3
+--- !u!114 &1767411292455735461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3879633185922603421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 368c5bbaf6327bd44987c6ea950714ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  charges: 1

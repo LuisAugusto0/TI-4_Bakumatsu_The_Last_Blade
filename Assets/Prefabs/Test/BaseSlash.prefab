@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4355449793805110034}
-  - component: {fileID: 7101183268543232473}
   - component: {fileID: 3414824935212232202}
+  - component: {fileID: 3550706113277329114}
   m_Layer: 0
   m_Name: DownCollider
   m_TagString: Untagged
@@ -33,8 +33,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3218601766004236285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &7101183268543232473
-BoxCollider2D:
+--- !u!114 &3414824935212232202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2739323734431625757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b35d64cddc66a140812fff265f68bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 641
+  onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onNonDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  damagePorcentage: 1
+--- !u!60 &3550706113277329114
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -65,7 +88,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.009598136, y: -0.10233325}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -75,33 +98,15 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.42238683, y: 0.23714125}
-  m_EdgeRadius: 0
---- !u!114 &3414824935212232202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2739323734431625757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b35d64cddc66a140812fff265f68bfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  hittableLayers:
-    serializedVersion: 2
-    m_Bits: 641
-  onDamageableHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onNonDamageableHit:
-    m_PersistentCalls:
-      m_Calls: []
-  damagePorcentage: 1
-  characterDamage: {fileID: 0}
+  m_Points:
+    m_Paths:
+    - - {x: 0.0040489733, y: -0.00011000782}
+      - {x: -0.1250549, y: -0.059444517}
+      - {x: -0.13024506, y: -0.23405504}
+      - {x: 0.013975111, y: -0.2530148}
+      - {x: 0.17883354, y: -0.19761364}
+      - {x: 0.21818233, y: -0.07968953}
+  m_UseDelaunayMesh: 0
 --- !u!1 &6564469164125161563
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3218601766004236285}
   - component: {fileID: 5674605729729448715}
+  - component: {fileID: -3157121846425295844}
   m_Layer: 0
   m_Name: BaseSlash
   m_TagString: Untagged
@@ -127,7 +133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6564469164125161563}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -158,6 +164,18 @@ MonoBehaviour:
   collisionFrameStart:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3157121846425295844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564469164125161563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e355dbb9c3dc6cf40995b518bf1e273c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8219596618154010971
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,8 +185,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7017643678965743946}
-  - component: {fileID: 5302281843493604838}
   - component: {fileID: 577253000286785104}
+  - component: {fileID: 3122148082993139544}
   m_Layer: 0
   m_Name: UpCollider
   m_TagString: Untagged
@@ -191,51 +209,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3218601766004236285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5302281843493604838
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219596618154010971}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.020746164, y: 0.1037312}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.43042153, y: 0.27199587}
-  m_EdgeRadius: 0
 --- !u!114 &577253000286785104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +232,57 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   damagePorcentage: 1
-  characterDamage: {fileID: 0}
+--- !u!60 &3122148082993139544
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8219596618154010971}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.24415302, y: 0.1243701}
+      - {x: 0.16123043, y: 0.19722205}
+      - {x: -0.019346965, y: 0.24482535}
+      - {x: -0.19987087, y: 0.21088229}
+      - {x: -0.22137818, y: 0.1264819}
+      - {x: -0.005104134, y: -0.13913065}
+  m_UseDelaunayMesh: 0
 --- !u!1 &8755468885218431483
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,8 +292,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1726601409307754421}
-  - component: {fileID: 174506544098164921}
   - component: {fileID: 6653058706847330828}
+  - component: {fileID: 44664330117984029}
   m_Layer: 0
   m_Name: ForwardCollider
   m_TagString: Untagged
@@ -293,8 +316,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3218601766004236285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &174506544098164921
-BoxCollider2D:
+--- !u!114 &6653058706847330828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8755468885218431483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b35d64cddc66a140812fff265f68bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 641
+  onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onNonDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  damagePorcentage: 1
+--- !u!60 &44664330117984029
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -325,7 +371,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06883979, y: -0.01131615}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -335,30 +381,17 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3040582, y: 0.35875297}
-  m_EdgeRadius: 0
---- !u!114 &6653058706847330828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8755468885218431483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b35d64cddc66a140812fff265f68bfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  hittableLayers:
-    serializedVersion: 2
-    m_Bits: 641
-  onDamageableHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onNonDamageableHit:
-    m_PersistentCalls:
-      m_Calls: []
-  damagePorcentage: 1
-  characterDamage: {fileID: 0}
+  m_Points:
+    m_Paths:
+    - - {x: 0.20415244, y: 0.09797603}
+      - {x: 0.08219299, y: 0.21329626}
+      - {x: 0.03153331, y: 0.15976803}
+      - {x: 0.10886708, y: 0.077555}
+      - {x: 0.07618499, y: -0.020005489}
+      - {x: -0.17902078, y: -0.04958784}
+      - {x: -0.21769029, y: -0.108850166}
+      - {x: -0.15920779, y: -0.18082827}
+      - {x: 0.05158051, y: -0.18570507}
+      - {x: 0.17440957, y: -0.122549884}
+      - {x: 0.2093321, y: -0.03491949}
+  m_UseDelaunayMesh: 0

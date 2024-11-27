@@ -35,6 +35,13 @@ public class TriggerDamager : Damager
         //AdjustColliderBasedOnSpriteFlip();
     }
 
+    public void FlipX(bool flipX)
+    {
+        int xScale = flipX ? -1 : 1;
+        transform.localScale = new Vector3(xScale, 1, 1);
+    }
+
+
 
     protected virtual void Start()
     {
@@ -45,6 +52,8 @@ public class TriggerDamager : Damager
         }
     }
     
+
+
     public void EnableCollider()
     {
         _collider.enabled = true;

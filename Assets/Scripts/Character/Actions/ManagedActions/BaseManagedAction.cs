@@ -17,7 +17,7 @@ public interface IManagedAction
 
 [Serializable]
 public abstract class BaseManagedAction<TAction> : IManagedAction
-where TAction : IBaseCharacterAction
+where TAction : BaseCharacterAction
 {
     public readonly TAction action;
     public BaseManagedAction(TAction action)
@@ -25,7 +25,7 @@ where TAction : IBaseCharacterAction
         this.action = action;
     }
 
-    public IBaseCharacterAction GetCharacterAction() => action;
+    public BaseCharacterAction GetCharacterAction() => action;
     public void ForceCancel() {action.ForceCancel();}
     public bool AttemptCancel() {return action.AttemptCancel();}
     public bool IsActive() {return action.IsActive();}

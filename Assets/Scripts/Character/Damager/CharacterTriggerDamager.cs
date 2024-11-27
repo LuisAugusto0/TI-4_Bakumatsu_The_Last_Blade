@@ -9,14 +9,16 @@ public class CharacterTriggerDamager : TriggerDamager
     public float damagePorcentage = 1;
     
     // From parent
-    public CharacterDamage characterDamage;
 
-    // Cant find a better solution to allow updating from outside
-    public void UpdateCharacterDamage(CharacterDamage characterDamage)
+    public void Initialize(Character character, CharacterDamage characterDamage)
     {
+        character.OnFlipX += FlipX;
+
         characterDamage.onDamageChange.AddListener(UpdateDamage);
         UpdateDamage(characterDamage.CurrentDamage);
     }
+
+
 
 
     void UpdateDamage(int characterDamage)

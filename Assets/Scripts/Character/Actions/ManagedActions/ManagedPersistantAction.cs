@@ -8,13 +8,13 @@ using UnityEngine;
 
 [Serializable]
 public class ManagedPersistantAction 
-: BaseManagedAction<IPersistantAction>, IPersistantManagedAction
+: BaseManagedAction<PersistantAction>, IPersistantManagedAction
 {
     public readonly Character target;
 
     public ManagedPersistantAction(
         Character target, 
-        IPersistantAction action
+        PersistantAction action
     ) : base(action)
     {
         this.target = target;

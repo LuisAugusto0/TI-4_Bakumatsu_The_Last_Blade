@@ -37,7 +37,7 @@ public class CharacterActionManager
         T target,
         GameObject actionPrefab
     ) 
-    where TFactory : IBaseActionPrefabFactory<T>
+    where TFactory : BaseActionExtractor<T>
     where T : MonoBehaviour
     {
         // Destroy the current action object if it exists
@@ -68,7 +68,7 @@ public class CharacterActionManager
     protected void SetAction<T>(T target, GameObject actionPrefab)
     where T : MonoBehaviour
     {
-        var dataComponent = SetActionInternal<T, IActionPrefabFactory<T>>(
+        var dataComponent = SetActionInternal<T, ActionExtractor<T>>(
             target,
             actionPrefab
         );
@@ -83,7 +83,7 @@ public class CharacterActionManager
     protected void SetCancellableAction<T>(T target, GameObject actionPrefab)
     where T : MonoBehaviour
     {
-        var dataComponent = SetActionInternal<T, ICancellableActionPrefabFactory<T>>(
+        var dataComponent = SetActionInternal<T, CancellableActionExtractor<T>>(
             target,
             actionPrefab
         );
@@ -91,7 +91,7 @@ public class CharacterActionManager
         // Previous func did not fail
         if (dataComponent != null)
         {
-            managedAction = dataComponent.GetManagedAction(target, onActionEnded);
+            managedAction = dataComponent.InitializeManagedAction(target, onActionEnded);
         }
        
     }
@@ -120,10 +120,10 @@ public class CharacterActionManager
 
 public class RoninPlayerActionManager : CharacterActionManager
 {
-    RoninPlayerBehaviourHandler player;
+    RoninPlayerBehaviour player;
 
     public RoninPlayerActionManager(
-        RoninPlayerBehaviourHandler player,
+        RoninPlayerBehaviour player,
         Character character, 
         Transform parentTransform, 
         OnActionEnded onActionEnded
@@ -136,24 +136,24 @@ public class RoninPlayerActionManager : CharacterActionManager
 
     public void SetPlayerAction(GameObject actionPrefab)
     {
-        SetAction<AbstractPlayerBehaviourHandler>(player, actionPrefab);
+        SetAction<BasePlayerBehaviour>(player, actionPrefab);
     }
 
     public void SetPlayerCancellableAction(GameObject actionPrefab)
     {
-        SetCancellableAction<AbstractPlayerBehaviourHandler>(player, actionPrefab);
+        SetCancellableAction<BasePlayerBehaviour>(player, actionPrefab);
     }
 
 
 
     public void SetRoninPlayerAction(GameObject actionPrefab)
     {
-        SetAction<RoninPlayerBehaviourHandler>(player, actionPrefab);
+        SetAction<RoninPlayerBehaviour>(player, actionPrefab);
     }
 
     public void SetRoninPlayerCancellableAction(GameObject actionPrefab)
     {
-        SetCancellableAction<RoninPlayerBehaviourHandler>(player, actionPrefab);
+        SetCancellableAction<RoninPlayerBehaviour>(player, actionPrefab);
     }
 
 

@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7621827156277357119}
   - component: {fileID: 8992597723980632493}
+  - component: {fileID: -8336910483231170423}
   m_Layer: 0
   m_Name: Throw Projectile
   m_TagString: Untagged
@@ -77,7 +78,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4101329781540057418, guid: 4c7a228671db8904f8b741fbc63ebb2c, type: 3}
-  spawnPos: {fileID: 5943231873098861760}
   rotationOffset: 0
-  charges: 5
+  spawnPos: {fileID: 5943231873098861760}
+--- !u!114 &-8336910483231170423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246500107209656978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8072c7200101945bf529a2c0c33608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charges: 3
   cooldown: 2

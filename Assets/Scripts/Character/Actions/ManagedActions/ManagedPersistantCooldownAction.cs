@@ -6,7 +6,7 @@ using System;
 
 [Serializable]
 public class ManagedPersistantCooldownAction<TCooldown> 
-: BaseManagedAction<IPersistantAction>, IPersistantManagedAction
+: BaseManagedAction<PersistantAction>, IPersistantManagedAction
     where TCooldown : ICooldown
 {
     public readonly TCooldown cooldown;
@@ -15,7 +15,7 @@ public class ManagedPersistantCooldownAction<TCooldown>
 
     public ManagedPersistantCooldownAction(
         Character target, 
-        IPersistantAction action, 
+        PersistantAction action, 
         TCooldown cooldown
     ) : base(action)
     {
