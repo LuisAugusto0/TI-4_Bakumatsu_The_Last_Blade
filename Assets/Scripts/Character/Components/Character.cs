@@ -120,7 +120,11 @@ public class Character : MonoBehaviour
             }
         }
 
-        OnFlipX.Invoke(value);
+        if (OnFlipX != null)
+        {
+            OnFlipX.Invoke(value);
+        }
+        
     }
 
 
