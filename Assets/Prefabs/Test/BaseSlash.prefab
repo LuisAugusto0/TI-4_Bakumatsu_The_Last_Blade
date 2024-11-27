@@ -48,7 +48,7 @@ MonoBehaviour:
   damage: 1
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -224,7 +224,7 @@ MonoBehaviour:
   damage: 1
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -331,7 +331,7 @@ MonoBehaviour:
   damage: 1
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
