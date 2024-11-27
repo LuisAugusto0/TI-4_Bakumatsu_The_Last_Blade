@@ -68,8 +68,15 @@ public class Damageable : MonoBehaviour
     public void IncreaseBaseHealthBonus(int value)
     {
         baseHpBonus += value;
-        currentHp += value;
+        currentHp += value; // Aumenta a saúde atual junto com o máximo permitido
         RecalculateBaseHealth();
+
+        // Atualiza a interface quando o HP máximo muda
+        GameplayUI gameplayUI = FindObjectOfType<GameplayUI>();
+        if (gameplayUI != null)
+        {
+            gameplayUI.UpdateHeartsUI();
+        }
     }
 
     public void RecalculateBaseHealth()
@@ -82,6 +89,16 @@ public class Damageable : MonoBehaviour
         }
 
         currentBaseHp = newBaseHp;
+
+        GameplayUI gameplayUI = FindObjectOfType<GameplayUI>();
+        if (gameplayUI != null)
+        {
+            gameplayUI.UpdateHearts();
+        }
+        else
+        {
+            Debug.LogWarning("GameplayUI não encontrado! Certifique-se de que ele está na cena.");
+        }
     }
 
     
