@@ -478,6 +478,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: -4095416796606989165}
+        m_TargetAssemblyTypeName: UpgradeDrop, Assembly-CSharp
+        m_MethodName: DropItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   addedImmunity:
     m_PersistentCalls:
       m_Calls:
@@ -626,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathUpdateIntervalSeconds: 0.1
   displayPathLine: 0
+  maxEnemiesInPath: 3
 --- !u!120 &4803832650283520926
 LineRenderer:
   serializedVersion: 2
