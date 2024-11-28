@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 6981967420997331439}
   - component: {fileID: 4803832650283520926}
   - component: {fileID: 355349314308088546}
+  - component: {fileID: -4095416796606989165}
   m_Layer: 7
   m_Name: lv-1-SlashBaseEnemy
   m_TagString: Enemy
@@ -748,6 +749,26 @@ MonoBehaviour:
   onDamageChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4095416796606989165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63166ee3eb2856645929d73703b27fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 7333180973824047858, guid: 8e92c18a631131746a68c406269d3ae8, type: 3}
+  - {fileID: 8463416014054369125, guid: 269eb6d64f5433a4fa24d576d5217e83, type: 3}
+  - {fileID: 1464597977159703266, guid: b5cb0f56c0a36d947ac5e93d3f93851d, type: 3}
+  - {fileID: 7194873406250505123, guid: 8b894ddd76cafaf40be36b093df6664d, type: 3}
+  - {fileID: 6792218746891559585, guid: a0239056ef2ce5342a5ad1ab9ebf2911, type: 3}
+  weights: 0200000001000000020000000200000002000000
+  spawnProbability: 0.1
 --- !u!1 &7472910736322437890
 GameObject:
   m_ObjectHideFlags: 0
