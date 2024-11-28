@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 public class GameplayUI : MonoBehaviour
 {
@@ -15,6 +16,13 @@ public class GameplayUI : MonoBehaviour
 
     void Start()
     {
+        Debug.Assert(heartPrefab != null, "Heart prefab not assigned");
+        Debug.Assert(heartsContainer != null, "Heart container not assigned");
+        Debug.Assert(fullHeart != null, "Full heart sprite not assigned");
+        Debug.Assert(halfHeart != null, "Full heart sprite not assigned");
+        Debug.Assert(emptyHeart != null, "Full heart sprite not assigned");
+
+
         // Tenta encontrar o jogador na cena
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         Debug.Assert(playerObject != null, "Jogador principal nao encontrado");
@@ -22,7 +30,7 @@ public class GameplayUI : MonoBehaviour
         playerDamageable = playerObject.GetComponent<Damageable>();
         Debug.Assert(playerObject != null, "Componente Damageable não encontrado no jogador!");
 
-        playerDamageable.onHit.AddListener((obj, damageable) => {UpdateHeartsUI();});
+        playerDamageable.onHit.AddListener((obj, damageable) => {DrawHearts();});
         playerDamageable.onHealthSet.AddListener((damageable) => {UpdateHeartsUI();});
         UpdateHeartsUI();
             
@@ -31,15 +39,15 @@ public class GameplayUI : MonoBehaviour
     }
 
     // Atualiza os ícones de coração com base no HP atual e máximo
-    public void UpdateHearts()
+    public void DrawHearts()
     {
 
-        if (heartImages == null || heartImages.Count == 0)
-        {
-            Debug.LogWarning("Nenhum coração disponível para atualizar. Certifique-se de que UpdateHeartsUI foi chamado.");
-            UpdateHeartsUI(); // Garante que os corações sejam criados
-            return;
-        }
+        // if (heartImages.Count == 0)
+        // {
+        //     Debug.LogWarning("Nenhum coração disponível para atualizar. Certifique-se de que UpdateHeartsUI foi chamado.");
+        //     UpdateHeartsUI(); // Garante que os corações sejam criados
+        //     return;
+        // }
 
         for (int i = 0; i < heartImages.Count; i++)
         {
@@ -76,7 +84,7 @@ public class GameplayUI : MonoBehaviour
         }
 
         // Calcula a quantidade necessária de corações com base no HP máximo
-        int heartCount = Mathf.CeilToInt(playerDamageable.CurrentHealth / 2f);
+        int heartCount = Mathf.CeilToInt(playerDamageable.CurrentBaseHealth / 2f);
 
         // Adiciona ou remove corações conforme necessário
         while (heartImages.Count < heartCount)
@@ -100,7 +108,7 @@ public class GameplayUI : MonoBehaviour
             heartImages.RemoveAt(heartImages.Count - 1);
         }
 
-        UpdateHearts(); // Atualiza os estados dos corações
+        DrawHearts(); // Atualiza os estados dos corações
 
         // Atualiza a largura do container de acordo com os corações
         UpdateContainerWidth();

@@ -41,6 +41,7 @@ public class Damageable : MonoBehaviour
     [SerializeField] int currentBaseHp = 6;
 
     public int CurrentHealth {get {return currentHp;}}
+    public int CurrentBaseHealth {get {return currentBaseHp;}}
     [SerializeField] protected int currentHp = 6;
 
 
@@ -167,7 +168,7 @@ public class Damageable : MonoBehaviour
             currentHp -= damage;
             onHit.Invoke(damagerObject, this);
 
-            FindObjectOfType<GameplayUI>().UpdateHearts();
+            FindObjectOfType<GameplayUI>().DrawHearts();
 
             if (currentHp <= 0)
             {
@@ -185,7 +186,7 @@ public class Damageable : MonoBehaviour
         currentHp -= damage;
         onHit.Invoke(damagerObject, this);
 
-        FindObjectOfType<GameplayUI>().UpdateHearts();
+        FindObjectOfType<GameplayUI>().DrawHearts();
 
         if (currentHp <= 0)
         {
@@ -203,7 +204,7 @@ public class Damageable : MonoBehaviour
         currentHp = Math.Min(baseHp, currentHp + value);
         onHeal.Invoke(value, this);
 
-        FindObjectOfType<GameplayUI>().UpdateHearts();
+        FindObjectOfType<GameplayUI>().DrawHearts();
     }
 
     public void Death()
