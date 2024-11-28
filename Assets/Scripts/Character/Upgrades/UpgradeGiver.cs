@@ -24,11 +24,11 @@ public class UpgradeGiver : MonoBehaviour
     }
 
     public static void GiveUpgrade<T>(UpgradeManager target, int quantity = 1) 
-        where T : Upgrade
+        where T : BaseUpgrade
     {
         if (target != null)
         {
-            target.AddUpgrade<T>(quantity);
+            target.AddEntityUpgrade<T>(quantity);
         }
     }
  
@@ -37,22 +37,22 @@ public class UpgradeGiver : MonoBehaviour
     {
         switch(name)
         {            
-            case UpgradesNameTable.SpeedBonusUpgrade:
+            case UpgradesNameTable.SpeedBonus:
                 GiveUpgrade<SpeedBonusUpgrade>(target, quantity);
                 break;
             case UpgradesNameTable.DoubleSpeedUpgrade:
                 GiveUpgrade<DoubleSpeedUpgrade>(target, quantity);
                 break;
-            case UpgradesNameTable.DamageBonusStatBoost:
+            case UpgradesNameTable.FixedDamageBoost:
                 GiveUpgrade<DamageBonusStatBoost>(target, quantity);
                 break;
             case UpgradesNameTable.DamageMultiplierStatBonus:
                 GiveUpgrade<DamageMultiplierStatBonus>(target, quantity);
                 break;
-            case UpgradesNameTable.BaseHealthBonusUpgrade:
+            case UpgradesNameTable.FixedHealthBoost:
                 GiveUpgrade<BaseHealthBonusUpgrade>(target, quantity);
                 break;
-            case UpgradesNameTable.ImmunityAfterHitUpgrade:
+            case UpgradesNameTable.Escape:
                 GiveUpgrade<ImmunityAfterHitUpgrade>(target, quantity);
                 break;
             case UpgradesNameTable.SpeedBoostAfterHitUpgrade:
@@ -98,15 +98,33 @@ public class UpgradeGiver : MonoBehaviour
 
 public enum UpgradesNameTable
 {
-    SpeedBonusUpgrade,
-    DoubleSpeedUpgrade,
-    DamageBonusStatBoost,
+    DoubleSpeedUpgrade, 
+    
     DamageMultiplierStatBonus,
-    BaseHealthBonusUpgrade,
-
-    ImmunityAfterHitUpgrade,
     SpeedBoostAfterHitUpgrade,
     BaseDamageBonusAfterHit,  
+
+    // +10%*q speed
+    SpeedBonus,
+
+    // +1*q damage 
+    FixedDamageBoost,
+
+    // +1*q health 
+    FixedHealthBoost,
+
+    // 30% speed bonus + immunity for 1.5s * q
+    Escape,
+ 
 }
 
+public enum PlayerExclusiveUpgrades
+{
+    /// Change actions 
+    
+    // Change base attack to fire sword
+    FireSword,
 
+    // Add secondary skill whirlwind
+    Whirlwind,
+}

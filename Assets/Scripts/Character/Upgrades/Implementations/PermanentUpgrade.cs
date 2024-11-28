@@ -11,7 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Upgrades.Implementations.PermanentUpgrade
 {
-    public class SpeedBonusUpgrade : BasePermanentUpgrade<FixedSpeedBonusEffect> {
+    public class SpeedBonusUpgrade : BasePermanentEffectUpgrade<FixedSpeedBonusEffect> {
         static Sprite? icon = null;
         public static Sprite? GetStaticIcon() => icon;
         public override Sprite? GetIcon() => icon;
@@ -38,7 +38,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
         }
     }
 
-    public class DoubleSpeedUpgrade : BasePermanentUpgrade<SpeedMultiplierEffect> {
+    public class DoubleSpeedUpgrade : BasePermanentEffectUpgrade<SpeedMultiplierEffect> {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
         public override Sprite? GetIcon() => icon;
@@ -67,7 +67,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
         }
     }
 
-    public class DamageBonusStatBoost : BasePermanentUpgrade<FixedDamageBonusEffect> {
+    public class DamageBonusStatBoost : BasePermanentEffectUpgrade<FixedDamageBonusEffect> {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
         public override Sprite? GetIcon() => icon;
@@ -95,7 +95,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
     }
 
 
-    public class DamageMultiplierStatBonus : BasePermanentUpgrade<DamageMultiplierEffect> {
+    public class DamageMultiplierStatBonus : BasePermanentEffectUpgrade<DamageMultiplierEffect> {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
         public override Sprite? GetIcon() => icon;
@@ -125,7 +125,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
     }
 
 
-    public class BaseHealthBonusUpgrade : BasePermanentUpgrade<FixedHealthBonusEffect> 
+    public class BaseHealthBonusUpgrade : BasePermanentEffectUpgrade<FixedHealthBonusEffect> 
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;

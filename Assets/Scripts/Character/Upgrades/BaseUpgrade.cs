@@ -4,14 +4,16 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class Upgrade
+
+public abstract class BaseUpgrade
 {
     public abstract Sprite GetIcon();
     public int Quantity { get {return quantity;}}
+    public int GetQuantity() => quantity;
     protected int quantity = 1;
     public readonly UpgradeManager target;
 
-    public Upgrade(UpgradeManager entity, int quantity)
+    public BaseUpgrade(UpgradeManager entity, int quantity)
     {
         this.target = entity;
         this.quantity = quantity;

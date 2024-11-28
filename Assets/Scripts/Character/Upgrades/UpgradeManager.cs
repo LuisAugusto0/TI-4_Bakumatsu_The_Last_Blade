@@ -14,7 +14,7 @@ using UnityEngine.Events;
 public class UpgradeManager : MonoBehaviour
 {
     [Serializable]
-    public class UpgradeUpdatedEvent : UnityEvent<Upgrade> {}
+    public class UpgradeUpdatedEvent : UnityEvent<BaseUpgrade> {}
 
 
     [NonSerialized] public EffectReceiver effectReceiver;
@@ -25,7 +25,7 @@ public class UpgradeManager : MonoBehaviour
 
     // Dictionary containing each active upgrade
     // Ensures only one instance of each type of upgrade exists
-    public Dictionary<Type, Upgrade> upgrades;
+    public Dictionary<Type, BaseUpgrade> upgrades;
 
     // Invokers
     public UpgradeUpdatedEvent onUpgradeUpdated; 
@@ -43,7 +43,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void ClearUpgrades()
     {
-        foreach (Upgrade upgrade in upgrades.Values)
+        foreach (BaseUpgrade upgrade in upgrades.Values)
         {
             upgrade.Remove();
         }
@@ -53,7 +53,7 @@ public class UpgradeManager : MonoBehaviour
 
     // Create upgrade if not exists ; add quantity if exists
     // Does not accept negative values as its not responsible for removal of upgrades 
-    public void AddUpgrade<T>(int quantity) where T : Upgrade
+    public void AddEntityUpgrade<T>(int quantity) where T : BaseUpgrade
     {
         if (quantity <= 0)
         {
@@ -77,9 +77,15 @@ public class UpgradeManager : MonoBehaviour
         PrintUpgrades();
     }
 
+    public void AddUpgrade<T>()
+    {
+        var upgradeType = typeof(T);
+
+    }
+
     // Remove n quantity on the upgrade type given. If it reaches 0, remove from upgrade list
     // Does not accept negative values as its only responsible for subtractions
-    public bool RemoveUpgrade<T>(int quantity) where T : Upgrade
+    public bool RemoveUpgrade<T>(int quantity) where T : BaseUpgrade
     {
         if (quantity <= 0)
         {
@@ -90,7 +96,7 @@ public class UpgradeManager : MonoBehaviour
 
         if (upgrades.ContainsKey(upgradeType))
         {
-            Upgrade instance = upgrades[upgradeType];
+            BaseUpgrade instance = upgrades[upgradeType];
             instance.AddToQuantity(-quantity);
             onUpgradeUpdated.Invoke(instance);
             return true;
@@ -114,7 +120,7 @@ public class UpgradeManager : MonoBehaviour
         foreach (var upgradePair in upgrades)
         {
             Type upgradeType = upgradePair.Key;
-            Upgrade upgrade = upgradePair.Value;
+            BaseUpgrade upgrade = upgradePair.Value;
             int quantity = upgrade.Quantity;
 
             Debug.Log($"Upgrade Type: {upgradeType.Name}, Quantity: {quantity}");

@@ -6,12 +6,12 @@ using UnityEngine;
 #nullable enable
 
 
-public abstract class BasePermanentUpgrade<TEffect> : Upgrade
+public abstract class BasePermanentEffectUpgrade<TEffect> : BaseUpgrade
     where TEffect : BaseEffect, IPersistantEffect
 { 
     protected TEffect effect;
 
-    public BasePermanentUpgrade(UpgradeManager target, int quantity)
+    public BasePermanentEffectUpgrade(UpgradeManager target, int quantity)
     : base(target, quantity) 
     { 
         this.effect = GetEffect();

@@ -5,13 +5,13 @@ using UnityEngine;
 
 
 // Scales with increase in duration
-public abstract class BaseUpgradeAfterEvent<TEffect> : Upgrade
+public abstract class BaseUpgradeAfterEventEffect<TEffect> : BaseUpgrade
     where TEffect : ILifeTimedEffect
 { 
     protected TEffect effect;
     protected Coroutine activeCoroutine = null;
 
-    protected BaseUpgradeAfterEvent(UpgradeManager target, int quantity)
+    protected BaseUpgradeAfterEventEffect(UpgradeManager target, int quantity)
         : base(target, quantity)
     {
         this.effect = GetEffect();

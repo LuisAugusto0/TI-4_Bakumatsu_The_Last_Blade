@@ -15,7 +15,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Rarity: ? 
     */
     
-    public class ImmunityAfterHitUpgrade : BaseUpgradeAfterEvent<TimedImmunityEffect>
+    public class ImmunityAfterHitUpgrade : BaseUpgradeAfterEventEffect<TimedImmunityEffect>
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
@@ -73,7 +73,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Growth type: Linear
     * Rarity: ? 
     */
-    public class SpeedBoostAfterHitUpgrade : BaseUpgradeAfterEvent<TimedPositiveSpeedMultiplier>  
+    public class SpeedBoostAfterHitUpgrade : BaseUpgradeAfterEventEffect<TimedPositiveSpeedMultiplier>  
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
@@ -135,7 +135,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Growth type: Linear
     * Rarity: ? 
     */
-    public class BaseDamageBonusAfterHit : BaseUpgradeAfterEvent<TimedPositiveFixedDamageBonusEffect>  
+    public class BaseDamageBonusAfterHit : BaseUpgradeAfterEventEffect<TimedPositiveFixedDamageBonusEffect>  
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
