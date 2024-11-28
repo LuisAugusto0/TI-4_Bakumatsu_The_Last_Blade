@@ -1,7 +1,9 @@
 using Effects.Implementations.PersistantEffect;
 using Effects.Implementations.TimedEffect;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
 #nullable enable
 
 namespace Upgrades.Implementations.EventUpgrade
@@ -12,8 +14,18 @@ namespace Upgrades.Implementations.EventUpgrade
     * Growth type: Linear
     * Rarity: ? 
     */
+    
     public class ImmunityAfterHitUpgrade : BaseUpgradeAfterEvent<TimedImmunityEffect>
     {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
+
         const float baseDuration = 2f;
 
         public ImmunityAfterHitUpgrade(UpgradeManager target, int quantity)
@@ -49,6 +61,8 @@ namespace Upgrades.Implementations.EventUpgrade
                 target.damageable.onHit.RemoveListener(onHitListener);
             }
         }
+
+ 
     }
 
 
@@ -61,6 +75,14 @@ namespace Upgrades.Implementations.EventUpgrade
     */
     public class SpeedBoostAfterHitUpgrade : BaseUpgradeAfterEvent<TimedPositiveSpeedMultiplier>  
     {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
         const float BaseDuration = 1f;
         const float BaseMultiplier = 2f;
 
@@ -113,8 +135,16 @@ namespace Upgrades.Implementations.EventUpgrade
     * Growth type: Linear
     * Rarity: ? 
     */
-    public class BaseDamageBonusAfterHit : BaseUpgradeAfterEvent<TimedPositiveDamageBonusEffect>  
+    public class BaseDamageBonusAfterHit : BaseUpgradeAfterEvent<TimedPositiveFixedDamageBonusEffect>  
     {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
         const float BaseDuration = 1f;
         const int BaseBonus = 1;
 
@@ -122,10 +152,10 @@ namespace Upgrades.Implementations.EventUpgrade
         : base(target, quantity) {}
 
 
-        protected override TimedPositiveDamageBonusEffect GetEffect()
+        protected override TimedPositiveFixedDamageBonusEffect GetEffect()
         {
-            return new TimedPositiveDamageBonusEffect(
-                new DamageBonusEffect(target.effectReceiver, BaseBonus), 
+            return new TimedPositiveFixedDamageBonusEffect(
+                new FixedDamageBonusEffect(target.effectReceiver, BaseBonus), 
                 BaseDuration, 
                 null
             );

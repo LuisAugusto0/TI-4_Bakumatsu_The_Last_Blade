@@ -5,15 +5,22 @@ using Effects.Implementations.PersistantEffect;
 using System.Data;
 using Effects.Implementations.TimedEffect;
 using System;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 #nullable enable
 
 namespace Upgrades.Implementations.PermanentUpgrade
 {
+    public class SpeedBonusUpgrade : BasePermanentUpgrade<FixedSpeedBonusEffect> {
+        static Sprite? icon = null;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+        
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
 
 
-    public class SpeedBonusUpgrade : BasePermanentUpgrade<SpeedBonusEffect> {
         const float bonus = 1f;
-
 
         public SpeedBonusUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) {}
@@ -25,15 +32,23 @@ namespace Upgrades.Implementations.PermanentUpgrade
             effect.Update(newBonus);
         }
 
-        protected override SpeedBonusEffect GetEffect()
+        protected override FixedSpeedBonusEffect GetEffect()
         {
-            return new SpeedBonusEffect(target.effectReceiver, quantity * bonus);
+            return new FixedSpeedBonusEffect(target.effectReceiver, quantity * bonus);
         }
     }
 
     public class DoubleSpeedUpgrade : BasePermanentUpgrade<SpeedMultiplierEffect> {
-        const float baseMultiplier = 1f;
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+        
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
 
+        
+        
+        const float baseMultiplier = 1f;
 
         public DoubleSpeedUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) {}
@@ -52,9 +67,16 @@ namespace Upgrades.Implementations.PermanentUpgrade
         }
     }
 
-    public class DamageBonusStatBoost : BasePermanentUpgrade<DamageBonusEffect> {
-        const int bonus = 1;
+    public class DamageBonusStatBoost : BasePermanentUpgrade<FixedDamageBonusEffect> {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
 
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+        
+
+        const int bonus = 1;
 
         public DamageBonusStatBoost(UpgradeManager target, int quantity)
         : base(target, quantity) {}
@@ -66,16 +88,24 @@ namespace Upgrades.Implementations.PermanentUpgrade
             effect.Update(newBonus);
         }
 
-        protected override DamageBonusEffect GetEffect()
+        protected override FixedDamageBonusEffect GetEffect()
         {
-            return new DamageBonusEffect(target.effectReceiver, quantity * bonus);
+            return new FixedDamageBonusEffect(target.effectReceiver, quantity * bonus);
         }
     }
 
 
     public class DamageMultiplierStatBonus : BasePermanentUpgrade<DamageMultiplierEffect> {
-        const float baseMultiplier = 2;
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
         
+        const float baseMultiplier = 2;
 
         public DamageMultiplierStatBonus(UpgradeManager target, int quantity)
         : base(target, quantity) {}
@@ -95,10 +125,19 @@ namespace Upgrades.Implementations.PermanentUpgrade
     }
 
 
-    public class BaseHealthBonusUpgrade : BasePermanentUpgrade<HealthBonusEffect> 
+    public class BaseHealthBonusUpgrade : BasePermanentUpgrade<FixedHealthBonusEffect> 
     {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
+
         const int baseBonus = 1;
-        
+        public event Action? OnHealthUpdate;   
 
         public BaseHealthBonusUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) {}
@@ -106,13 +145,37 @@ namespace Upgrades.Implementations.PermanentUpgrade
         // Linear growth of 100% by quantity
         protected override void Update()
         {
+            OnHealthUpdate?.Invoke();
             int newBonus = quantity * baseBonus;
             effect.Update(newBonus);
+
+
+            // Atualiza o bônus de vida no jogador
+            var damageable = target.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                damageable.IncreaseBaseHealthBonus(newBonus); // Atualiza o baseHp e o currentHp
+
+                // Atualiza a UI para refletir o novo máximo de vida
+                var gameplayUI = GameObject.FindObjectOfType<GameplayUI>();
+                if (gameplayUI != null)
+                {
+                    gameplayUI.UpdateHeartsUI(); // Atualiza os corações dinamicamente
+                }
+                else
+                {
+                    Debug.LogWarning("GameplayUI não encontrado. Certifique-se de que está ativo na cena.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Componente Damageable não encontrado no jogador!");
+            }
         }
 
-        protected override HealthBonusEffect GetEffect()
+        protected override FixedHealthBonusEffect GetEffect()
         {
-            return new HealthBonusEffect(target.effectReceiver, quantity * baseBonus);
+            return new FixedHealthBonusEffect(target.effectReceiver, quantity * baseBonus);
         }
     
     }

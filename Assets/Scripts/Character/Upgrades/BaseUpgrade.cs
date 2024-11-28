@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class Upgrade
 {
+    public abstract Sprite GetIcon();
     public int Quantity { get {return quantity;}}
     protected int quantity = 1;
     public readonly UpgradeManager target;

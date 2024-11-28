@@ -41,7 +41,7 @@ where TEffect : INonPersistantEffect
         this.onEffectEnd = onEffectEnd;
     }
 
-    public abstract Sprite GetIcon();
+    public abstract Sprite? GetIcon();
     public bool IsActive() => durationCoroutine == null;
 
     public float GetRemainingDuration()

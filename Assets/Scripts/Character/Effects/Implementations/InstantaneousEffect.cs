@@ -16,7 +16,7 @@ namespace Effects.Implementations.InstantaneousEffect
 
         public override void Start() 
         {
-            target.damageable.TakeDamage(this, 1);
+            target.damageable.HitTakeDamage(this, 1);
         }
 
         public void Update(int newDmg) 
@@ -24,6 +24,8 @@ namespace Effects.Implementations.InstantaneousEffect
             this.damage = newDmg;
         }
     }
+
+   
 
 }
 

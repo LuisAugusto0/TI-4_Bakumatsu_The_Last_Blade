@@ -68,8 +68,15 @@ public class Damageable : MonoBehaviour
     public void IncreaseBaseHealthBonus(int value)
     {
         baseHpBonus += value;
-        currentHp += value;
+        currentHp += value; // Aumenta a saúde atual junto com o máximo permitido
         RecalculateBaseHealth();
+
+        // Atualiza a interface quando o HP máximo muda
+        // GameplayUI gameplayUI = FindObjectOfType<GameplayUI>();
+        // if (gameplayUI != null)
+        // {
+        //     gameplayUI.UpdateHeartsUI();
+        // }
     }
 
     public void RecalculateBaseHealth()
@@ -82,6 +89,16 @@ public class Damageable : MonoBehaviour
         }
 
         currentBaseHp = newBaseHp;
+        onHealthSet?.Invoke(this);
+        // GameplayUI gameplayUI = FindObjectOfType<GameplayUI>();
+        // if (gameplayUI != null)
+        // {
+        //     gameplayUI.UpdateHearts();
+        // }
+        // else
+        // {
+        //     Debug.LogWarning("GameplayUI não encontrado! Certifique-se de que ele está na cena.");
+        // }
     }
 
     
@@ -143,7 +160,7 @@ public class Damageable : MonoBehaviour
 
 
     // Main TakeDamage (calle from Damager scripts)
-    public void TakeDamage(object damagerObject, int damage) 
+    public void HitTakeDamage(object damagerObject, int damage) 
     {
         if (!IsImmune())
         {
@@ -159,9 +176,27 @@ public class Damageable : MonoBehaviour
 
             // Use object as unique hash identifier
             StartCoroutine(OnHitImmunity(damagerObject));
-        }
-        
+        }   
     }
+
+
+    public void TakeDamage(object damagerObject, int damage) 
+    {
+        currentHp -= damage;
+        onHit.Invoke(damagerObject, this);
+
+        FindObjectOfType<GameplayUI>().UpdateHearts();
+
+        if (currentHp <= 0)
+        {
+            Death();
+        }
+
+        // Use object as unique hash identifier
+        StartCoroutine(OnHitImmunity(damagerObject));
+    }
+    
+
 
     public void Heal(int value)
     {

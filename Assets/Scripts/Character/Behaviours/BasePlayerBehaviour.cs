@@ -41,9 +41,7 @@ public abstract class BasePlayerBehaviour : BaseBehaviour
     protected virtual void Start()
     {
         mainCamera = CameraController.Instance.MainCamera;
-        if (CameraController.Instance == null) Debug.LogWarning("NOTNONONON");
-        if (mainCamera == null) Debug.LogWarning( "HERE!");
-        else Debug.LogWarning("MAHOYY");
+        if (CameraController.Instance == null) Debug.LogError("Singleton not initialized!!");
     }
 
     public virtual void OnMoveInput(InputAction.CallbackContext context)

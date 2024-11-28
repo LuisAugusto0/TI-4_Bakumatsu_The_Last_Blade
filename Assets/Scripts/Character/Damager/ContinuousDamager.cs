@@ -89,7 +89,7 @@ public class ContinuousDamager : Damager
             if (damageable != null)
             {
                 onDamageableHit.Invoke(damageable, this);
-                damageable.TakeDamage(this.gameObject, damage);
+                damageable.HitTakeDamage(this.gameObject, damage);
                 hitColliders.Clear();
             }
             else

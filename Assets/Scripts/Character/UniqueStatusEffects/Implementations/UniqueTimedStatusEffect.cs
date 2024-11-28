@@ -9,7 +9,7 @@ using Effects.Implementations.ChargeRepeatingEffects;
 using Effects.Implementations.PersistantEffect;
 
 namespace UniqueStatusEffects.Implementations.UniqueTimedEffects {
-    public class BasicSpeedBonusUniqueEffect : BaseTimedUniqueEffect<TimedPositiveSpeedBonusEffect>
+    public class BasicSpeedBonusUniqueEffect : BaseTimedUniqueEffect<TimedPositiveFixedSpeedBonusEffect>
     {
         const float speedBonus = 1f;
         
@@ -17,10 +17,10 @@ namespace UniqueStatusEffects.Implementations.UniqueTimedEffects {
         : base(target, totalTime) {}
 
 
-        public override TimedPositiveSpeedBonusEffect GetEffect(EffectReceiver target, float duration)
+        public override TimedPositiveFixedSpeedBonusEffect GetEffect(EffectReceiver target, float duration)
         {
-            return new TimedPositiveSpeedBonusEffect(
-                new SpeedBonusEffect(target, speedBonus),
+            return new TimedPositiveFixedSpeedBonusEffect(
+                new FixedSpeedBonusEffect(target, speedBonus),
                 duration,
                 Remove
             );

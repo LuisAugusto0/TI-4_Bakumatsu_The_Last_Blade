@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.addressables": "1.22.3",
     "com.unity.burst": "1.8.18",
     "com.unity.collab-proxy": "2.5.1",
     "com.unity.ext.nunit": "1.0.6",

@@ -5,6 +5,8 @@ using UnityEngine;
 #nullable enable
 
 using Effects.Implementations.PersistantEffect;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Effects.Implementations.TimedEffect
 {
@@ -13,11 +15,15 @@ namespace Effects.Implementations.TimedEffect
         public TimedImmunityEffect(ImmunityEffect effect, float duration, Action? onEffectEnd)
         : base(effect, duration, onEffectEnd) 
         {}
+        
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
 
-        public override Sprite GetIcon()
-        {
-            throw new NotImplementedException();
-        }
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
 
         public void Update(float duration)
         {
@@ -28,19 +34,20 @@ namespace Effects.Implementations.TimedEffect
         
     }
 
-
-
-
-    public class TimedPositiveSpeedBonusEffect : TimedEffect<SpeedBonusEffect>
+    [Obsolete("Icon not implemented")]
+    public class TimedPositiveFixedSpeedBonusEffect : TimedEffect<FixedSpeedBonusEffect>
     {
-        public TimedPositiveSpeedBonusEffect(SpeedBonusEffect effect, float duration, Action? onEffectEnd) 
+        public TimedPositiveFixedSpeedBonusEffect(FixedSpeedBonusEffect effect, float duration, Action? onEffectEnd) 
         : base(effect, duration, onEffectEnd) 
         {}
 
-        public override Sprite GetIcon()
-        {
-            throw new NotImplementedException();
-        }
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
 
         public void Update(float duration, int bonus)
         {
@@ -55,16 +62,20 @@ namespace Effects.Implementations.TimedEffect
         }
     }  
 
-    public class TimedPositiveDamageBonusEffect : TimedEffect<DamageBonusEffect>
+    
+    public class TimedPositiveFixedDamageBonusEffect : TimedEffect<FixedDamageBonusEffect>
     {
-        public TimedPositiveDamageBonusEffect(DamageBonusEffect effect, float duration, Action? onEffectEnd) 
+        public TimedPositiveFixedDamageBonusEffect(FixedDamageBonusEffect effect, float duration, Action? onEffectEnd) 
         : base(effect, duration, onEffectEnd) 
         {}
 
-        public override Sprite GetIcon()
-        {
-            throw new NotImplementedException();
-        }
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
 
         public void Update(float duration, int bonus)
         {
@@ -79,16 +90,22 @@ namespace Effects.Implementations.TimedEffect
         }
     }  
 
-    public class TimedHealthBonusEffect : TimedEffect<HealthBonusEffect>
+    [Obsolete("Icon not implemented")]
+    public class TimedFixedHealthBonusEffect : TimedEffect<FixedHealthBonusEffect>
     {
-        public TimedHealthBonusEffect(HealthBonusEffect effect, float duration, Action? onEffectEnd) 
+        public TimedFixedHealthBonusEffect(FixedHealthBonusEffect effect, float duration, Action? onEffectEnd) 
         : base(effect, duration, onEffectEnd) 
         {}
 
-        public override Sprite GetIcon()
-        {
-            throw new NotImplementedException();
-        }
+        static Sprite? icon;          
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+        
+
+
 
         public void Update(float duration, int bonus)
         {
@@ -113,10 +130,13 @@ namespace Effects.Implementations.TimedEffect
         : base(effect, duration, onEffectEnd) 
         {}
 
-        public override Sprite GetIcon()
-        {
-            throw new NotImplementedException();
-        }
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
 
         public void Update(float duration, float multiplier)
         {
