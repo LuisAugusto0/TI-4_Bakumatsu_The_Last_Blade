@@ -19,6 +19,12 @@ namespace Upgrades.Implementations.PermanentUpgrade
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
 
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
+
 
         const float bonus = 1f;
 
@@ -45,6 +51,13 @@ namespace Upgrades.Implementations.PermanentUpgrade
         
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
         
         
@@ -76,6 +89,14 @@ namespace Upgrades.Implementations.PermanentUpgrade
         public static void UnloadIcon() => icon = null;
         
 
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
+
+
+
         const int bonus = 1;
 
         public DamageBonusStatBoost(UpgradeManager target, int quantity)
@@ -102,6 +123,13 @@ namespace Upgrades.Implementations.PermanentUpgrade
 
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
         
@@ -133,6 +161,14 @@ namespace Upgrades.Implementations.PermanentUpgrade
 
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
+
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
 

@@ -96,6 +96,7 @@ public class UpgradeGiver : MonoBehaviour
     }
 }
 
+
 public enum UpgradesNameTable
 {
     DoubleSpeedUpgrade, 
@@ -115,8 +116,8 @@ public enum UpgradesNameTable
 
     // 30% speed bonus + immunity for 1.5s * q
     Escape,
- 
 }
+
 
 public enum PlayerExclusiveUpgrades
 {

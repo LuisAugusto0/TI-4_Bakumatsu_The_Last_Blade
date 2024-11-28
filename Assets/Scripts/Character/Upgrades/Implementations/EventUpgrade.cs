@@ -25,6 +25,12 @@ namespace Upgrades.Implementations.EventUpgrade
         public static void UnloadIcon() => icon = null;
 
 
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
+
 
         const float baseDuration = 2f;
 
@@ -81,6 +87,13 @@ namespace Upgrades.Implementations.EventUpgrade
 
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
         const float BaseDuration = 1f;
@@ -143,6 +156,13 @@ namespace Upgrades.Implementations.EventUpgrade
 
         public static void LoadIcon(Sprite sprite) => icon = sprite;
         public static void UnloadIcon() => icon = null;
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
         const float BaseDuration = 1f;

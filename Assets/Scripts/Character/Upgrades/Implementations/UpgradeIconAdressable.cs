@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +10,34 @@ using Upgrades.Implementations.PermanentUpgrade;
 
 public class UpgradeIconAdressable : MonoBehaviour
 {
-    public static Task<Sprite> GetDefaultIconAsync() => GetIconAsync("Sprites/Effects/Icon_404.png");
+    const string defaultPath = "Sprites/Upgrades/Icon_404.png";
+    static Sprite NotExistantIcon;
+
+    static UpgradeIconAdressable()
+    {
+        LoadDefaultIconAsync();
+    }
+
+    private static async void LoadDefaultIconAsync()
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(defaultPath);
+
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            NotExistantIcon = await handle.Task; // Set the icon on success.
+        }
+        else
+        {
+            Debug.LogError($"Failed to load default icon");
+    
+        }
+    }
+
+
+
+    public static Task<Sprite> GetDefaultIconAsync() => GetIconAsync(defaultPath);
 
     public static async Task<Sprite> GetIconAsync(string path)
     {
@@ -30,25 +58,59 @@ public class UpgradeIconAdressable : MonoBehaviour
         }
     }
 
+    public static async void AssertIsPathValid(string path)
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(path);
+
+        await handle.Task;
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"Adressable {path} does not exist");
+        }
+    }
+
+   
+    public static void LoadUpgradePaths()
+    {
+        SpeedBoostAfterHitUpgrade.SetIconAdressablePath(defaultPath);
+        BaseDamageBonusAfterHit.SetIconAdressablePath(defaultPath);
+        
+        SpeedBonusUpgrade.SetIconAdressablePath(defaultPath);
+        DoubleSpeedUpgrade.SetIconAdressablePath(defaultPath);
+        DamageBonusStatBoost.SetIconAdressablePath(defaultPath);
+        DamageMultiplierStatBonus.SetIconAdressablePath(defaultPath);
+        BaseHealthBonusUpgrade.SetIconAdressablePath(defaultPath);
+    }
+
+    public static void AssertUpgradesPaths()
+    {
+        SpeedBoostAfterHitUpgrade.AssertIconAdressablePath();
+        BaseDamageBonusAfterHit.AssertIconAdressablePath();
+
+        SpeedBonusUpgrade.AssertIconAdressablePath();
+        DoubleSpeedUpgrade.AssertIconAdressablePath();
+        DamageBonusStatBoost.AssertIconAdressablePath();
+        DamageMultiplierStatBonus.AssertIconAdressablePath();
+        BaseHealthBonusUpgrade.AssertIconAdressablePath();
+    }
 
 
-    // static UpgradeIconAdressable()
-    // {
-    //     LoadIcons();
-    // }
 
+
+
+    // Not best solutions -> may be dropped later
     public static async void LoadIcons()
     {
         Debug.Log("HERE!@!!");
-        ImmunityAfterHitUpgrade.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        BaseDamageBonusAfterHit.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
+        ImmunityAfterHitUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        BaseDamageBonusAfterHit.LoadIcon(await GetIconAsync(defaultPath));
 
-        SpeedBonusUpgrade.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        DoubleSpeedUpgrade.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        DamageBonusStatBoost.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        DamageMultiplierStatBonus.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
-        BaseHealthBonusUpgrade.LoadIcon(await GetIconAsync("Sprites/Effects/Icon_404.png"));
+        SpeedBonusUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        DoubleSpeedUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        DamageBonusStatBoost.LoadIcon(await GetIconAsync(defaultPath));
+        DamageMultiplierStatBonus.LoadIcon(await GetIconAsync(defaultPath));
+        BaseHealthBonusUpgrade.LoadIcon(await GetIconAsync(defaultPath));
     }
 
     public static void UnloadIcons()
@@ -63,4 +125,9 @@ public class UpgradeIconAdressable : MonoBehaviour
         DamageMultiplierStatBonus.UnloadIcon();
         BaseHealthBonusUpgrade.UnloadIcon();
     }
+
+
+ 
 }
+
+

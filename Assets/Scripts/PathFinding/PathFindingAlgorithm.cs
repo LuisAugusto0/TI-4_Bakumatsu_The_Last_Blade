@@ -20,6 +20,8 @@ public class PathFindingAlgorithm : MonoBehaviour
     public float pathUpdateIntervalSeconds = 0.1f;  // How often to check for path updates (in seconds)
     
     public bool displayPathLine = true;
+    // Threshold for enemy density; if the number of enemies in a given area is higher than this, we try to surround the player
+    public int maxEnemiesInPath = 3;
 
     Vector2[] path = null;  // Private array of positions to move along (matrix coordinates)
     int currentTargetIndex = 0;  // Index of the current target position
@@ -80,32 +82,147 @@ public class PathFindingAlgorithm : MonoBehaviour
         }
     }
 
-    // Get Path with Search Algorithm
+    // Modify the UpdatePath method to consider enemy density
     void UpdatePath(Vector2 targetPos)
     {
         Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(transform.position);
         Vector2 targetPosition = tilemapToMatrix.WalkableMatrixToMatrix(targetPos);
         targetPosition = new Vector2(targetPosition.x, targetPosition.y);
         targetPosition = findClosestWalkable(targetPosition);
-        Vector2[] newPath = CalculatePath(enemyPosition, targetPosition);
 
-        // Check if a valid new path is found
-        if (newPath != null && newPath.Length > 0)
+        // Check enemy density along the path
+        int enemiesInPath = CountEnemiesInPath(enemyPosition, targetPosition);
+
+        if (enemiesInPath > maxEnemiesInPath)
         {
-            path = newPath;
-            currentTargetIndex = 0;  // Reset target index when the path is updated
-            
-            if (displayPathLine) 
+            // If too many enemies, try to find an alternative route that surrounds the player
+            Vector2 alternativeTarget = FindSurroundingTarget(targetPosition);
+            Vector2[] newPath = CalculatePath(enemyPosition, alternativeTarget);
+
+            if (newPath != null && newPath.Length > 0)
             {
-                DisplayPathLine();  
+                path = newPath;
+                currentTargetIndex = 0;  // Reset target index when the path is updated
+                if (displayPathLine)
+                {
+                    DisplayPathLine();
+                }
+            }
+            else
+            {
+                // Fallback: If no path found, continue with the original path
+                Vector2[] newPathFallback = CalculatePath(enemyPosition, targetPosition);
+                path = newPathFallback;
+                currentTargetIndex = 0;
+                if (displayPathLine)
+                {
+                    DisplayPathLine();
+                }
             }
         }
         else
         {
-            // Clear the line if no valid path
-            lineRenderer.positionCount = 0;
+            // Proceed with the original path if there are no issues
+            Vector2[] newPath = CalculatePath(enemyPosition, targetPosition);
+            if (newPath != null && newPath.Length > 0)
+            {
+                path = newPath;
+                currentTargetIndex = 0;
+                if (displayPathLine)
+                {
+                    DisplayPathLine();
+                }
+            }
+            else
+            {
+                lineRenderer.positionCount = 0;
+            }
         }
-        
+    }
+
+    // Count the number of enemies in a given path range
+    int CountEnemiesInPath(Vector2 start, Vector2 end)
+    {
+        int count = 0;
+        List<Vector2> pathPositions = GetPathPositionsBetween(start, end);
+
+        foreach (Vector2 pos in pathPositions)
+        {
+            // Check if there's an enemy in this position (assuming you have a way to check for enemies on the map)
+            if (IsEnemyAtPosition(pos))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Example of how to get path positions between two points
+    List<Vector2> GetPathPositionsBetween(Vector2 start, Vector2 end)
+    {
+        List<Vector2> positions = new List<Vector2>();
+        Vector2 current = start;
+        while (current != end)
+        {
+            positions.Add(current);
+            // You may need to calculate the next position based on your pathfinding algorithm
+            // (e.g., using the same logic as BFS/A* to move step-by-step)
+            current = GetNextStepTowardsEnd(current, end);  // This would be a method to move step by step
+        }
+        return positions;
+    }
+
+    // Find an alternative destination to surround the player
+    Vector2 FindSurroundingTarget(Vector2 originalTarget)
+    {
+        // Find neighboring tiles around the target position
+        List<Vector2> surroundingTiles = new List<Vector2>
+    {
+        new Vector2(originalTarget.x + 1, originalTarget.y),  // Right
+        new Vector2(originalTarget.x - 1, originalTarget.y),  // Left
+        new Vector2(originalTarget.x, originalTarget.y + 1),  // Up
+        new Vector2(originalTarget.x, originalTarget.y - 1)   // Down
+    };
+
+        // Filter out non-walkable or blocked tiles
+        surroundingTiles = surroundingTiles.Where(pos => IsWalkable(pos)).ToList();
+
+        // Choose a random surrounding tile (or implement a more strategic surrounding logic)
+        if (surroundingTiles.Count > 0)
+        {
+            return surroundingTiles[UnityEngine.Random.Range(0, surroundingTiles.Count)];
+        }
+
+        return originalTarget;  // Fallback to original target if no valid surrounding positions
+    }
+
+    // Example of how to get the next step towards the end in a pathfinding algorithm
+    Vector2 GetNextStepTowardsEnd(Vector2 current, Vector2 goal)
+    {
+        // The next step can be obtained from your pathfinding algorithm
+        // For now, we can return the next node in the path calculated previously.
+
+        // Use the CalculatePath function to determine the path from current to goal
+        // This should already give us a series of positions along the path.
+        List<Vector2> path = new List<Vector2>(CalculatePath(current, goal));
+
+        // If the path has more than 1 step, return the second step (the next step after the current position)
+        if (path.Count > 1)
+        {
+            return path[1];  // The next position in the path
+        }
+
+        // If no valid path is found, return the current position to avoid moving to an invalid position
+        return current;
+    }
+
+
+    // Method to check if there's an enemy at a given position (you need to implement enemy detection logic)
+    bool IsEnemyAtPosition(Vector2 position)
+    {
+        // Check if there is an enemy at the given position
+        // This assumes you have a way to detect enemies on the tilemap
+        return false;  // Implement your own logic to detect enemies
     }
 
     //bredth find algorithm to find the closest walkable tile. This fix the infinite loop if the player body 

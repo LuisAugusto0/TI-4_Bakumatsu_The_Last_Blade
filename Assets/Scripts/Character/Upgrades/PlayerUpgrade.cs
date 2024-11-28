@@ -28,7 +28,17 @@ public class RoninPlayerFireSwordUpgrade : RoninPlayerUpgrade
     public static void LoadIcon(Sprite sprite) => icon = sprite;
     public static void UnloadIcon() => icon = null;
 
+
+    static string? iconAdressablePath;
+    public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+    public override string? GetIconAdressablePath() => iconAdressablePath;
+    public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+    public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
+
+
     static GameObject? action;
+
+
     public static void LoadActionPrefab(GameObject prefab)
     {
         action = prefab;

@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Upgrade
+  m_Name: Upgrades
   m_EditorClassIdentifier: 
-  m_GroupName: Upgrade
+  m_GroupName: Upgrades
   m_Data:
     m_SerializedData: []
   m_GUID: 52730edac6c68ef43bf32c48bfdbaf5e
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 584eebb480582e84bbd8211d3c6820cc
+    m_Address: Sprites/Upgrades/Icon_404.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f1c8e71cb8fd8214f8c678e2cb4e5546, type: 2}
   m_SchemaSet:

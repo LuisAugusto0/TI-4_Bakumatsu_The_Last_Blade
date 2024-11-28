@@ -7,7 +7,13 @@ using UnityEngine;
 
 public abstract class BaseUpgrade
 {
+    // Not best approach, may be removed
     public abstract Sprite GetIcon();
+
+
+    public abstract string GetIconAdressablePath();
+    
+    
     public int Quantity { get {return quantity;}}
     public int GetQuantity() => quantity;
     protected int quantity = 1;
