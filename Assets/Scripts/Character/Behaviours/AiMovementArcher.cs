@@ -52,8 +52,8 @@ public class AiMovementArcher : MonoBehaviour
 
     public Character character;
     public Animator animator;
-    PathFindingAlgorithm pathFinding;
-    public PathFindingAlgorithm GetTargetSearchAlgorithm {get {return pathFinding;}}
+    PathFindingAlgorithmArcher pathFinding;
+    public PathFindingAlgorithmArcher GetTargetSearchAlgorithm {get {return pathFinding;}}
 
     public Coroutine updatePathCoroutine = null;
     public Coroutine followPathCoroutine = null;
@@ -63,7 +63,7 @@ public class AiMovementArcher : MonoBehaviour
     void Awake()
     {
         movement = GetComponent<DirectionalMovement>();
-        pathFinding = GetComponent<PathFindingAlgorithm>();
+        pathFinding = GetComponent<PathFindingAlgorithmArcher>();
         pathFinding.SetMoveTowardsDelegate(Move);
         keepAwayRadius = 1;
         player = GameObject.FindGameObjectWithTag("Player");

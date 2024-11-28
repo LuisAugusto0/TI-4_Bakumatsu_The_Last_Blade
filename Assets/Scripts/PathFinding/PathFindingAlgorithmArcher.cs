@@ -10,8 +10,10 @@ using UnityEngine.Analytics;
 // Uses main tile map along with tile collision data to determine optimal path
 public class PathFindingAlgorithmArcher : MonoBehaviour
 {
-    public int rangeX = 10; 
-    public int rangeY = 10; 
+    public int rangeX = 4; 
+    public int rangeY = 4; 
+
+    public GameObject enemy;
 
     // Method to transmit next point the gameObject is expected to go
     public delegate void MoveTowards(Vector2 value);
@@ -109,6 +111,44 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
         
     }
 
+    Vector2 findClosestWalkable(Vector2 actualPosition)
+    {
+        // Queue for BFS
+        Queue<Vector2> positions = new Queue<Vector2>();
+        positions.Enqueue(actualPosition);
+        // Set to track visited nodes
+        HashSet<Vector2> visited = new HashSet<Vector2>();
+
+        while (positions.Count > 0)
+        {
+            Vector2 current = positions.Dequeue();
+
+            // If the current position is walkable, return it
+            if (IsWalkable(current))
+            {
+                return current;
+            }
+
+            // Mark the current position as visited
+            if (!visited.Contains(current))
+            {
+                visited.Add(current);
+
+                // Add adjacent positions to the queue
+                foreach (Vector2 adjacent in GetAdjacentPositions(current))
+                {
+                    if (!visited.Contains(adjacent))
+                    {
+                        positions.Enqueue(adjacent);
+                    }
+                }
+            }
+        }
+
+        // If no walkable position is found, return a default value (or handle appropriately)
+        throw new Exception("No walkable position found.");
+    }
+
     // Helper method to get adjacent positions in 4 directions (up, down, left, right)
     IEnumerable<Vector2> GetAdjacentPositions(Vector2 position)
     {
@@ -121,33 +161,50 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
         };
     }
 
-    Vector2[] CalculatePath(Vector2 start, Vector2 goal)
+   Vector2[] CalculatePath(Vector2 start, Vector2 goal)
     {
+        Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(enemy.transform.position);
         List<Vector2> queue = new List<Vector2>();  // List used as a priority queue
         HashSet<Vector2> visited = new HashSet<Vector2>();
-        //Dictionary<Vector2, int> acummulated = new Dictionary<Vector2, int>();
         Dictionary<Vector2, Vector2> cameFrom = new Dictionary<Vector2, Vector2>();
-
-        // Define the two main goals
-        Vector2 goal1 = new Vector2(goal.x, rangeY);  // goal with y = rangeY
-        Vector2 goal2 = new Vector2(rangeX, goal.y);  // goal with x = rangeX
 
         queue.Add(start);
         visited.Add(start);
 
+        float x = Mathf.Abs(goal.x - enemyPosition.x);
+        float y = Mathf.Abs(goal.y - enemyPosition.y);
 
+       Debug.Log("Pos Jogador: " + goal);
+       Debug.Log("Pos Inimigo: " + enemy.transform.position);
+
+        if(x >= y){
+            if(goal.x > enemyPosition.x){
+                goal.x = goal.x - rangeX;
+            }
+            else if(goal.x < enemyPosition.x){
+                goal.x = goal.x + rangeX;
+            }
+        } else {
+            if(goal.y > enemyPosition.y){
+                goal.y = goal.y - rangeY;
+            }
+            else if(goal.y < enemyPosition.y){
+                goal.y = goal.y + rangeY;
+            }
+        }
+
+        goal = findClosestWalkable(goal);
+        
         while (queue.Count > 0)
         {
-            queue.Sort((a, b) =>
-                Mathf.Min(Vector2.Distance(a, goal1), Vector2.Distance(a, goal2))
-                .CompareTo(Mathf.Min(Vector2.Distance(b, goal1), Vector2.Distance(b, goal2)))
-            );
+            // Sort the queue based on distance to the player
+            queue.Sort((a, b) => Vector2.Distance(a, goal).CompareTo(Vector2.Distance(b, goal)));
 
-            Vector2 current = queue[0];  // Take the closest position to either goal
+            Vector2 current = queue[0];  // Take the closest position to the player
             queue.RemoveAt(0);  // Remove the position from the queue
 
-            // Check if we reached either of the goals
-            if (current == goal1 || current == goal2)
+            // Check if we reached the goal
+            if (current == goal)
             {
                 return ReconstructPath(cameFrom, current);
             }
@@ -157,6 +214,15 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
             {
                 for (int dy = -1; dy <= 1; dy++)
                 {
+                     // Skip diagonal movements if the corresponding non-diagonal paths are non-walkable
+                    // if (Mathf.Abs(dx) == Mathf.Abs(dy)) // Check for diagonal movement
+                    // {
+                    //     if (!IsWalkable(current + new Vector2(dx, 0)) || !IsWalkable(current + new Vector2(0, dy)))
+                    //         continue;
+                    // }
+
+                    // if (Mathf.Abs(dx) == Mathf.Abs(dy)) continue; // Skip diagonal movements
+
                     Vector2 neighbor = current + new Vector2(dx, dy);
 
                     // Check if neighbor is walkable and has not been visited
