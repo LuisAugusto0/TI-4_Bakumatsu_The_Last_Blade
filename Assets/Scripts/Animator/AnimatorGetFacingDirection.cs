@@ -58,7 +58,7 @@ public class AnimatorGetFacingDirection : StateMachineBehaviour
 
         else
         {
-            Debug.LogWarning("None of the assigned values match for " + animator.gameObject);
+            Debug.LogWarning("None of the assigned values match for " + animator.gameObject + " " + stateInfo);
         }
     }
 
