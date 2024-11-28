@@ -70,17 +70,7 @@ public class UpgradeIconAdressable : MonoBehaviour
     }
 
    
-    public static void LoadUpgradePaths()
-    {
-        SpeedBoostAfterHitUpgrade.SetIconAdressablePath(defaultPath);
-        BaseDamageBonusAfterHit.SetIconAdressablePath(defaultPath);
-        
-        SpeedBonusUpgrade.SetIconAdressablePath(defaultPath);
-        DoubleSpeedUpgrade.SetIconAdressablePath(defaultPath);
-        DamageBonusStatBoost.SetIconAdressablePath(defaultPath);
-        DamageMultiplierStatBonus.SetIconAdressablePath(defaultPath);
-        BaseHealthBonusUpgrade.SetIconAdressablePath(defaultPath);
-    }
+
 
     public static void AssertUpgradesPaths()
     {
@@ -95,22 +85,31 @@ public class UpgradeIconAdressable : MonoBehaviour
     }
 
 
+    // Some of those upgrades are not correct or do not exist. This is a 
+    // temporary implementation to ensure the adressables are working
+    const string FireSwordRune = "Sprites/Images/Runes/FireSwordRune.png";
+    const string ImmunityRune = "Sprites/Images/Runes/ImunityRune.png";
+    const string HyperSpeedRune = "Sprites/Images/Runes/HyperSpeedRune.png";
+    const string LifeRune = "Sprites/Images/Runes/LifeRune.png";
+    const string SpeedRune = "Sprites/Images/Runes/SpeedRune.png";
 
 
 
-    // Not best solutions -> may be dropped later
+
+
+    // Is it best to load all of them at once?
     public static async void LoadIcons()
     {
-        Debug.Log("HERE!@!!");
-        ImmunityAfterHitUpgrade.LoadIcon(await GetIconAsync(defaultPath));
-        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        Debug.Log("Loading Upgrade Icons");
+        ImmunityAfterHitUpgrade.LoadIcon(await GetIconAsync(ImmunityRune));
+        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(HyperSpeedRune));
         BaseDamageBonusAfterHit.LoadIcon(await GetIconAsync(defaultPath));
 
-        SpeedBonusUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        SpeedBonusUpgrade.LoadIcon(await GetIconAsync(SpeedRune));
         DoubleSpeedUpgrade.LoadIcon(await GetIconAsync(defaultPath));
-        DamageBonusStatBoost.LoadIcon(await GetIconAsync(defaultPath));
+        DamageBonusStatBoost.LoadIcon(await GetIconAsync(FireSwordRune));
         DamageMultiplierStatBonus.LoadIcon(await GetIconAsync(defaultPath));
-        BaseHealthBonusUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        BaseHealthBonusUpgrade.LoadIcon(await GetIconAsync(LifeRune));
     }
 
     public static void UnloadIcons()
@@ -126,6 +125,20 @@ public class UpgradeIconAdressable : MonoBehaviour
         BaseHealthBonusUpgrade.UnloadIcon();
     }
 
+    
+
+    // If needed later on
+    public static void LoadUpgradePaths()
+    {
+        SpeedBoostAfterHitUpgrade.SetIconAdressablePath(ImmunityRune);
+        BaseDamageBonusAfterHit.SetIconAdressablePath(HyperSpeedRune);
+        
+        SpeedBonusUpgrade.SetIconAdressablePath(SpeedRune);
+        DoubleSpeedUpgrade.SetIconAdressablePath(defaultPath);
+        DamageBonusStatBoost.SetIconAdressablePath(FireSwordRune);
+        DamageMultiplierStatBonus.SetIconAdressablePath(defaultPath);
+        BaseHealthBonusUpgrade.SetIconAdressablePath(LifeRune);
+    }
 
  
 }

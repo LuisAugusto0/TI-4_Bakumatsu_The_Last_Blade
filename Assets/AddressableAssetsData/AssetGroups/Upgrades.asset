@@ -17,8 +17,38 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 52730edac6c68ef43bf32c48bfdbaf5e
   m_SerializeEntries:
+  - m_GUID: 068755497aa743d42a74bf8586e3f5c2
+    m_Address: Sprites/Images/Runes/ImunityRune.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c84daaa4d6d1274ebe4844e2d88be7a
+    m_Address: Sprites/Images/Runes/PowerRune.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c0049f3771cf6448a6b412c274ea092
+    m_Address: Sprites/Images/Runes/HyperSpeedRune.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 584eebb480582e84bbd8211d3c6820cc
     m_Address: Sprites/Upgrades/Icon_404.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c6330fe224ca1148ad768f6027c71ff
+    m_Address: Sprites/Images/Runes/LifeRune.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 87875b3195c49a948a6760b6049600c1
+    m_Address: Sprites/Images/Runes/SpeedRune.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdc479782f4887c48895b082ecc3aa28
+    m_Address: Sprites/Images/Runes/FireSwordRune.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
