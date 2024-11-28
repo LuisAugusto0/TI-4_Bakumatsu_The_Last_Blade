@@ -28,7 +28,7 @@ where TEffect : BaseEffect, IPersistantEffect {
     }
 
     public EffectReceiver GetTarget() => target;
-    public abstract Sprite GetIcon();
+    public abstract Sprite? GetIcon();
     public bool IsActive() => coroutine == null;
 
 

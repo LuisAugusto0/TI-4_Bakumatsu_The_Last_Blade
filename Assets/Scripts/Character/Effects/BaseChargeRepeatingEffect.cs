@@ -42,7 +42,7 @@ where TEffect : INonPersistantEffect
         effectCoroutine = target.StartCoroutine(Coroutine());
     }
 
-    public abstract Sprite GetIcon();
+    public abstract Sprite? GetIcon();
     public bool IsActive() => effectCoroutine == null; 
     public int GetRemaningCharges() => charges;
 

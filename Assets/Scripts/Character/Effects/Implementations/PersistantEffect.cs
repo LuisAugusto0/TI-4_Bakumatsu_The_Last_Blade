@@ -7,33 +7,33 @@ using UnityEngine;
 namespace Effects.Implementations.PersistantEffect
 {
     public class ImmunityEffect : BaseEffect, IPersistantEffect {
-    public ImmunityEffect(EffectReceiver target) : base(target) {}
-    bool inEffect = false;
+        public ImmunityEffect(EffectReceiver target) : base(target) {}
+        bool inEffect = false;
 
-    public bool IsActive() => inEffect;
+        public bool IsActive() => inEffect;
 
-    public override void Start()
-    {
-        // if immunity was already added, 
-        // damageable HashSet will block the consecutive adds
-        target.damageable.AddImmunity(this);
-        inEffect = true;
+        public override void Start()
+        {
+            // if immunity was already added, 
+            // damageable HashSet will block the consecutive adds
+            target.damageable.AddImmunity(this);
+            inEffect = true;
+        }
+
+
+        public void End()
+        {
+            target.damageable.RemoveImmunity(this);
+            inEffect = false;
+        }
     }
 
 
-    public void End()
-    {
-        target.damageable.RemoveImmunity(this);
-        inEffect = false;
-    }
-}
 
-
-
-    public class SpeedBonusEffect : BaseEffect, IPersistantEffect {
+    public class FixedSpeedBonusEffect : BaseEffect, IPersistantEffect {
         float speedBonus;
 
-        public SpeedBonusEffect(EffectReceiver target, float speedBonus) 
+        public FixedSpeedBonusEffect(EffectReceiver target, float speedBonus) 
         : base(target) 
         {
             this.speedBonus = speedBonus;
@@ -103,9 +103,9 @@ namespace Effects.Implementations.PersistantEffect
         }
     }
 
-    public class DamageBonusEffect : BaseEffect, IPersistantEffect {
+    public class FixedDamageBonusEffect : BaseEffect, IPersistantEffect {
         int damageBonus;
-        public DamageBonusEffect(EffectReceiver target, int damageBonus) 
+        public FixedDamageBonusEffect(EffectReceiver target, int damageBonus) 
         : base(target) 
         { 
             this.damageBonus = damageBonus;
@@ -174,9 +174,9 @@ namespace Effects.Implementations.PersistantEffect
         }
     } 
 
-    public class HealthBonusEffect : BaseEffect, IPersistantEffect {
+    public class FixedHealthBonusEffect : BaseEffect, IPersistantEffect {
         int healthBonus;
-        public HealthBonusEffect(EffectReceiver target, int healthBonus) 
+        public FixedHealthBonusEffect(EffectReceiver target, int healthBonus) 
         : base(target) 
         {
             this.healthBonus = healthBonus;

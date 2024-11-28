@@ -15,12 +15,13 @@ using UnityEngine;
  * remaning duration. 
  * Does not change the duration when used Start() 
  */
+#nullable enable
 
 public interface ILifeTimedEffect : INonPersistantEffect
 {
     public bool IsActive();
     public void ForceStop();
-    public abstract Sprite GetIcon();
+    public abstract Sprite? GetIcon();
 }
 
 
