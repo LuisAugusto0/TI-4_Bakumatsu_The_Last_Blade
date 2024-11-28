@@ -148,6 +148,29 @@ namespace Upgrades.Implementations.PermanentUpgrade
             OnHealthUpdate?.Invoke();
             int newBonus = quantity * baseBonus;
             effect.Update(newBonus);
+
+
+            // Atualiza o bônus de vida no jogador
+            var damageable = target.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                damageable.IncreaseBaseHealthBonus(newBonus); // Atualiza o baseHp e o currentHp
+
+                // Atualiza a UI para refletir o novo máximo de vida
+                var gameplayUI = GameObject.FindObjectOfType<GameplayUI>();
+                if (gameplayUI != null)
+                {
+                    gameplayUI.UpdateHeartsUI(); // Atualiza os corações dinamicamente
+                }
+                else
+                {
+                    Debug.LogWarning("GameplayUI não encontrado. Certifique-se de que está ativo na cena.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Componente Damageable não encontrado no jogador!");
+            }
         }
 
         protected override FixedHealthBonusEffect GetEffect()

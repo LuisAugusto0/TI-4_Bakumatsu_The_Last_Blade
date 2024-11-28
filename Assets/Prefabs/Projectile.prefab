@@ -190,7 +190,7 @@ MonoBehaviour:
   damage: 1
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   onDamageableHit:
     m_PersistentCalls:
       m_Calls:
@@ -221,4 +221,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  characterSpriteRenderer: {fileID: 6727956272471137493}

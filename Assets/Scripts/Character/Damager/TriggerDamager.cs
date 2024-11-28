@@ -87,7 +87,7 @@ public class TriggerDamager : Damager
             if (damageable != null)
             {
                 onDamageableHit.Invoke(damageable, this);
-                damageable.TakeDamage(this.gameObject, damage);
+                damageable.HitTakeDamage(this.gameObject, damage);
             }
             else
             {

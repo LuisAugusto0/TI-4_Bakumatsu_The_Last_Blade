@@ -167,8 +167,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onHitImmunityTime: 2
-  baseHealth: 1
-  currentHealth: 0
+  baseHp: 1
+  baseHpBonus: 0
+  currentBaseHp: 1
+  currentHp: 1
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -238,4 +240,3 @@ MonoBehaviour:
   breakableObject: {fileID: 0}
   breakedObject: {fileID: 0}
   fire: {fileID: 0}
-  player: {fileID: 0}

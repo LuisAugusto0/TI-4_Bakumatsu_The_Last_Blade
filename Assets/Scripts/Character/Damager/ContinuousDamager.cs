@@ -80,6 +80,8 @@ public class ContinuousDamager : Damager
 
         int layer = collider.gameObject.layer;
 
+        Debug.Log("entrou em contato com o fogo");
+
         // Layer is included in the LayerMask
         if ((hittableLayers & (1 << layer)) != 0)
         {
@@ -87,12 +89,14 @@ public class ContinuousDamager : Damager
             if (damageable != null)
             {
                 onDamageableHit.Invoke(damageable, this);
-                damageable.TakeDamage(this.gameObject, damage);
+                damageable.HitTakeDamage(this.gameObject, damage);
+                hitColliders.Clear();
             }
             else
             {
                 onNonDamageableHit.Invoke(this);
             }
+            //wait 0.5 seconds
         }
     }
 
