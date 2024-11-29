@@ -7,6 +7,7 @@ public class EnemyGenerator : MonoBehaviour
     public int[] chanceOfEnemies;
     public Transform[] _spawnPoints;
     public GameObject[] _enemiesPrefab;
+    public GameObject[] _bossesPrefab;
 
     protected int enemyCount = 0;
 
@@ -19,6 +20,7 @@ public class EnemyGenerator : MonoBehaviour
     private float _hordeBreakTimer = 0f;
     private float _hordeTimer = 0f;
     private bool hordeReady = false;
+    private bool _boss = false;
 
     public static EnemyGenerator Instance { get; private set; }
 
@@ -85,6 +87,15 @@ public class EnemyGenerator : MonoBehaviour
         int spawnIndex = Random.Range(0, _spawnPoints.Length);
         GameObject obj = Instantiate(_enemiesPrefab[enemyIndex], _spawnPoints[spawnIndex].position, Quaternion.identity);
         obj.SetActive(true);
+        if(_currentHorde % 3 == 0 && !_boss)
+        {
+            Damageable dmg = obj.GetComponent<Damageable>();
+            dmg.setBaseHealth(1);
+            CharacterDamage cdmg = obj.GetComponent<CharacterDamage>();
+            cdmg.AddBaseDamage(1);
+            obj = Instantiate(_bossesPrefab[Random.Range(0, _bossesPrefab.Length)], _spawnPoints[spawnIndex].position, Quaternion.identity);
+            _boss = true;
+        }
     }
 
     void EndCurrentHorde()
@@ -95,6 +106,7 @@ public class EnemyGenerator : MonoBehaviour
         hordeReady = false;     // Reseta a flag para a próxima pausa
         _hordeDurationTime += _hordeDurationTime * 0.1f; // Aumenta a duração da próxima horda
         Debug.Log("Horda " + _currentHorde + " finalizada. Próxima horda em " + _hordeBreakTime + " segundos.");
+        _boss = false;
     }
 
 

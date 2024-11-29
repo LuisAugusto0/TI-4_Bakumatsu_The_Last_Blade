@@ -41,6 +41,11 @@ public class CharacterDamage : MonoBehaviour
         onKill.AddListener((target, damage)=>Debug.Log("KILL"));
     }
 
+    public void AddBaseDamage(int value)
+    {
+        baseDamage += value;
+    }
+
     public void AddDamageBonus(int value)
     {
         damageBonus += value;

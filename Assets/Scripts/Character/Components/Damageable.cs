@@ -53,7 +53,6 @@ public class Damageable : MonoBehaviour
 
     public UniqueStatusEffectManager uniqueStatusEffectManager; // can be null
 
-
     public HealthSetEvent onHealthSet;
     public HealEvent onHeal;
     public OnHitEvent onHit;
@@ -61,6 +60,11 @@ public class Damageable : MonoBehaviour
     public AddedImmunityEvent addedImmunity;
     public EndedImmunityEvent endedImmunity; 
 
+    public void setBaseHealth(int newBaseHealth)
+    {
+        baseHp += newBaseHealth;
+        RecalculateBaseHealth();
+    }
 
     void Start()
     {
