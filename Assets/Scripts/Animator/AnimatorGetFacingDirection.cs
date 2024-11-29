@@ -31,29 +31,44 @@ public class AnimatorGetFacingDirection : StateMachineBehaviour
     private static readonly int IdleUpHash = Animator.StringToHash("BaseLayer.Up.Idle");
     private static readonly int IdleForwardHash = Animator.StringToHash("BaseLayer.Forward.Idle");
     private static readonly int IdleDownHash = Animator.StringToHash("BaseLayer.Down.Idle");
+
     private static readonly int MoveUpHash = Animator.StringToHash("BaseLayer.Up.Walk");
     private static readonly int MoveForwardHash = Animator.StringToHash("BaseLayer.Forward.Walk");
     private static readonly int MoveDownHash = Animator.StringToHash("BaseLayer.Down.Walk");
-    
+
+    private static readonly int AttackUpHash = Animator.StringToHash("BaseLayer.Up.Attack");
+    private static readonly int AttackForwardHash = Animator.StringToHash("BaseLayer.Forward.Attack");
+    private static readonly int AttackDownHash = Animator.StringToHash("BaseLayer.Down.Attack");
+        
+
 
     protected void SetDirection(Animator animator, AnimatorStateInfo stateInfo)
     {
         // Check which state is currently active and set the direction
-        if (stateInfo.fullPathHash == IdleUpHash || stateInfo.fullPathHash == MoveUpHash)
+        if (stateInfo.fullPathHash == IdleUpHash || stateInfo.fullPathHash == MoveUpHash
+        || stateInfo.fullPathHash == AttackUpHash)
         {
             setFacingDirection?.Invoke(Direction.Up);
+            Debug.Log("Up");
         }
 
-        else if (stateInfo.fullPathHash == IdleForwardHash || stateInfo.fullPathHash == MoveForwardHash)
+        else if (stateInfo.fullPathHash == IdleForwardHash || stateInfo.fullPathHash == MoveForwardHash
+        || stateInfo.fullPathHash == AttackForwardHash)
         {
             setFacingDirection?.Invoke(Direction.Forward);
-        
+            Debug.Log("Forward");
+            string s1 = stateInfo.fullPathHash == IdleForwardHash ? "true" : "false";
+            string s2 = stateInfo.fullPathHash == MoveForwardHash ? "true" : "false";
+            string s3 = stateInfo.fullPathHash == AttackForwardHash ? "true" : "false";
+
+            Debug.Log(s1 + " " + s2 + " " + s3);
         }
 
-        else if (stateInfo.fullPathHash == IdleDownHash || stateInfo.fullPathHash == MoveDownHash)
+        else if (stateInfo.fullPathHash == IdleDownHash || stateInfo.fullPathHash == MoveDownHash
+        || stateInfo.fullPathHash == AttackDownHash)
         {
             setFacingDirection?.Invoke(Direction.Down);
-            
+            Debug.Log("Down");
         }
 
         else
@@ -68,5 +83,6 @@ public class AnimatorGetFacingDirection : StateMachineBehaviour
         {
             behaviour.setFacingDirection = setDirection;
         }
+        Debug.Log(animator.gameObject + " done!");
     }
 }

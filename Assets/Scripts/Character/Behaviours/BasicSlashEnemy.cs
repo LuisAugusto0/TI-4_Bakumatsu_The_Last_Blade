@@ -116,7 +116,7 @@ public class BasicSlashEnemy : MonoBehaviour
         _animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(direction.x));
         _animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(direction.y));
 
-        movement.UpdateFacingDirection();
+        movement.UpdateRendererFlipOnMove();
     }
 
     bool CanAttack()

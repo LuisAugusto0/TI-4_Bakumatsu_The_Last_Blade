@@ -13,7 +13,7 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
     public int rangeX = 4; 
     public int rangeY = 4; 
 
-    public GameObject enemy;
+    public GameObject self;
 
     // Method to transmit next point the gameObject is expected to go
     public delegate void MoveTowards(Vector2 value);
@@ -163,7 +163,7 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
 
    Vector2[] CalculatePath(Vector2 start, Vector2 goal)
     {
-        Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(enemy.transform.position);
+        Vector2 enemyPosition = tilemapToMatrix.WalkableMatrixToMatrix(self.transform.position);
         List<Vector2> queue = new List<Vector2>();  // List used as a priority queue
         HashSet<Vector2> visited = new HashSet<Vector2>();
         Dictionary<Vector2, Vector2> cameFrom = new Dictionary<Vector2, Vector2>();
@@ -174,8 +174,8 @@ public class PathFindingAlgorithmArcher : MonoBehaviour
         float x = Mathf.Abs(goal.x - enemyPosition.x);
         float y = Mathf.Abs(goal.y - enemyPosition.y);
 
-       Debug.Log("Pos Jogador: " + goal);
-       Debug.Log("Pos Inimigo: " + enemy.transform.position);
+    //    Debug.Log("Pos Jogador: " + goal);
+    //    Debug.Log("Pos Inimigo: " + self.transform.position);
 
         if(x >= y){
             if(goal.x > enemyPosition.x){
