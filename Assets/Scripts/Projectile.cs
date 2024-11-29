@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
 
     public void DestroyOnHitObstacle()
     {
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     public void UpdatePierce()
