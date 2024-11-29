@@ -71,6 +71,7 @@ public class TilemapToMatrix : MonoBehaviour
         return new Vector2(cellPosition.x - tilemap.cellBounds.xMin, cellPosition.y - tilemap.cellBounds.yMin);
     }
 
+
     void PrintMatrix()
     {
         string matrixString = "";
