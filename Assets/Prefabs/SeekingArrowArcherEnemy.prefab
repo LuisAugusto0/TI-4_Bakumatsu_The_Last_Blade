@@ -235,7 +235,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!95 &5959861539089424675
 Animator:
@@ -312,7 +312,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6222693462209933473}
         m_TargetAssemblyTypeName: ArcherEnemy, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
