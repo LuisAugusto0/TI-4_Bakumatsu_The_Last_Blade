@@ -7,6 +7,7 @@ using UnityEngine;
 using Effects.Implementations.PersistantEffect;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Effects.Implementations.CompositePersistantEffect;
 
 namespace Effects.Implementations.TimedEffect
 {
@@ -90,6 +91,35 @@ namespace Effects.Implementations.TimedEffect
         }
     }  
 
+
+    public class TimedPositiveDamageMultiplierEffect : TimedEffect<DamageMultiplierEffect>
+    {
+        public TimedPositiveDamageMultiplierEffect(DamageMultiplierEffect effect, float duration, Action? onEffectEnd) 
+        : base(effect, duration, onEffectEnd) 
+        {}
+
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
+        public void Update(float duration, int bonus)
+        {
+            this.duration = duration;
+            this.effect.Update(bonus);
+        }
+
+        public void RefreshUpdate(float duration, int bonus)
+        {
+            Update(duration, bonus);
+            UpdateRemaningTime(duration);
+        }
+    }  
+
+
     [Obsolete("Icon not implemented")]
     public class TimedFixedHealthBonusEffect : TimedEffect<FixedHealthBonusEffect>
     {
@@ -151,4 +181,20 @@ namespace Effects.Implementations.TimedEffect
         }
     }  
 
+
+
+    public class TimedEscapeEffect : TimedEffect<PairEffect<ImmunityEffect, SpeedMultiplierEffect>>
+    {
+        public TimedEscapeEffect(PairEffect<ImmunityEffect, SpeedMultiplierEffect> effect, float duration, Action? onEffectEnd) 
+        : base(effect, duration, onEffectEnd) 
+        {}
+
+        static Sprite? icon;    
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+    }  
 }

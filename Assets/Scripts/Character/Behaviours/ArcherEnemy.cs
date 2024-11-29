@@ -51,6 +51,8 @@ public class ArcherEnemy : MonoBehaviour
     public Transform transformDown;
     Transform currentTransform;
 
+    private GameObject player;
+
     public GameObject arrow;
 
 
@@ -92,6 +94,7 @@ public class ArcherEnemy : MonoBehaviour
     void Start()
     {
         // Start as idle
+        player = GameObject.FindGameObjectWithTag("Player");
         _animator.SetBool(movingBooleanHash, false);
     }
 
@@ -179,15 +182,15 @@ public class ArcherEnemy : MonoBehaviour
         {
             case AnimatorGetFacingDirection.Direction.Up:
                 currentTransform = transformUp;
-                Debug.Log("Up");
+                //Debug.Log("Up");
                 break;
             case AnimatorGetFacingDirection.Direction.Down:
                 currentTransform = transformDown;
-                Debug.Log("Down");
+                //Debug.Log("Down");
                 break;
             case AnimatorGetFacingDirection.Direction.Forward:
                 currentTransform = transformForward;
-                Debug.Log("Forward");
+                //Debug.Log("Forward");
                 break;
         }
     }
@@ -273,7 +276,6 @@ public class ArcherEnemy : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         GameObject newObject = Instantiate(arrow, currentTransform.position, rotation);
         Projectile projectile = newObject.GetComponent<Projectile>();
-         
     }
 
     public void OnAttackCancel()

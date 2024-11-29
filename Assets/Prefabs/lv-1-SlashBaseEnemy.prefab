@@ -131,6 +131,9 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -231,6 +234,9 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -257,13 +263,15 @@ GameObject:
   - component: {fileID: 4803832650283520926}
   - component: {fileID: 355349314308088546}
   - component: {fileID: -4095416796606989165}
+  - component: {fileID: 6275323931773119487}
+  - component: {fileID: 8551386681242547320}
   m_Layer: 7
   m_Name: lv-1-SlashBaseEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4489619097175041352
 Transform:
   m_ObjectHideFlags: 0
@@ -442,6 +450,7 @@ MonoBehaviour:
   baseHpBonus: 0
   currentBaseHp: 6
   currentHp: 6
+  uniqueStatusEffectManager: {fileID: 0}
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -762,6 +771,12 @@ MonoBehaviour:
   onDamageChange:
     m_PersistentCalls:
       m_Calls: []
+  onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-4095416796606989165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +797,33 @@ MonoBehaviour:
   - {fileID: 6792218746891559585, guid: a0239056ef2ce5342a5ad1ab9ebf2911, type: 3}
   weights: 0200000001000000020000000200000002000000
   spawnProbability: 0.1
+--- !u!114 &6275323931773119487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6d09459a22ca14a8067f858aeae304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8551386681242547320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a46217c3c77166e47a37d1f5a9eec931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStatusEffectUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7472910736322437890
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +919,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamageableKill:
     m_PersistentCalls:
       m_Calls: []
   onNonDamageableHit:

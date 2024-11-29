@@ -1,5 +1,7 @@
+using Effects.Implementations.CompositePersistantEffect;
 using Effects.Implementations.PersistantEffect;
 using Effects.Implementations.TimedEffect;
+using UniqueStatusEffects.Implementations.UniqueChargeEffect;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -15,7 +17,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Rarity: ? 
     */
     
-    public class EscapeUpgrade : BaseUpgradeAfterEventEffect<TimedImmunityEffect>
+    public class EscapeUpgrade : BaseUpgradeAfterEventEffect<TimedEscapeEffect>
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
@@ -32,30 +34,39 @@ namespace Upgrades.Implementations.EventUpgrade
         public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
-        const float baseDuration = 2.5f;
+        const float BaseDuration = 1.5f;
+        const float BaseMultiplier = 1.5f;
 
         public EscapeUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity){}
 
-        protected override TimedImmunityEffect GetEffect()
+        protected PairEffect<ImmunityEffect, SpeedMultiplierEffect> GetImmunityEffect()
         {
-            return new TimedImmunityEffect(
-                new ImmunityEffect(target.effectReceiver), baseDuration, null
+            return new PairEffect<ImmunityEffect, SpeedMultiplierEffect>(
+                new ImmunityEffect(target.effectReceiver), 
+                new SpeedMultiplierEffect(target.effectReceiver, BaseMultiplier)
+            );
+        }
+        protected override TimedEscapeEffect GetEffect()
+        {
+            return new TimedEscapeEffect(
+                GetImmunityEffect(), CalculateDuration(), null
             );
         }
 
+        
+
         // Duration = 2.5 * 1.5 * quantity
-        public float CalculateNewDuration()
+        public float CalculateDuration()
         {
-            return baseDuration + quantity * 1.5f;
+            return BaseDuration + quantity * 1.5f;
         }
+
 
         protected override void Update()
         {
-            float newDuration = quantity * baseDuration;
-            effect.RefreshUpdateDuration(newDuration);
+            effect.RefreshUpdateDuration(CalculateDuration());
         }
-
 
 
         UnityAction<object, Damageable>? onHitListener;
@@ -72,8 +83,6 @@ namespace Upgrades.Implementations.EventUpgrade
                 target.damageable.onHit.RemoveListener(onHitListener);
             }
         }
-
- 
     }
 
 
@@ -141,8 +150,6 @@ namespace Upgrades.Implementations.EventUpgrade
                 target.damageable.onHit.RemoveListener(onHitListener);
             }
         }
-
-
     }
 
 
@@ -153,7 +160,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Growth type: Linear
     * Rarity: ? 
     */
-    public class BaseDamageBonusAfterHit : BaseUpgradeAfterEventEffect<TimedPositiveFixedDamageBonusEffect>  
+    public class BeserkUpgrade : BaseUpgradeAfterEventEffect<TimedPositiveDamageMultiplierEffect>  
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
@@ -170,18 +177,18 @@ namespace Upgrades.Implementations.EventUpgrade
         public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
-        const float BaseDuration = 1f;
-        const int BaseBonus = 1;
+        const float BaseDuration = 0.25f;
+        const float BaseMultiplier = 2f;
 
-        public BaseDamageBonusAfterHit(UpgradeManager target, int quantity)
+        public BeserkUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) {}
 
 
-        protected override TimedPositiveFixedDamageBonusEffect GetEffect()
+        protected override TimedPositiveDamageMultiplierEffect GetEffect()
         {
-            return new TimedPositiveFixedDamageBonusEffect(
-                new FixedDamageBonusEffect(target.effectReceiver, BaseBonus), 
-                BaseDuration, 
+            return new TimedPositiveDamageMultiplierEffect(
+                new DamageMultiplierEffect(target.effectReceiver, BaseMultiplier), 
+                quantity * BaseDuration, 
                 null
             );
         }
@@ -194,22 +201,107 @@ namespace Upgrades.Implementations.EventUpgrade
         }
 
 
-        UnityAction<object, Damageable>? onHitListener;
+        UnityAction<Damageable, TriggerDamager>? onKillListener;
         protected override void SubscribeToEvent()
         {
-            onHitListener = (object o, Damageable d) => effect.Start();
-            target.damageable.onHit.AddListener(onHitListener);
+            onKillListener = (Damageable d, TriggerDamager t) => {effect.Start(); Debug.Log("Invoked beserk");};
+            target.characterDamage.onKill.AddListener(onKillListener);
+        }
+
+        protected override void UnsubscribeToEvent()
+        {
+            if (onKillListener != null)
+            {
+                target.characterDamage.onKill.AddListener(onKillListener);
+            }
+        }
+    }
+
+
+    public class FireOnHitUpgrade : BaseUpgradeAfterEvent 
+    {
+        static Sprite? icon;
+        public static Sprite? GetStaticIcon() => icon;
+        public override Sprite? GetIcon() => icon;
+
+        public static void LoadIcon(Sprite sprite) => icon = sprite;
+        public static void UnloadIcon() => icon = null;
+
+
+        static string? iconAdressablePath;
+        public static string? StaticGetIconAdressablePath() => iconAdressablePath;
+        public override string? GetIconAdressablePath() => iconAdressablePath;
+        public static void SetIconAdressablePath(string s) => iconAdressablePath = s;
+        public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
+
+
+        const int BaseCharges = 1;
+        const float BaseChance = 1f;
+        int currentCharges = BaseCharges;
+        float currenceChance = BaseChance;
+
+        public FireOnHitUpgrade(UpgradeManager target, int quantity)
+        : base(target, quantity) 
+        {
+            Update();
+            // Not best way to do this but for now...
+            var ronin = target.GetComponent<RoninPlayerBehaviour>();
+            if (ronin != null)
+            {
+                Material m = ronin.FlameSwordMaterial;
+                ronin.character.mainSpriteRenderer.material = m;
+            }
+        }
+
+
+        // Duration scaling by 100% on duration
+        protected override void Update()
+        {
+            currenceChance = BaseChance * quantity;
+            currentCharges = BaseCharges + quantity;
+        }
+
+
+        UnityAction<Damageable, TriggerDamager>? onHitListener;
+        protected override void SubscribeToEvent()
+        {
+            onHitListener = (Damageable d, TriggerDamager t) => ApplyEffect(d);
+            target.characterDamage.onAttackHit.AddListener(onHitListener);
+        }
+
+        void ApplyEffect(Damageable target)
+        {
+            var manager = target.uniqueStatusEffectManager;
+
+            Debug.Log("Invoked");
+            if (manager != null)
+            {
+                Debug.Log("HREEE~!");
+                if (Random.Range(0.0f, 1.0f) > (1 - BaseChance))
+                {
+                    manager.AddChargeEffect<BurningUniqueEffect>(currentCharges);
+                    Debug.Log("Efeito de fogo dado");
+                }
+            }
         }
 
         protected override void UnsubscribeToEvent()
         {
             if (onHitListener != null)
             {
-                target.damageable.onHit.RemoveListener(onHitListener);
+                target.characterDamage.onKill.AddListener(onHitListener);
+            }
+        }
+
+        public override void Remove()
+        {
+            base.Remove();
+            var ronin = target.GetComponent<RoninPlayerBehaviour>();
+            if (ronin != null)
+            {
+                Material m = ronin.BaseMaterial;
+                ronin.character.mainSpriteRenderer.material = m;
             }
         }
     }
-
-
-    
 }

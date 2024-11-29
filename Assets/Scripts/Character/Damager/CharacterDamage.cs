@@ -7,9 +7,15 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Character))]
 public class CharacterDamage : MonoBehaviour
 {
+
     [Serializable]
     public class CharacterDamageChangeEvent : UnityEvent<int> {}
 
+    [Serializable]
+    public class OnAttackHit : UnityEvent<Damageable, TriggerDamager> {}
+
+    [Serializable]
+    public class OnKill : UnityEvent<Damageable, TriggerDamager> {}
 
     [SerializeField] 
     int baseDamage = 1;
@@ -26,7 +32,14 @@ public class CharacterDamage : MonoBehaviour
 
 
     public CharacterDamageChangeEvent onDamageChange;
+    public OnAttackHit onAttackHit;
+    public OnKill onKill;
 
+    void Start()
+    {
+        UpdateCurrentDamage();
+        onKill.AddListener((target, damage)=>Debug.Log("KILL"));
+    }
 
     public void AddDamageBonus(int value)
     {
@@ -77,9 +90,6 @@ public class CharacterDamage : MonoBehaviour
         
     }
 
-    void Start()
-    {
-        UpdateCurrentDamage();
-    }
+
 
 }
