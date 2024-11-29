@@ -101,7 +101,7 @@ public class UpgradeIconAdressable : MonoBehaviour
     public static async void LoadIcons()
     {
         Debug.Log("Loading Upgrade Icons");
-        ImmunityAfterHitUpgrade.LoadIcon(await GetIconAsync(ImmunityRune));
+        EscapeUpgrade.LoadIcon(await GetIconAsync(ImmunityRune));
         SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(HyperSpeedRune));
         BaseDamageBonusAfterHit.LoadIcon(await GetIconAsync(defaultPath));
 
@@ -114,7 +114,7 @@ public class UpgradeIconAdressable : MonoBehaviour
 
     public static void UnloadIcons()
     {
-        ImmunityAfterHitUpgrade.UnloadIcon();
+        EscapeUpgrade.UnloadIcon();
         SpeedBoostAfterHitUpgrade.UnloadIcon();
         BaseDamageBonusAfterHit.UnloadIcon();
 

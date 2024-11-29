@@ -10,7 +10,7 @@ using UnityEngine;
  * Generic types are used to allow implementation on UpdatableEffect as well
  */
 public abstract class TimedEffect<TEffect> : INonPersistantEffect, ITimedStatusEffect, IEffect
-where TEffect : BaseEffect, IPersistantEffect {
+where TEffect : IPersistantEffect {
     public readonly TEffect effect;
     public readonly EffectReceiver target;
     readonly Action? onEffectEnd; // Delegate for effect end callback
@@ -21,7 +21,7 @@ where TEffect : BaseEffect, IPersistantEffect {
 
     public TimedEffect(TEffect effect, float duration, Action? onEffectEnd) 
     {
-        this.target = effect.target;
+        this.target = effect.GetTarget();
         this.effect = effect;
         this.duration = duration;
         this.onEffectEnd = onEffectEnd;

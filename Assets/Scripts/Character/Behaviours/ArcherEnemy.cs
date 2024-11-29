@@ -270,11 +270,10 @@ public class ArcherEnemy : MonoBehaviour
             direction = Vector2.left;
         }
         
-        
-        Quaternion xOnlyRotation = Quaternion.Euler(angle, 0, 0);
-        GameObject newObject = Instantiate(arrow, currentTransform.position, xOnlyRotation);
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        GameObject newObject = Instantiate(arrow, currentTransform.position, rotation);
         Projectile projectile = newObject.GetComponent<Projectile>();
-        projectile.Direction = direction;     
+         
     }
 
     public void OnAttackCancel()

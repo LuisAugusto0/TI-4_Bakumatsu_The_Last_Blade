@@ -53,7 +53,7 @@ public class UpgradeGiver : MonoBehaviour
                 GiveUpgrade<BaseHealthBonusUpgrade>(target, quantity);
                 break;
             case UpgradesNameTable.Escape:
-                GiveUpgrade<ImmunityAfterHitUpgrade>(target, quantity);
+                GiveUpgrade<EscapeUpgrade>(target, quantity);
                 break;
             case UpgradesNameTable.SpeedBoostAfterHitUpgrade:
                 GiveUpgrade<SpeedBoostAfterHitUpgrade>(target, quantity);

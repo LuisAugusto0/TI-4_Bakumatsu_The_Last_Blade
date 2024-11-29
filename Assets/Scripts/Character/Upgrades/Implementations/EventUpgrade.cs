@@ -15,7 +15,7 @@ namespace Upgrades.Implementations.EventUpgrade
     * Rarity: ? 
     */
     
-    public class ImmunityAfterHitUpgrade : BaseUpgradeAfterEventEffect<TimedImmunityEffect>
+    public class EscapeUpgrade : BaseUpgradeAfterEventEffect<TimedImmunityEffect>
     {
         static Sprite? icon;
         public static Sprite? GetStaticIcon() => icon;
@@ -32,9 +32,9 @@ namespace Upgrades.Implementations.EventUpgrade
         public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
-        const float baseDuration = 2f;
+        const float baseDuration = 2.5f;
 
-        public ImmunityAfterHitUpgrade(UpgradeManager target, int quantity)
+        public EscapeUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity){}
 
         protected override TimedImmunityEffect GetEffect()
@@ -44,6 +44,11 @@ namespace Upgrades.Implementations.EventUpgrade
             );
         }
 
+        // Duration = 2.5 * 1.5 * quantity
+        public float CalculateNewDuration()
+        {
+            return baseDuration + quantity * 1.5f;
+        }
 
         protected override void Update()
         {

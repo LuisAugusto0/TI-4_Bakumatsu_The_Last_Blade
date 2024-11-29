@@ -11,8 +11,8 @@ public class Projectile : MonoBehaviour
     public float speed = 4f;
     public float lifeSpan = 10f; 
     public int pierce = 1;
-    Vector2 direction = Vector2.right;
-    public Vector2 Direction { set {direction = value; } }
+    // Vector2 direction = Vector2.right;
+    // public Vector2 Direction { set {direction = value; } }
 
     void Awake()
     {
@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         // Move the projectile
+        Vector2 direction = transform.right;
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
 
