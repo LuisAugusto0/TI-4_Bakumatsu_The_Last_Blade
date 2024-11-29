@@ -796,7 +796,7 @@ MonoBehaviour:
   - {fileID: 7194873406250505123, guid: 8b894ddd76cafaf40be36b093df6664d, type: 3}
   - {fileID: 6792218746891559585, guid: a0239056ef2ce5342a5ad1ab9ebf2911, type: 3}
   weights: 0200000001000000020000000200000002000000
-  spawnProbability: 0.2
+  spawnProbability: 0.3
 --- !u!114 &7501414010162327041
 MonoBehaviour:
   m_ObjectHideFlags: 0
