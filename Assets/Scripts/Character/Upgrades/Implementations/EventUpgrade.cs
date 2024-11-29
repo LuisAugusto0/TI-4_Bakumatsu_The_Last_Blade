@@ -235,14 +235,15 @@ namespace Upgrades.Implementations.EventUpgrade
         public static void AssertIconAdressablePath() => UpgradeIconAdressable.AssertIsPathValid(iconAdressablePath);
 
 
-        const int BaseCharges = 4;
-        const float BaseChance = 0.25f;
+        const int BaseCharges = 1;
+        const float BaseChance = 1f;
         int currentCharges = BaseCharges;
         float currenceChance = BaseChance;
 
         public FireOnHitUpgrade(UpgradeManager target, int quantity)
         : base(target, quantity) 
         {
+            Update();
             // Not best way to do this but for now...
             var ronin = target.GetComponent<RoninPlayerBehaviour>();
             if (ronin != null)

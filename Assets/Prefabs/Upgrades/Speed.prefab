@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -2994919732017768451}
   - component: {fileID: -8859718628351307430}
   m_Layer: 0
-  m_Name: InstantSpeed
+  m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cfac4cff89f824d989e5d0f30737fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedUpgrade: 3
+  selectedUpgrade: 0
   upgradeQuantity: 1
 --- !u!95 &5867759352716767369
 Animator:

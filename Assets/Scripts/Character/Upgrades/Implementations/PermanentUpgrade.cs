@@ -172,7 +172,7 @@ namespace Upgrades.Implementations.PermanentUpgrade
 
 
 
-        const int baseBonus = 1;
+        const int baseBonus = 2;
         public event Action? OnHealthUpdate;   
 
         public BaseHealthBonusUpgrade(UpgradeManager target, int quantity)

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6727956272471137493}
   - component: {fileID: 4855324802039825120}
   - component: {fileID: 7478554331127261138}
-  - component: {fileID: 5459369427897312587}
   - component: {fileID: -1941157083230002062}
   - component: {fileID: 8744164559470381464}
   m_Layer: 9
@@ -161,21 +160,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5459369427897312587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101329781540057418}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6071dc7fd1b8eb045bd0687b7caf8cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  lifeSpan: 10
-  pierce: 1
 --- !u!114 &-1941157083230002062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +197,7 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5459369427897312587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Projectile, Assembly-CSharp
         m_MethodName: UpdatePierce
         m_Mode: 1
@@ -225,10 +209,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5459369427897312587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Projectile, Assembly-CSharp
         m_MethodName: DestroyOnHitObstacle
         m_Mode: 1

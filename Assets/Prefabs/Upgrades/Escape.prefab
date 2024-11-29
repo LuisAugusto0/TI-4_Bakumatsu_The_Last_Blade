@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cfac4cff89f824d989e5d0f30737fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedUpgrade: 6
+  selectedUpgrade: 3
   upgradeQuantity: 1
 --- !u!95 &7466638303378967495
 Animator:

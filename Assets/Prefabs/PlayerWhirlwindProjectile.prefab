@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6727956272471137493}
   - component: {fileID: 4855324802039825120}
   - component: {fileID: 7478554331127261138}
-  - component: {fileID: 5459369427897312587}
   - component: {fileID: 8744164559470381464}
   - component: {fileID: -279883952132424996}
+  - component: {fileID: 8638070034810742387}
   m_Layer: 8
   m_Name: PlayerWhirlwindProjectile
   m_TagString: Untagged
@@ -161,21 +161,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5459369427897312587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101329781540057418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb168b088aaa0e42b06530ca78715b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  lifeSpan: 10
-  pierce: 100
 --- !u!114 &8744164559470381464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +180,7 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5459369427897312587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Projectile, Assembly-CSharp
         m_MethodName: UpdatePierce
         m_Mode: 1
@@ -207,10 +192,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5459369427897312587}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Projectile, Assembly-CSharp
         m_MethodName: DestroyOnHitObstacle
         m_Mode: 1
@@ -243,3 +231,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8638070034810742387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101329781540057418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652cf8b4f9604074d84577a2201bb260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  lifeSpan: 10
+  pierce: 1

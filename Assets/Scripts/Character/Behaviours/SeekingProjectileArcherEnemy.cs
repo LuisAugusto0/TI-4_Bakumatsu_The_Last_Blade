@@ -9,14 +9,17 @@ using Unity.VisualScripting;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AiMovementArcher))]
 [RequireComponent(typeof(DirectionalMovement))]
-public class ArcherEnemy : MonoBehaviour
+
+// Extremly poor code to allow for fast delivery for this sprint
+// This needs to be bundled with archer enemy later
+public class SeekingArcherEnemy : MonoBehaviour
 {
     [Serializable]
-    public class OnAttackEvent : UnityEvent<ArcherEnemy>
+    public class OnAttackEvent : UnityEvent<SeekingArcherEnemy>
     { }
 
     [Serializable]
-    public class OnCorpseDestroyedEvent : UnityEvent<ArcherEnemy>
+    public class OnCorpseDestroyedEvent : UnityEvent<SeekingArcherEnemy>
     { }
 
     static readonly int horizontalAxisHash = Animator.StringToHash("HorizontalAxis");
@@ -275,7 +278,8 @@ public class ArcherEnemy : MonoBehaviour
         
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         GameObject newObject = Instantiate(arrow, currentTransform.position, rotation);
-        Projectile projectile = newObject.GetComponent<Projectile>();
+        SeekingProjectile projectile = newObject.GetComponent<SeekingProjectile>();
+        projectile.target = player.transform;
     }
 
     public void OnAttackCancel()
@@ -315,24 +319,3 @@ public class ArcherEnemy : MonoBehaviour
 }
 
 
-
-public static class DirectionHelper
-{
-    public static Vector2 GetCardinalDirection(Vector2 direction)
-    {
-        // Normalize the vector to avoid issues with magnitude
-        direction.Normalize();
-
-        // Compare absolute values of x and y to determine the dominant axis
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            // Dominant axis is x
-            return direction.x > 0 ? new Vector2(1, 0) : new Vector2(-1, 0); // Right or Left
-        }
-        else
-        {
-            // Dominant axis is y
-            return direction.y > 0 ? new Vector2(0, 1) : new Vector2(0, -1); // Up or Down
-        }
-    }
-}

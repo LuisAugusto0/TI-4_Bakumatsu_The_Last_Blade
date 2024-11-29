@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 4855324802039825120}
   - component: {fileID: 7478554331127261138}
   - component: {fileID: 5459369427897312587}
-  - component: {fileID: 6832847119977665699}
   - component: {fileID: 8744164559470381464}
+  - component: {fileID: 5880961759967151348}
   m_Layer: 9
-  m_Name: Buffed Arrow
+  m_Name: SeekingArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,25 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   lifeSpan: 10
-  pierce: 1
---- !u!114 &6832847119977665699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101329781540057418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 652cf8b4f9604074d84577a2201bb260, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  lifeSpan: 6
-  pierce: 1
-  rotationSpeed: 200
-  scenario: {fileID: 0}
-  target: {fileID: 0}
+  pierce: 2
 --- !u!114 &8744164559470381464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +207,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls:
@@ -240,3 +225,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5880961759967151348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101329781540057418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e91df7658a04aa4885da4b2dc284388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  lifeSpan: 2
+  pierce: 1
+  rotationSpeed: 200
+  scenario: {fileID: 0}
+  target: {fileID: 0}
