@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 4855324802039825120}
   - component: {fileID: 7478554331127261138}
   - component: {fileID: 5459369427897312587}
-  - component: {fileID: -1941157083230002062}
+  - component: {fileID: 6832847119977665699}
   - component: {fileID: 8744164559470381464}
   m_Layer: 9
-  m_Name: EnemyArrow
+  m_Name: Buffed Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   speed: 4
   lifeSpan: 10
   pierce: 1
---- !u!114 &-1941157083230002062
+--- !u!114 &6832847119977665699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
