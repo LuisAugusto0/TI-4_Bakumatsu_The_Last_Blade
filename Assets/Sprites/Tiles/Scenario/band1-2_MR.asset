@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: band1-2_MR
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -315570518, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 1074260340, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 976649826, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 1815125766, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: -1826378756, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: -1704333256, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: -835379950, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 599175244, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 1148403283, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  - {fileID: 174194986, guid: e7da75e31f2ab4547a0182ab12cf9780, type: 3}
+  m_MinSpeed: 5
+  m_MaxSpeed: 5
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
