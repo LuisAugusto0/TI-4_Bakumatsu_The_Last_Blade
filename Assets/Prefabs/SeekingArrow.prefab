@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5459369427897312587}
   - component: {fileID: 8744164559470381464}
   - component: {fileID: 5880961759967151348}
+  - component: {fileID: 8669771173787523643}
   m_Layer: 9
   m_Name: SeekingArrow
   m_TagString: Untagged
@@ -243,3 +244,51 @@ MonoBehaviour:
   rotationSpeed: 200
   scenario: {fileID: 0}
   target: {fileID: 0}
+--- !u!114 &8669771173787523643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101329781540057418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8bb85d7550cbc428052c85800a3321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHitImmunityTime: 2
+  baseHp: 1
+  baseHpBonus: 0
+  currentBaseHp: 1
+  currentHp: 1
+  uniqueStatusEffectManager: {fileID: 0}
+  onHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5880961759967151348}
+        m_TargetAssemblyTypeName: SeekingProjectile, Assembly-CSharp
+        m_MethodName: DestroyOnHitObstacle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  addedImmunity:
+    m_PersistentCalls:
+      m_Calls: []
+  endedImmunity:
+    m_PersistentCalls:
+      m_Calls: []
