@@ -36,8 +36,8 @@ public class UpgradeUIManager : MonoBehaviour
         {
             // Atualiza a quantidade no texto
             var icon = upgradeIcons[upgradeType];
-            var quantityText = icon.GetComponentInChildren<Text>();
-            quantityText.text = upgrade.Quantity.ToString();
+            var quantityText = icon.GetComponentInChildren<TMP_Text>();
+            quantityText.text = $"x{upgrade.Quantity}"; // Formato correto
         }
         else
         { 
@@ -47,14 +47,14 @@ public class UpgradeUIManager : MonoBehaviour
 
             var iconImage = newIcon.GetComponentInChildren<Image>();
             var quantityText = newIcon.GetComponentInChildren<TMP_Text>();
-            if (quantityText == null) Debug.LogError("HEREEEEEE!!");
 
             // Configura o ícone e quantidade inicial
             Sprite iconSprite = upgrade.GetIcon();
             if (iconSprite == null) iconSprite = await UpgradeIconAdressable.GetDefaultIconAsync();
             iconImage.sprite = iconSprite;
-            quantityText.text = upgrade.Quantity.ToString();
+            quantityText.text = $"x{upgrade.Quantity}"; // Formato correto
         }
+
     }
 
     private void OnDestroy()

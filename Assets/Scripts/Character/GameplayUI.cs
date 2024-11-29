@@ -130,5 +130,4 @@ public class GameplayUI : MonoBehaviour
         containerRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, totalWidth);
     }
 
-
 }

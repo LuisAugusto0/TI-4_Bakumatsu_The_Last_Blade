@@ -254,7 +254,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Reiniciar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca9d5841bd322a74aa525bade4608a60, type: 2}
   m_sharedMaterial: {fileID: -2617257963942465152, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3053468989927697344
@@ -408,7 +408,6 @@ GameObject:
   - component: {fileID: 5101992500231897348}
   - component: {fileID: 9160893639619603583}
   - component: {fileID: 2851950972691316763}
-  - component: {fileID: 5446030052822841571}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -530,21 +529,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5446030052822841571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3910156753324083513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccc6babae6c18245a302f3c1d510916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftSwordImage: {fileID: 0}
-  rightSwordImage: {fileID: 0}
-  offsetFactor: 0.7
 --- !u!1 &4076474452924417849
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +541,6 @@ GameObject:
   - component: {fileID: 6906187854972787599}
   - component: {fileID: 6882513439606690299}
   - component: {fileID: 8900241126439679930}
-  - component: {fileID: 7444086422335501362}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -679,21 +662,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7444086422335501362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076474452924417849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccc6babae6c18245a302f3c1d510916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftSwordImage: {fileID: 0}
-  rightSwordImage: {fileID: 0}
-  offsetFactor: 0.7
 --- !u!1 &4961329822905315817
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +674,6 @@ GameObject:
   - component: {fileID: 4928746310387220539}
   - component: {fileID: 4643150794533481465}
   - component: {fileID: 7334673145977720519}
-  - component: {fileID: 3422966963488245307}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -817,8 +784,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameplayInputHandler, Assembly-CSharp
-        m_MethodName: TogglePauseOff
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: Unpause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -828,21 +795,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3422966963488245307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4961329822905315817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccc6babae6c18245a302f3c1d510916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftSwordImage: {fileID: 0}
-  rightSwordImage: {fileID: 0}
-  offsetFactor: 0.7
 --- !u!1 &5675282167181746170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +988,6 @@ GameObject:
   - component: {fileID: 2811215432748096309}
   - component: {fileID: 3282464258190909398}
   - component: {fileID: 4454395733830113197}
-  - component: {fileID: 794404291964037351}
   m_Layer: 5
   m_Name: VolumeSlider
   m_TagString: Untagged
@@ -1147,21 +1098,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &794404291964037351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7159849583190514038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccc6babae6c18245a302f3c1d510916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftSwordImage: {fileID: 0}
-  rightSwordImage: {fileID: 0}
-  offsetFactor: 0.7
 --- !u!1 &7615459901588538874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1473,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Continuar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca9d5841bd322a74aa525bade4608a60, type: 2}
   m_sharedMaterial: {fileID: -2617257963942465152, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1601,7 +1537,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8886472007409713218
@@ -1671,7 +1607,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Menu Principal
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca9d5841bd322a74aa525bade4608a60, type: 2}
   m_sharedMaterial: {fileID: -2617257963942465152, guid: 19e0d0f3b5185a94c89a9e77cb656ef4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1735,7 +1671,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8946529297441247644
