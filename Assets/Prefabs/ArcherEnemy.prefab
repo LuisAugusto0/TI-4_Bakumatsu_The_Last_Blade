@@ -86,6 +86,9 @@ GameObject:
   - component: {fileID: 6714318958038495325}
   - component: {fileID: 5672568528792019892}
   - component: {fileID: 2773573445851203073}
+  - component: {fileID: 1232124435379479976}
+  - component: {fileID: 1720769433190904799}
+  - component: {fileID: 3394198138619636215}
   m_Layer: 7
   m_Name: ArcherEnemy
   m_TagString: Enemy
@@ -603,77 +606,6 @@ MonoBehaviour:
   currentState: 3
   character: {fileID: 6399458737954384990}
   animator: {fileID: 5959861539089424675}
---- !u!114 &1232124435379479976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6222693462209933473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 165f3ab6d903b9844b1ec9d8a5026bee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangeX: 4
-  rangeY: 4
-  self: {fileID: 6222693462209933473}
-  pathUpdateIntervalSeconds: 0.1
-  displayPathLine: 1
---- !u!114 &3394198138619636215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6222693462209933473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa301050a65f0c48b2b6eea063820b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  preAttackDelay: 0.5
-  attackCooldown: 0.75
-  attackDistance: 6
-  corpseDestroyDelay: 4
-  transformForward: {fileID: 1623695309679400317}
-  transformUp: {fileID: 4787501907178554143}
-  transformDown: {fileID: 8272825157383736063}
-  arrow: {fileID: 4101329781540057418, guid: 66dfc6edf88e5b84084be100bb7559bf, type: 3}
-  performed:
-    m_PersistentCalls:
-      m_Calls: []
-  attackStart:
-    m_PersistentCalls:
-      m_Calls: []
-  actionEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  actionCancelled:
-    m_PersistentCalls:
-      m_Calls: []
-  corpseDestroyed:
-    m_PersistentCalls:
-      m_Calls: []
-  secondsTillIdle: 0.6
---- !u!114 &1720769433190904799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6222693462209933473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ee6c3abaf79294d91121386f7f938d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minimumApproachableDistance: 0.5
-  keepAwayRadius: 1
-  minimumInteractionRadius: 2
-  currentState: 3
-  character: {fileID: 6399458737954384990}
-  animator: {fileID: 5959861539089424675}
 --- !u!114 &5672568528792019892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +633,77 @@ MonoBehaviour:
   OnStatusEffectUpdated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1232124435379479976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165f3ab6d903b9844b1ec9d8a5026bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangeX: 4
+  rangeY: 4
+  self: {fileID: 6222693462209933473}
+  pathUpdateIntervalSeconds: 0.1
+  displayPathLine: 1
+--- !u!114 &1720769433190904799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ee6c3abaf79294d91121386f7f938d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumApproachableDistance: 0.5
+  keepAwayRadius: 1
+  minimumInteractionRadius: 2
+  currentState: 3
+  character: {fileID: 6399458737954384990}
+  animator: {fileID: 5959861539089424675}
+--- !u!114 &3394198138619636215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa301050a65f0c48b2b6eea063820b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preAttackDelay: 0.5
+  attackCooldown: 0.75
+  attackDistance: 6
+  corpseDestroyDelay: 4
+  transformForward: {fileID: 3588786230663225955}
+  transformUp: {fileID: 639564536939013399}
+  transformDown: {fileID: 6993995663601197560}
+  arrow: {fileID: 4101329781540057418, guid: 66dfc6edf88e5b84084be100bb7559bf, type: 3}
+  performed:
+    m_PersistentCalls:
+      m_Calls: []
+  attackStart:
+    m_PersistentCalls:
+      m_Calls: []
+  actionEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  actionCancelled:
+    m_PersistentCalls:
+      m_Calls: []
+  corpseDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  secondsTillIdle: 0.6
 --- !u!1 &7470479209373162954
 GameObject:
   m_ObjectHideFlags: 0
