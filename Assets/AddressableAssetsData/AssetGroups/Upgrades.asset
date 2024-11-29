@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0c84daaa4d6d1274ebe4844e2d88be7a
-    m_Address: Sprites/Images/Runes/BeserkRune.png
+    m_Address: Sprites/Images/Runes/DamageRune.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 87875b3195c49a948a6760b6049600c1
-    m_Address: Sprites/Images/Runes/DamageRune.png
+    m_Address: Sprites/Images/Runes/BeserkRune.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

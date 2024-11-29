@@ -97,7 +97,7 @@ public class UpgradeIconAdressable : MonoBehaviour
     
     const string SpeedRune = "Sprites/Images/Runes/SpeedRune.png"; //BLUE
     
-    const string DamageRune = "Sprites/Images/Runes/DamageRune.png"; //GREEN
+    const string DamageRune = "Sprites/Images/Runes/DamageRune.png"; //RED
 
     const string BeserkRune = "Sprites/Images/Runes/BeserkRune.png"; //GREEN
 
