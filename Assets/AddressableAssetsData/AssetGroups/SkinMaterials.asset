@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SkinMaterials
+  m_EditorClassIdentifier: 
+  m_GroupName: SkinMaterials
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c90fd5337c925d641a88a87cf41d0a34
+  m_SerializeEntries:
+  - m_GUID: 5dda9a1660c07324faba42e13e21c614
+    m_Address: Assets/Sprites/NewPlayer/Skins/flame sword.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fbe6446dfbfee64f8f45abd0453dd8a
+    m_Address: Assets/Sprites/NewPlayer/Skins/playerRed.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f1c8e71cb8fd8214f8c678e2cb4e5546, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e23c881ee9a26cd49a89a642f4377918, type: 2}
+    - {fileID: 11400000, guid: 0ef253c7a46b92f4f86eb7fa00409f29, type: 2}

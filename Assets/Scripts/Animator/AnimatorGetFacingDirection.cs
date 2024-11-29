@@ -49,26 +49,21 @@ public class AnimatorGetFacingDirection : StateMachineBehaviour
         || stateInfo.fullPathHash == AttackUpHash)
         {
             setFacingDirection?.Invoke(Direction.Up);
-            Debug.Log("Up");
+           
         }
 
         else if (stateInfo.fullPathHash == IdleForwardHash || stateInfo.fullPathHash == MoveForwardHash
         || stateInfo.fullPathHash == AttackForwardHash)
         {
             setFacingDirection?.Invoke(Direction.Forward);
-            Debug.Log("Forward");
-            string s1 = stateInfo.fullPathHash == IdleForwardHash ? "true" : "false";
-            string s2 = stateInfo.fullPathHash == MoveForwardHash ? "true" : "false";
-            string s3 = stateInfo.fullPathHash == AttackForwardHash ? "true" : "false";
-
-            Debug.Log(s1 + " " + s2 + " " + s3);
+       
         }
 
         else if (stateInfo.fullPathHash == IdleDownHash || stateInfo.fullPathHash == MoveDownHash
         || stateInfo.fullPathHash == AttackDownHash)
         {
             setFacingDirection?.Invoke(Direction.Down);
-            Debug.Log("Down");
+          
         }
 
         else
@@ -83,6 +78,6 @@ public class AnimatorGetFacingDirection : StateMachineBehaviour
         {
             behaviour.setFacingDirection = setDirection;
         }
-        Debug.Log(animator.gameObject + " done!");
+        //Debug.Log(animator.gameObject + " done!");
     }
 }
