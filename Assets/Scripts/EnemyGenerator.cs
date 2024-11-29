@@ -1,111 +1,102 @@
-/*using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EnemyGenerator : MonoBehaviour
-{
-    private BasePlayerBehaviour player;
-    public GameObject enemyPrefab;  
-    public float spawnDelay = 5f;  
-
-    void Start()
-    {
-        player = BasePlayerBehaviour.ActivePlayer;
-        StartCoroutine(GenerateEnemy());
-    }
-
-    // Corrotina para gerar inimigos
-    IEnumerator GenerateEnemy()
-    {
-        while (player.character.damageable.CurrentHealth > 0)  // Enquanto o jogador estiver vivo
-        {
-            yield return new WaitForSeconds(spawnDelay);  // Aguarda o tempo definido
-
-            // Instancia um novo inimigo a partir do prefab original
-            GameObject newEnemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
-            newEnemy.SetActive(true);
-
-        }
-    }
-
-    
-}*///Código Original
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {   
-    public int [] chanceOfEnemies;
-    public Transform [] _spawnPoints;
-    public GameObject [] _enemiesPrefab;
+    public int[] chanceOfEnemies;
+    public Transform[] _spawnPoints;
+    public GameObject[] _enemiesPrefab;
+
     protected int enemyCount = 0;
 
     public float _spawnBreakTime = 2f;
-
     public float _hordeBreakTime = 5f;
-
     public float _hordeDurationTime = 10f;
 
     public int _currentHorde = 0;
-
     private float _spawnTimer = 0f;
-
     private float _hordeBreakTimer = 0f;
-
     private float _hordeTimer = 0f;
+    private bool hordeReady = false;
+
+    public static EnemyGenerator Instance { get; private set; }
+
+    public static int LastHordeSurvived { get; private set; } = 0;
+
+    public int nextHorde => Mathf.Max(0, (int)(_hordeBreakTime - _hordeBreakTimer));
 
     void Start()
     {   
-        
+        Instance = this;
+        _currentHorde = 1;
+        LastHordeSurvived = _currentHorde;
         _spawnTimer = 0f;
         _hordeBreakTimer = _hordeBreakTime;
         ValidateEnemyChances();
-        
     }
 
     void ValidateEnemyChances()
     {
-        if(chanceOfEnemies.Length != _enemiesPrefab.Length)
+        if (chanceOfEnemies.Length != _enemiesPrefab.Length)
             Debug.LogError("Chance of enemies must have the same length as the enemies prefab array");
-        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-        if(_hordeBreakTimer < _hordeBreakTime){
-            
-            if(_hordeBreakTimer - (int) _hordeBreakTimer < 0.01f){
-                Debug.Log("Horda começa em: " + ((int)(_hordeBreakTime - _hordeBreakTimer)));
-            }
+        if (_hordeBreakTimer < _hordeBreakTime)
+        {
+            // Contador do tempo de pausa
             _hordeBreakTimer += Time.deltaTime;
-        } else {
-            
-            if(_hordeTimer < _hordeDurationTime){
-                if(_hordeTimer - (int) _hordeTimer < 0.01f){
-                    Debug.Log("A Horda acaba em: " + ((int)(_hordeDurationTime - _hordeTimer)));
-                }
-                if(_spawnTimer >= _spawnBreakTime){
-                    int enemyIndex = GetEnemyIndex();
-                    int spawnIndex = Random.Range(0, _spawnPoints.Length);
-                    GameObject obj = Instantiate(_enemiesPrefab[enemyIndex], _spawnPoints[spawnIndex].position, Quaternion.identity);
-                    obj.SetActive(true);
-                    _spawnTimer = 0f; // Reset the timer after spawning an enemy
+
+            // Verifica se a pausa terminou
+            if (_hordeBreakTimer >= _hordeBreakTime && !hordeReady)
+            {
+                hordeReady = true; // Marca que a próxima horda está pronta para começar
+                _currentHorde++;   // Incrementa a horda atual
+                Debug.Log("Início da Horda " + _currentHorde);
+            }
+        }
+        else
+        {
+            // Executa a lógica da horda
+            if (_hordeTimer < _hordeDurationTime)
+            {
+                if (_spawnTimer >= _spawnBreakTime)
+                {
+                    SpawnEnemy();
+                    _spawnTimer = 0f;
                 }
                 _spawnTimer += Time.deltaTime;
                 _hordeTimer += Time.deltaTime;
             }
-            else{
-                _hordeDurationTime += _hordeDurationTime * 0.1f;
-                _hordeBreakTimer = 0f;
-                _hordeTimer = 0f;
-                _currentHorde++;
+            else
+            {
+                // Finaliza a horda e prepara para a próxima
+                EndCurrentHorde();
             }
         }
     }
+
+
+    void SpawnEnemy()
+    {
+        int enemyIndex = GetEnemyIndex();
+        int spawnIndex = Random.Range(0, _spawnPoints.Length);
+        GameObject obj = Instantiate(_enemiesPrefab[enemyIndex], _spawnPoints[spawnIndex].position, Quaternion.identity);
+        obj.SetActive(true);
+    }
+
+    void EndCurrentHorde()
+    {
+        LastHordeSurvived = _currentHorde;
+        _hordeBreakTimer = 0f;  // Reinicia o timer de pausa
+        _hordeTimer = 0f;       // Reinicia o timer da duração da horda
+        hordeReady = false;     // Reseta a flag para a próxima pausa
+        _hordeDurationTime += _hordeDurationTime * 0.1f; // Aumenta a duração da próxima horda
+        Debug.Log("Horda " + _currentHorde + " finalizada. Próxima horda em " + _hordeBreakTime + " segundos.");
+    }
+
 
     int GetEnemyIndex()
     {
@@ -125,7 +116,6 @@ public class EnemyGenerator : MonoBehaviour
                 return i;
             }
         }
-        return 0; // Default case, should not reach here if chances are valid
+        return 0;
     }
 }
-
