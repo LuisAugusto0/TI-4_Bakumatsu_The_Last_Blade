@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -6243593379884447206}
   - component: {fileID: 3868376299455312726}
   m_Layer: 0
-  m_Name: SpeedBonus
+  m_Name: HealthBonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   onInteractEvent:
     m_PersistentCalls:
       m_Calls: []
+  destroyOnInteract: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -166,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cfac4cff89f824d989e5d0f30737fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedUpgrade: 4
+  selectedUpgrade: 5
   upgradeQuantity: 1
 --- !u!95 &3472056612323241480
 Animator:

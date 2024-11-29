@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c84daaa4d6d1274ebe4844e2d88be7a
+guid: 1c0049f3771cf6448a6b412c274ea092
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,11 +93,50 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PowerRune_0
+      name: HyperSpeedRune_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02505a328a1474b4ea4e6462af65835a
-      internalID: -693298956
+      spriteID: 61b64e19fd8c2e04aa502e10e7cbf74a
+      internalID: -1070159035
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_1
+      name: HyperSpeedRune_1
       rect:
         serializedVersion: 2
         x: 16
@@ -132,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54a1c4ecbaf033469cc6533bde4774f
-      internalID: 403010331
+      spriteID: aebccd8615f8bbf4688f8a226db36bf0
+      internalID: -1878166901
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_2
+      name: HyperSpeedRune_2
       rect:
         serializedVersion: 2
         x: 32
@@ -153,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 370d912d4d984aa4b8941bde98d3e228
-      internalID: 1106803765
+      spriteID: be4f8cb6c72942f4ea1b844970cb548c
+      internalID: -1746083198
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_3
+      name: HyperSpeedRune_3
       rect:
         serializedVersion: 2
         x: 48
@@ -174,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7dbbd346e3cc274e83fe5ff46091bf8
-      internalID: 1857917303
+      spriteID: 4ef3cf8673c8f0d4fa20a05a2df24cf0
+      internalID: -1439895398
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_4
+      name: HyperSpeedRune_4
       rect:
         serializedVersion: 2
         x: 64
@@ -195,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d5187d0f1291574e9797e28f518d06d
-      internalID: -862285119
+      spriteID: 521c9210955a4334c952075ea061859f
+      internalID: -978856066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_5
+      name: HyperSpeedRune_5
       rect:
         serializedVersion: 2
         x: 80
@@ -216,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5fa47ab0e08ebb48b93cd5699f5f0c9
-      internalID: 1610025814
+      spriteID: 3138492ba9f001e4bbaf7e42a9ebb3c6
+      internalID: 779583248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_6
+      name: HyperSpeedRune_6
       rect:
         serializedVersion: 2
         x: 96
@@ -237,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f189ca3eda835041bfe23894d8ced80
-      internalID: 517710186
+      spriteID: 3e91bca8fdfaf2a43a585361d65a7409
+      internalID: 867924850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_7
+      name: HyperSpeedRune_7
       rect:
         serializedVersion: 2
         x: 112
@@ -258,14 +297,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31cf50045ff381a4e9e32f1bc32a25f6
-      internalID: -995825400
+      spriteID: 19d1f3732feeab04fba610724ab8f28d
+      internalID: 1579104264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PowerRune_8
+      name: HyperSpeedRune_8
       rect:
         serializedVersion: 2
         x: 128
@@ -279,8 +318,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c1b9c41c2b22db4a9f433265790d39a
-      internalID: 893998502
+      spriteID: c0db2da421bb4fb499a8623acd42e48f
+      internalID: -454469185
       vertices: []
       indices: 
       edges: []
@@ -296,15 +335,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PowerRune_0: -693298956
-      PowerRune_1: 403010331
-      PowerRune_2: 1106803765
-      PowerRune_3: 1857917303
-      PowerRune_4: -862285119
-      PowerRune_5: 1610025814
-      PowerRune_6: 517710186
-      PowerRune_7: -995825400
-      PowerRune_8: 893998502
+      HyperSpeedRune_0: -1070159035
+      HyperSpeedRune_1: -1878166901
+      HyperSpeedRune_2: -1746083198
+      HyperSpeedRune_3: -1439895398
+      HyperSpeedRune_4: -978856066
+      HyperSpeedRune_5: 779583248
+      HyperSpeedRune_6: 867924850
+      HyperSpeedRune_7: 1579104264
+      HyperSpeedRune_8: -454469185
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -61,6 +61,9 @@ public class RoninPlayerBehaviour : BasePlayerBehaviour
     public RoninPlayerActionManager attackAction; 
     public RoninPlayerActionManager skillAction;
 
+    public Material FlameSwordMaterial;
+    public Material BaseMaterial;
+
     public void OnAttackEnd()
     {
 

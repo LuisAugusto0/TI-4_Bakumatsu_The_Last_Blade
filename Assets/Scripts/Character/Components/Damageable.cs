@@ -51,7 +51,9 @@ public class Damageable : MonoBehaviour
     // Track different sources of immunity
     private HashSet<object> _immunitySources = new();
 
-    
+    public UniqueStatusEffectManager uniqueStatusEffectManager; // can be null
+
+
     public HealthSetEvent onHealthSet;
     public HealEvent onHeal;
     public OnHitEvent onHit;
@@ -62,6 +64,7 @@ public class Damageable : MonoBehaviour
 
     void Start()
     {
+        uniqueStatusEffectManager = GetComponent<UniqueStatusEffectManager>();
         currentHp = baseHp;
         RecalculateBaseHealth();
     }
@@ -161,8 +164,9 @@ public class Damageable : MonoBehaviour
 
 
     // Main TakeDamage (calle from Damager scripts)
-    public void HitTakeDamage(object damagerObject, int damage) 
+    public bool HitTakeDamage(object damagerObject, int damage) 
     {
+        bool dead = false;
         if (!IsImmune())
         {
             currentHp -= damage;
@@ -172,12 +176,14 @@ public class Damageable : MonoBehaviour
 
             if (currentHp <= 0)
             {
+                dead = true;
                 Death();
             }
 
             // Use object as unique hash identifier
             StartCoroutine(OnHitImmunity(damagerObject));
         }   
+        return dead;
     }
 
 

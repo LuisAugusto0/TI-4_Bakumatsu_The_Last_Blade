@@ -15,6 +15,8 @@ public class CharacterTriggerDamager : TriggerDamager
         character.OnFlipX += FlipX;
 
         characterDamage.onDamageChange.AddListener(UpdateDamage);
+        onDamageableHit.AddListener((target, self) => characterDamage.onAttackHit.Invoke(target, self));
+        onDamageableKill.AddListener((target, self) => characterDamage.onKill.Invoke(target, self));
         UpdateDamage(characterDamage.CurrentDamage);
     }
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bdc479782f4887c48895b082ecc3aa28
+guid: 068755497aa743d42a74bf8586e3f5c2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,11 +93,50 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireSwordRune_0
+      name: ImunityRune_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0507cfe12e729934dbe1c4e892a542a0
-      internalID: 1989831970
+      spriteID: 99a4dd38c6c7ca044b9af995f55d360d
+      internalID: 2108806002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_1
+      name: ImunityRune_1
       rect:
         serializedVersion: 2
         x: 16
@@ -132,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 549ef42a359927a43adbfc9b80653194
-      internalID: -104894595
+      spriteID: 4bf3127de1cd46848b41ed66bc7d38fe
+      internalID: 1486827017
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_2
+      name: ImunityRune_2
       rect:
         serializedVersion: 2
         x: 32
@@ -153,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3e5184d250bf6b4b952a825a64b419b
-      internalID: -385454765
+      spriteID: 01f2e5ccf328d1f4daa4cfc50bd23f63
+      internalID: 1464558342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_3
+      name: ImunityRune_3
       rect:
         serializedVersion: 2
         x: 48
@@ -174,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c2e5e0f3c1055a4ba9db307603f4ee8
-      internalID: -114391593
+      spriteID: f9344a0ad3f491641928e73177156ea9
+      internalID: -1979183508
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_4
+      name: ImunityRune_4
       rect:
         serializedVersion: 2
         x: 64
@@ -195,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be520bca0764b234086772cda7761768
-      internalID: 2070871949
+      spriteID: beb4f27306055b34d851ec58868a4477
+      internalID: 1428200990
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_5
+      name: ImunityRune_5
       rect:
         serializedVersion: 2
         x: 80
@@ -216,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de8b1c01d3895b143969f5a57916107c
-      internalID: -1177975204
+      spriteID: fb1638ad722fe2c4e8d08a75c5fee993
+      internalID: -403198370
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_6
+      name: ImunityRune_6
       rect:
         serializedVersion: 2
         x: 96
@@ -237,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b68f7a231477d94c91f7f38db93d278
-      internalID: -1545357899
+      spriteID: d36658008496b51488171af2d8a85ae8
+      internalID: 1268867484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_7
+      name: ImunityRune_7
       rect:
         serializedVersion: 2
         x: 112
@@ -258,14 +297,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06b75799243a37c4d9df84e7abb6132e
-      internalID: 6392641
+      spriteID: 80813b6dd176cd54080a2a00bd9b0d44
+      internalID: 174364774
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireSwordRune_8
+      name: ImunityRune_8
       rect:
         serializedVersion: 2
         x: 128
@@ -279,8 +318,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c096c35471da8547a02eb74833395d1
-      internalID: 1147997666
+      spriteID: f66fb4ec61f948147b1206058ed38743
+      internalID: -1879854042
       vertices: []
       indices: 
       edges: []
@@ -296,15 +335,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FireSwordRune_0: 1989831970
-      FireSwordRune_1: -104894595
-      FireSwordRune_2: -385454765
-      FireSwordRune_3: -114391593
-      FireSwordRune_4: 2070871949
-      FireSwordRune_5: -1177975204
-      FireSwordRune_6: -1545357899
-      FireSwordRune_7: 6392641
-      FireSwordRune_8: 1147997666
+      ImunityRune_0: 2108806002
+      ImunityRune_1: 1486827017
+      ImunityRune_2: 1464558342
+      ImunityRune_3: -1979183508
+      ImunityRune_4: 1428200990
+      ImunityRune_5: -403198370
+      ImunityRune_6: 1268867484
+      ImunityRune_7: 174364774
+      ImunityRune_8: -1879854042
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -182,15 +182,15 @@ public class ArcherEnemy : MonoBehaviour
         {
             case AnimatorGetFacingDirection.Direction.Up:
                 currentTransform = transformUp;
-                Debug.Log("Up");
+                //Debug.Log("Up");
                 break;
             case AnimatorGetFacingDirection.Direction.Down:
                 currentTransform = transformDown;
-                Debug.Log("Down");
+                //Debug.Log("Down");
                 break;
             case AnimatorGetFacingDirection.Direction.Forward:
                 currentTransform = transformForward;
-                Debug.Log("Forward");
+                //Debug.Log("Forward");
                 break;
         }
     }
