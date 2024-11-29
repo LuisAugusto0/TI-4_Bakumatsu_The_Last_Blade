@@ -165,7 +165,7 @@ public class RoninPlayerBehaviour : BasePlayerBehaviour
             animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(_moveInputVector.x));
             animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(_moveInputVector.y));
             UpdateIdle();
-            movement.UpdateFacingDirection();
+            movement.UpdateRendererFlipOnMove();
         }
     }
 

@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using UnityEngine.Assertions;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Character))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(AiMovement))]
+[RequireComponent(typeof(AiMovementArcher))]
 [RequireComponent(typeof(DirectionalMovement))]
 public class ArcherEnemy : MonoBehaviour
 {
@@ -24,10 +25,12 @@ public class ArcherEnemy : MonoBehaviour
     static readonly int attackTriggerHash = Animator.StringToHash("BaseAttack");
     static readonly int deathTriggerHash = Animator.StringToHash("Dead");
     static readonly int movingBooleanHash = Animator.StringToHash("Moving");
+    static readonly int updateDirBooleanHash = Animator.StringToHash("UpdateDir");
+
     private Animator _animator;
 
     [NonSerialized]
-    public AiMovement aiMovement;
+    public AiMovementArcher aiMovement;
     
     [NonSerialized]
     public Character character; 
@@ -79,38 +82,89 @@ public class ArcherEnemy : MonoBehaviour
         Debug.Assert(arrow != null, "Serialized data not received");
 
         movement = GetComponent<DirectionalMovement>();
-        aiMovement = GetComponent<AiMovement>();
+        aiMovement = GetComponent<AiMovementArcher>();
         character = GetComponent<Character>();
         _animator = GetComponent<Animator>();
-
-        AnimatorGetFacingDirection.AssignDelegatesToAnimator(_animator, (ctx) => {facingDirection = ctx;});
 
         character.OnFlipX += FlipForwardArrowTransform;
     }
 
+    void Start()
+    {
+        // Start as idle
+        _animator.SetBool(movingBooleanHash, false);
+    }
 
+
+    
     void Update()
     {
         
-        UpdateAnimatorFacing();
         // behaviour can be improved
-        if (CanAttack())
+
+
+        if (!character.IsActionLocked)
         {
-            character.StartActionLock(OnAttackCancel, this);
-            performed.Invoke(this);
-            StartCoroutine(StartAttack());
+            if (CanAttack())
+            {
+                character.StartActionLock(OnAttackCancel, this);
+                performed.Invoke(this);
+                StartCoroutine(StartAttack());
+            }
+            else
+            {
+                MoveUpdateFacingDirection();
+                movement.UpdateRendererFlipOnMove();    
+                IdleWalkTransitions();
+            }
+
+            
         }
 
-        if (character.IsActionLocked)
+    }
+
+    bool idle = true;
+    Coroutine idleCoroutine = null;
+    void IdleWalkTransitions()
+    {
+        if (!idle) 
         {
-            _animator.SetBool(movingBooleanHash, false);
+            // Somehow the last move vector when its supposed to be stopped is 0.11
+            // Fix this later
+            
+            //Debug.Log(movement.LastMoveVector);
+            if (movement.LastMoveVector == Vector2.zero && idleCoroutine == null)
+            {
+                Debug.Log("Idle!!");
+                idleCoroutine = StartCoroutine(ToggleIdle());
+            }
+            else if (movement.LastMoveVector != Vector2.zero && idleCoroutine != null)
+            {
+                StopCoroutine(idleCoroutine);
+                idleCoroutine = null;
+            }
         }
         else
         {
-            _animator.SetBool(movingBooleanHash, true);
+            if (movement.LastMoveVector != Vector2.zero) 
+            {
+                idle = false;
+                _animator.SetBool(movingBooleanHash, true);
+            }
         }
         
+        
     }
+
+    public float secondsTillIdle = 0.6f;
+    IEnumerator ToggleIdle()
+    {
+        yield return new WaitForSeconds(secondsTillIdle);
+
+        idle = true;
+        _animator.SetBool(movingBooleanHash, false);
+    }
+
 
     void FlipForwardArrowTransform(bool value)
     {
@@ -125,26 +179,45 @@ public class ArcherEnemy : MonoBehaviour
         {
             case AnimatorGetFacingDirection.Direction.Up:
                 currentTransform = transformUp;
+                Debug.Log("Up");
                 break;
             case AnimatorGetFacingDirection.Direction.Down:
                 currentTransform = transformDown;
+                Debug.Log("Down");
                 break;
             case AnimatorGetFacingDirection.Direction.Forward:
                 currentTransform = transformForward;
+                Debug.Log("Forward");
                 break;
         }
     }
 
 
+    void UpdateFacingDirectionTowards(Vector2 vectorDirection)
+    {
+        Vector2 cardinalDirection = DirectionHelper.GetCardinalDirection(vectorDirection);
+        
+        _animator.SetTrigger(updateDirBooleanHash);
+        _animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(cardinalDirection.x));
+        _animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(cardinalDirection.y));
+
+        if (cardinalDirection.y == 0)
+        {
+            character.FlipX(cardinalDirection.x < 0);
+        }
+        else
+        {
+            character.FlipX(false);
+        }
+
+    }
 
     // Static member changed among all animator state instances
-    void UpdateAnimatorFacing()
+    void MoveUpdateFacingDirection()
     {
         Vector2 direction = movement.LastMoveVector;
         _animator.SetInteger(horizontalAxisHash, Mathf.RoundToInt(direction.x));
         _animator.SetInteger(verticalAxisHash, Mathf.RoundToInt(direction.y));
-
-        movement.UpdateFacingDirection();
     }
 
     bool CanAttack()
@@ -156,10 +229,15 @@ public class ArcherEnemy : MonoBehaviour
 
     IEnumerator StartAttack()
     {
-        SelectArrowSpawnPosition(facingDirection);
+        Vector3 vector = aiMovement.Target.transform.position - transform.position;
+        UpdateFacingDirectionTowards(vector);
+
         yield return new WaitForSeconds(preAttackDelay);
         _animator.SetTrigger(attackTriggerHash);
     }
+
+
+
 
     public void OnAttackEnd()
     {
@@ -168,14 +246,35 @@ public class ArcherEnemy : MonoBehaviour
         actionEnded.Invoke(this);
 
         // Instantiate arrow
-        float rotationX = 0f;
+
+        float angle = 0;
+        Vector2 direction = Vector2.right; 
+
+        SelectArrowSpawnPosition(movement.FacingDirection);
+        
 
         // Considering arrow is facing right
-        if (currentTransform == transformDown) rotationX = -90f;
-        else if (currentTransform == transformUp) rotationX = 90f;
+        if (currentTransform == transformDown) 
+        {
+            angle = 270;
+            direction = Vector2.down;
+        }
+        else if (currentTransform == transformUp) 
+        {
+            angle = 90;
+            direction = Vector2.up;
+        }
+        else if (character.mainSpriteRenderer.flipX == true) 
+        {
+            angle = 180;
+            direction = Vector2.left;
+        }
         
-        Quaternion xOnlyRotation = Quaternion.Euler(rotationX, 0, 0);
+        
+        Quaternion xOnlyRotation = Quaternion.Euler(angle, 0, 0);
         GameObject newObject = Instantiate(arrow, currentTransform.position, xOnlyRotation);
+        Projectile projectile = newObject.GetComponent<Projectile>();
+        projectile.Direction = direction;     
     }
 
     public void OnAttackCancel()
@@ -192,7 +291,8 @@ public class ArcherEnemy : MonoBehaviour
     {
         _animator.SetTrigger(deathTriggerHash);
         character.DisableCharacter();
-        aiMovement.SwitchState(AiMovement.MovementState.Stop);
+        aiMovement.SwitchState(AiMovementArcher.MovementState.Stop);
+        
     }
 
 
@@ -211,4 +311,27 @@ public class ArcherEnemy : MonoBehaviour
     }
 
 
+}
+
+
+
+public static class DirectionHelper
+{
+    public static Vector2 GetCardinalDirection(Vector2 direction)
+    {
+        // Normalize the vector to avoid issues with magnitude
+        direction.Normalize();
+
+        // Compare absolute values of x and y to determine the dominant axis
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            // Dominant axis is x
+            return direction.x > 0 ? new Vector2(1, 0) : new Vector2(-1, 0); // Right or Left
+        }
+        else
+        {
+            // Dominant axis is y
+            return direction.y > 0 ? new Vector2(0, 1) : new Vector2(0, -1); // Up or Down
+        }
+    }
 }

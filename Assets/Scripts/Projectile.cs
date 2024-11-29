@@ -11,18 +11,20 @@ public class Projectile : MonoBehaviour
     public float speed = 4f;
     public float lifeSpan = 10f; 
     public int pierce = 1;
-    
+    Vector2 direction = Vector2.right;
+    public Vector2 Direction { set {direction = value; } }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(DestroyAfterTime());
     }
 
+
     void FixedUpdate()
     {
         // Move the projectile
-        rb.MovePosition(rb.position + (Vector2)transform.right * 
-            speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
 
     IEnumerator DestroyAfterTime()
@@ -39,7 +41,7 @@ public class Projectile : MonoBehaviour
     public void UpdatePierce()
     {
         pierce--;
-        Debug.Log("HIT!");
+        //Debug.Log("HIT!");
         if (pierce <= 0)
         {
             Destroy(gameObject);

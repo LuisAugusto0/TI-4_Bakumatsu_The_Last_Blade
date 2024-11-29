@@ -57,7 +57,8 @@ public class AiMovementArcher : MonoBehaviour
 
     public Coroutine updatePathCoroutine = null;
     public Coroutine followPathCoroutine = null;
-    GameObject player;
+    GameObject target;
+    public GameObject Target {get {return target;}}
     DirectionalMovement movement;
 
     void Awake()
@@ -66,19 +67,19 @@ public class AiMovementArcher : MonoBehaviour
         pathFinding = GetComponent<PathFindingAlgorithmArcher>();
         pathFinding.SetMoveTowardsDelegate(Move);
         keepAwayRadius = 1;
-        player = GameObject.FindGameObjectWithTag("Player");
+        target = GameObject.FindGameObjectWithTag("Player");
 
     }
 
     void Start()
     {
-        pathFinding.StartSeekingTarget(player.gameObject.transform);
+        pathFinding.StartSeekingTarget(target.gameObject.transform);
         //SwitchState(currentState);
     }
 
     void Update()
     {
-        currentDistance = Vector2.Distance(player.transform.position, gameObject.transform.position);
+        currentDistance = Vector2.Distance(target.transform.position, gameObject.transform.position);
     }
 
     // Called by delegate of pathfinding
@@ -163,7 +164,7 @@ public class AiMovementArcher : MonoBehaviour
 
     void AttackTarget()
     {
-        pathFinding.StartSeekingTarget(player.gameObject.transform);
+        pathFinding.StartSeekingTarget(target.gameObject.transform);
     }
 
     void Avoid()

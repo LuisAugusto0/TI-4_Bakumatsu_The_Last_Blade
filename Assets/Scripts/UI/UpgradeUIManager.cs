@@ -47,13 +47,13 @@ public class UpgradeUIManager : MonoBehaviour
 
             var iconImage = newIcon.GetComponentInChildren<Image>();
             var quantityText = newIcon.GetComponentInChildren<TMP_Text>();
-            if (quantityText == null) Debug.LogError("HEREEEEEE!!");
+            
 
             // Configura o ícone e quantidade inicial
             Sprite iconSprite = upgrade.GetIcon();
             if (iconSprite == null) iconSprite = await UpgradeIconAdressable.GetDefaultIconAsync();
             iconImage.sprite = iconSprite;
-            quantityText.text = upgrade.Quantity.ToString();
+            quantityText.text = "x"+upgrade.Quantity.ToString();
         }
     }
 

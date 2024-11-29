@@ -22,19 +22,20 @@ public class DirectionalMovement : EntityMovement
     }
 
     
-    public void UpdateFacingDirection()
+    public void UpdateRendererFlipOnMove()
     {
-        UpdateFacingDirection(lastMoveVector);
+        UpdateRendererFlipOnMove(lastMoveVector);
     }
     
-    public void UpdateFacingDirection(Vector2 moveInputVector)
+    public void UpdateRendererFlipOnMove(Vector2 direction)
     {
+        // For moving, only flip if its looking forward
         if (facingDirection == AnimatorGetFacingDirection.Direction.Forward)
         {
             //  Debug.Log(facingDirection);
-            if (moveInputVector != Vector2.zero)
+            if (direction != Vector2.zero)
             {
-                character.FlipX(moveInputVector.x < 0);
+                character.FlipX(direction.x < 0);
             }
         }
         else
@@ -43,6 +44,8 @@ public class DirectionalMovement : EntityMovement
             
         }
     }
+
+
     
 
     public Vector2 GetFacingDirectionVector2()
