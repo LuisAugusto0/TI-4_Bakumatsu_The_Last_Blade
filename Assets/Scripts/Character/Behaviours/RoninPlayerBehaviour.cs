@@ -217,6 +217,7 @@ public class RoninPlayerBehaviour : BasePlayerBehaviour
 
     public void OnActionAnimationEvent(int context)
     {
+        if (actionAnimationEvent != null)
         actionAnimationEvent(context);
     }
 }
