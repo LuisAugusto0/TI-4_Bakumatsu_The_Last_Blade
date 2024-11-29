@@ -585,7 +585,7 @@ MonoBehaviour:
   rangeY: 4
   self: {fileID: 6222693462209933473}
   pathUpdateIntervalSeconds: 0.1
-  displayPathLine: 1
+  displayPathLine: 0
 --- !u!114 &8462998562633698654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,7 +656,7 @@ MonoBehaviour:
   rangeY: 4
   self: {fileID: 6222693462209933473}
   pathUpdateIntervalSeconds: 0.1
-  displayPathLine: 1
+  displayPathLine: 0
 --- !u!114 &3394198138619636215
 MonoBehaviour:
   m_ObjectHideFlags: 0
