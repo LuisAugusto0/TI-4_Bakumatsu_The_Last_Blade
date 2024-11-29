@@ -40,14 +40,8 @@ public class UpgradeGiver : MonoBehaviour
             case UpgradesNameTable.SpeedBonus:
                 GiveUpgrade<SpeedBonusUpgrade>(target, quantity);
                 break;
-            case UpgradesNameTable.DoubleSpeedUpgrade:
-                GiveUpgrade<DoubleSpeedUpgrade>(target, quantity);
-                break;
             case UpgradesNameTable.FixedDamageBoost:
                 GiveUpgrade<DamageBonusStatBoost>(target, quantity);
-                break;
-            case UpgradesNameTable.DamageMultiplierStatBonus:
-                GiveUpgrade<DamageMultiplierStatBonus>(target, quantity);
                 break;
             case UpgradesNameTable.FixedHealthBoost:
                 GiveUpgrade<BaseHealthBonusUpgrade>(target, quantity);
@@ -55,11 +49,11 @@ public class UpgradeGiver : MonoBehaviour
             case UpgradesNameTable.Escape:
                 GiveUpgrade<EscapeUpgrade>(target, quantity);
                 break;
-            case UpgradesNameTable.SpeedBoostAfterHitUpgrade:
-                GiveUpgrade<SpeedBoostAfterHitUpgrade>(target, quantity);
+            case UpgradesNameTable.BeserkUpgrade:
+                GiveUpgrade<BeserkUpgrade>(target, quantity);
                 break;
-            case UpgradesNameTable.BaseDamageBonusAfterHit:
-                GiveUpgrade<BaseDamageBonusAfterHit>(target, quantity);
+            case UpgradesNameTable.FireOnHitUpgrade:
+                GiveUpgrade<FireOnHitUpgrade>(target,quantity);
                 break;
             default:
                 Debug.LogWarning("Invalid effect give attempt");
@@ -99,11 +93,10 @@ public class UpgradeGiver : MonoBehaviour
 
 public enum UpgradesNameTable
 {
-    DoubleSpeedUpgrade, 
+    // DoubleSpeedUpgrade, 
     
-    DamageMultiplierStatBonus,
-    SpeedBoostAfterHitUpgrade,
-    BaseDamageBonusAfterHit,  
+    // DamageMultiplierStatBonus,
+    // SpeedBoostAfterHitUpgrade,
 
     // +10%*q speed
     SpeedBonus,
@@ -114,8 +107,12 @@ public enum UpgradesNameTable
     // +1*q health 
     FixedHealthBoost,
 
-    // 30% speed bonus + immunity for 1.5s * q
+    // 50% speed bonus + immunity for 1.5s * q
     Escape,
+
+    BeserkUpgrade,
+
+    FireOnHitUpgrade
 }
 
 

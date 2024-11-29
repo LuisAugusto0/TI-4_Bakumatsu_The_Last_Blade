@@ -38,3 +38,29 @@ public abstract class BaseUpgradeAfterEventEffect<TEffect> : BaseUpgrade
 }
 
 
+public abstract class BaseUpgradeAfterEvent : BaseUpgrade
+{ 
+    protected Coroutine activeCoroutine = null;
+
+    protected BaseUpgradeAfterEvent(UpgradeManager target, int quantity)
+        : base(target, quantity)
+    {
+        SubscribeToEvent();
+    }
+
+    protected abstract void Update();
+    protected abstract void SubscribeToEvent();
+    protected abstract void UnsubscribeToEvent();
+
+    protected override void UpdateQuantity(int quantity)
+    {
+        base.UpdateQuantity(quantity);
+        Update();
+    }
+
+    public override void Remove()
+    {
+        base.Remove();
+        UnsubscribeToEvent();
+    }
+}

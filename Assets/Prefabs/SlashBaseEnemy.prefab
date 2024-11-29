@@ -131,6 +131,9 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -231,6 +234,9 @@ MonoBehaviour:
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
+  onDamageableKill:
+    m_PersistentCalls:
+      m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
@@ -255,13 +261,16 @@ GameObject:
   - component: {fileID: 8733007096577307723}
   - component: {fileID: 6981967420997331439}
   - component: {fileID: 4803832650283520926}
+  - component: {fileID: 355349314308088546}
+  - component: {fileID: 7984474520280275305}
+  - component: {fileID: 5081847316884577024}
   m_Layer: 7
   m_Name: SlashBaseEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4489619097175041352
 Transform:
   m_ObjectHideFlags: 0
@@ -319,7 +328,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1859863836, guid: c6ae44360ed168c4b8660b9e85272f76, type: 3}
+  m_Sprite: {fileID: -1552503746, guid: 86b195dac9e05d44fbff08df1aadd702, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -327,7 +336,7 @@ SpriteRenderer:
   m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &3345223180982794658
@@ -400,8 +409,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!95 &5959861539089424675
 Animator:
   serializedVersion: 5
@@ -412,7 +421,7 @@ Animator:
   m_GameObject: {fileID: 6222693462209933473}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 381e2d70dc761be469167e0a113dee1c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 89fc32d2d2520c645b191ad287dc1c94, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -440,6 +449,7 @@ MonoBehaviour:
   baseHpBonus: 0
   currentBaseHp: 6
   currentHp: 6
+  uniqueStatusEffectManager: {fileID: 0}
   onHealthSet:
     m_PersistentCalls:
       m_Calls: []
@@ -535,7 +545,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isActionLocked: 0
-  damageable: {fileID: 8382639332297340402}
   subSpriteRenderers: []
   colliders:
   - {fileID: 3345223180982794658}
@@ -574,7 +583,7 @@ MonoBehaviour:
   minimumApproachableDistance: 1
   keepAwayRadius: 1
   minimumInteractionRadius: 2
-  currentState: 3
+  currentState: 4
   character: {fileID: 6399458737954384990}
   animator: {fileID: 5959861539089424675}
 --- !u!114 &8733007096577307723
@@ -625,6 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathUpdateIntervalSeconds: 0.1
   displayPathLine: 1
+  maxEnemiesInPath: 3
 --- !u!120 &4803832650283520926
 LineRenderer:
   serializedVersion: 2
@@ -729,6 +739,58 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &355349314308088546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060c7ca69cb0d48488172d7ffffab34a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  damageBonus: 0
+  damageMultiplier: 1
+  currentDamage: 0
+  onDamageChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7984474520280275305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6d09459a22ca14a8067f858aeae304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5081847316884577024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222693462209933473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a46217c3c77166e47a37d1f5a9eec931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStatusEffectUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7472910736322437890
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +886,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamageableKill:
     m_PersistentCalls:
       m_Calls: []
   onNonDamageableHit:

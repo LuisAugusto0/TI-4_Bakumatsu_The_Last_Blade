@@ -21,6 +21,7 @@ public class TriggerDamager : Damager
     [SerializeField] protected int damage = 1;
     public LayerMask hittableLayers;
     public DamageableEvent onDamageableHit;
+    public DamageableEvent onDamageableKill;
     public NonDamageableEvent onNonDamageableHit;
 
     private Collider2D _collider;
@@ -87,7 +88,8 @@ public class TriggerDamager : Damager
             if (damageable != null)
             {
                 onDamageableHit.Invoke(damageable, this);
-                damageable.HitTakeDamage(this.gameObject, damage);
+                bool dead = damageable.HitTakeDamage(this, damage);
+                if (dead) onDamageableKill.Invoke(damageable, this);
             }
             else
             {

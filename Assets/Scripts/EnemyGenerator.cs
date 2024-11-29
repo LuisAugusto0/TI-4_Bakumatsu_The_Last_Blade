@@ -86,7 +86,7 @@ public class EnemyGenerator : MonoBehaviour
             
             if(_hordeTimer < _hordeDurationTime){
                 if(_hordeTimer - (int) _hordeTimer < 0.01f){
-                    Debug.Log("A Horda acaba em: " + ((int)(_hordeDurationTime - _hordeTimer)));
+                    //Debug.Log("A Horda acaba em: " + ((int)(_hordeDurationTime - _hordeTimer)));
                 }
                 if(_spawnTimer >= _spawnBreakTime){
                     int enemyIndex = GetEnemyIndex();

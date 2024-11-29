@@ -75,7 +75,7 @@ public class UpgradeIconAdressable : MonoBehaviour
     public static void AssertUpgradesPaths()
     {
         SpeedBoostAfterHitUpgrade.AssertIconAdressablePath();
-        BaseDamageBonusAfterHit.AssertIconAdressablePath();
+        BeserkUpgrade.AssertIconAdressablePath();
 
         SpeedBonusUpgrade.AssertIconAdressablePath();
         DoubleSpeedUpgrade.AssertIconAdressablePath();
@@ -87,12 +87,19 @@ public class UpgradeIconAdressable : MonoBehaviour
 
     // Some of those upgrades are not correct or do not exist. This is a 
     // temporary implementation to ensure the adressables are working
-    const string FireSwordRune = "Sprites/Images/Runes/FireSwordRune.png";
-    const string ImmunityRune = "Sprites/Images/Runes/ImunityRune.png";
-    const string HyperSpeedRune = "Sprites/Images/Runes/HyperSpeedRune.png";
-    const string LifeRune = "Sprites/Images/Runes/LifeRune.png";
-    const string SpeedRune = "Sprites/Images/Runes/SpeedRune.png";
 
+
+    const string FireOnHitRune = "Sprites/Images/Runes/FireOnHitRune.png"; // ORANGE
+
+    const string EscapeRune = "Sprites/Images/Runes/EscapeRune.png"; // YELLOW
+
+    const string LifeRune = "Sprites/Images/Runes/LifeRune.png"; //PINK
+    
+    const string SpeedRune = "Sprites/Images/Runes/SpeedRune.png"; //BLUE
+    
+    const string DamageRune = "Sprites/Images/Runes/DamageRune.png"; //GREEN
+
+    const string BeserkRune = "Sprites/Images/Runes/BeserkRune.png"; //GREEN
 
 
 
@@ -101,28 +108,33 @@ public class UpgradeIconAdressable : MonoBehaviour
     public static async void LoadIcons()
     {
         Debug.Log("Loading Upgrade Icons");
-        EscapeUpgrade.LoadIcon(await GetIconAsync(ImmunityRune));
-        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(HyperSpeedRune));
-        BaseDamageBonusAfterHit.LoadIcon(await GetIconAsync(defaultPath));
+
+        SpeedBoostAfterHitUpgrade.LoadIcon(await GetIconAsync(defaultPath));
+        BeserkUpgrade.LoadIcon(await GetIconAsync(BeserkRune));
+        EscapeUpgrade.LoadIcon(await GetIconAsync(EscapeRune));
+        FireOnHitUpgrade.LoadIcon(await GetIconAsync(FireOnHitRune));
 
         SpeedBonusUpgrade.LoadIcon(await GetIconAsync(SpeedRune));
         DoubleSpeedUpgrade.LoadIcon(await GetIconAsync(defaultPath));
-        DamageBonusStatBoost.LoadIcon(await GetIconAsync(FireSwordRune));
+        DamageBonusStatBoost.LoadIcon(await GetIconAsync(DamageRune));
         DamageMultiplierStatBonus.LoadIcon(await GetIconAsync(defaultPath));
         BaseHealthBonusUpgrade.LoadIcon(await GetIconAsync(LifeRune));
+        
     }
 
     public static void UnloadIcons()
     {
-        EscapeUpgrade.UnloadIcon();
         SpeedBoostAfterHitUpgrade.UnloadIcon();
-        BaseDamageBonusAfterHit.UnloadIcon();
+        BeserkUpgrade.UnloadIcon();
+        EscapeUpgrade.UnloadIcon();
+        FireOnHitUpgrade.UnloadIcon();
 
         SpeedBonusUpgrade.UnloadIcon();
         DoubleSpeedUpgrade.UnloadIcon();
         DamageBonusStatBoost.UnloadIcon();
         DamageMultiplierStatBonus.UnloadIcon();
         BaseHealthBonusUpgrade.UnloadIcon();
+        
     }
 
     
@@ -130,14 +142,17 @@ public class UpgradeIconAdressable : MonoBehaviour
     // If needed later on
     public static void LoadUpgradePaths()
     {
-        SpeedBoostAfterHitUpgrade.SetIconAdressablePath(ImmunityRune);
-        BaseDamageBonusAfterHit.SetIconAdressablePath(HyperSpeedRune);
+        SpeedBoostAfterHitUpgrade.SetIconAdressablePath(defaultPath);
+        BeserkUpgrade.SetIconAdressablePath(defaultPath);
+        FireOnHitUpgrade.SetIconAdressablePath(defaultPath);
+        EscapeUpgrade.SetIconAdressablePath(defaultPath);
         
-        SpeedBonusUpgrade.SetIconAdressablePath(SpeedRune);
+        SpeedBonusUpgrade.SetIconAdressablePath(defaultPath);
         DoubleSpeedUpgrade.SetIconAdressablePath(defaultPath);
-        DamageBonusStatBoost.SetIconAdressablePath(FireSwordRune);
+        DamageBonusStatBoost.SetIconAdressablePath(defaultPath);
         DamageMultiplierStatBonus.SetIconAdressablePath(defaultPath);
-        BaseHealthBonusUpgrade.SetIconAdressablePath(LifeRune);
+        BaseHealthBonusUpgrade.SetIconAdressablePath(defaultPath);
+        
     }
 
  
